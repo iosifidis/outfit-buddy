@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import {
   Calendar,
-  Sun,
+  CloudRain,
   MapPin,
   Sparkles,
   Wind,
@@ -50,10 +50,10 @@ function WeatherCard() {
           </div>
           <div className="text-right">
             <div className="flex items-center justify-end gap-2">
-              <Sun className="w-6 h-6 text-yellow-400" />
-              <p className="text-4xl font-bold">35°</p>
+              <CloudRain className="w-6 h-6 text-blue-400" />
+              <p className="text-4xl font-bold">13°</p>
             </div>
-            <p className="text-sm text-muted-foreground">Sunny</p>
+            <p className="text-sm text-muted-foreground">Rainy</p>
           </div>
         </div>
         <div className="mt-6 grid grid-cols-2 gap-4">
@@ -61,14 +61,14 @@ function WeatherCard() {
             <p className="text-xs text-muted-foreground uppercase">Humidity</p>
             <div className="flex items-baseline gap-2 mt-1">
               <Droplets className="w-4 h-4 text-muted-foreground" />
-              <p className="text-2xl font-semibold">68%</p>
+              <p className="text-2xl font-semibold">85%</p>
             </div>
           </div>
           <div className="bg-background/50 rounded-lg p-4">
             <p className="text-xs text-muted-foreground uppercase">Wind</p>
             <div className="flex items-baseline gap-2 mt-1">
               <Wind className="w-4 h-4 text-muted-foreground" />
-              <p className="text-2xl font-semibold">10 <span className="text-sm">km/h</span></p>
+              <p className="text-2xl font-semibold">15 <span className="text-sm">km/h</span></p>
             </div>
           </div>
         </div>
