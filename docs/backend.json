@@ -1,0 +1,199 @@
+{
+  "entities": {
+    "User": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "User",
+      "type": "object",
+      "description": "Represents a user in the OutfitBuddy application.",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "Unique identifier for the user. (Primary Key)"
+        },
+        "name": {
+          "type": "string",
+          "description": "The user's name."
+        },
+        "stylePreferences": {
+          "type": "string",
+          "description": "The user's style preferences, stored as a string (e.g., JSON)."
+        }
+      },
+      "required": [
+        "uid"
+      ]
+    },
+    "ClothingItem": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ClothingItem",
+      "type": "object",
+      "description": "Represents a clothing item in the user's digital wardrobe.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the clothing item. (Primary Key)"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to User. (Relationship: User 1:N ClothingItem)"
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "URL of the image of the clothing item.",
+          "format": "uri"
+        },
+        "color": {
+          "type": "string",
+          "description": "The color of the clothing item."
+        },
+        "fabric": {
+          "type": "string",
+          "description": "The fabric of the clothing item."
+        },
+        "pattern": {
+          "type": "string",
+          "description": "The pattern of the clothing item."
+        },
+        "season": {
+          "type": "string",
+          "description": "The season for which the clothing item is suitable (Spring, Summer, Autumn, Winter)."
+        },
+        "length": {
+          "type": "string",
+          "description": "The length of the clothing item (Mini, Midi, Maxi, Long)."
+        },
+        "category": {
+          "type": "string",
+          "description": "The category of the clothing item (e.g., Top, Bottom, Shoes, Outerwear)."
+        },
+        "occasion": {
+          "type": "string",
+          "description": "The occasion for which the clothing item is suitable."
+        },
+        "description": {
+          "type": "string",
+          "description": "A description of the clothing item."
+        },
+        "lastWorn": {
+          "type": "string",
+          "description": "The date the clothing item was last worn, can be null if never worn.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "imageUrl",
+        "color",
+        "fabric",
+        "pattern",
+        "season",
+        "length",
+        "category",
+        "occasion",
+        "description"
+      ]
+    },
+    "OutfitHistory": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "OutfitHistory",
+      "type": "object",
+      "description": "Represents a record of outfits worn by the user.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the outfit history entry. (Primary Key)"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to User. (Relationship: User 1:N OutfitHistory)"
+        },
+        "date": {
+          "type": "string",
+          "description": "The date the outfit was worn.",
+          "format": "date-time"
+        },
+        "selectedItems": {
+          "type": "array",
+          "description": "References to ClothingItems in the outfit. (Relationship: OutfitHistory 1:N ClothingItem)",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "date",
+        "selectedItems"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/users/{userId}",
+        "definition": {
+          "entityName": "User",
+          "schema": {
+            "$ref": "#/backend/entities/User"
+          },
+          "description": "Stores user profile information. Only the user can read/write their profile. No denormalized authorization fields are needed as access is path-based.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/clothingItems/{clothingItemId}",
+        "definition": {
+          "entityName": "ClothingItem",
+          "schema": {
+            "$ref": "#/backend/entities/ClothingItem"
+          },
+          "description": "Stores clothing items owned by the user.  Access is restricted to the user identified by the userId path parameter.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user."
+            },
+            {
+              "name": "clothingItemId",
+              "description": "The unique identifier of the clothing item."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/outfitHistory/{outfitHistoryId}",
+        "definition": {
+          "entityName": "OutfitHistory",
+          "schema": {
+            "$ref": "#/backend/entities/OutfitHistory"
+          },
+          "description": "Stores the outfit history for each user. Access is restricted to the user identified by the userId path parameter.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user."
+            },
+            {
+              "name": "outfitHistoryId",
+              "description": "The unique identifier of the outfit history entry."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore structure is designed to ensure Authorization Independence, support the required QAPs (Queries are not Filters), and maintain data clarity. Authorization Independence is achieved through path-based ownership for user-specific data and by denormalizing authorization data. For collaborative data, such as outfits shared between users (future enhancement), a membership map would be used. Segregation of data with different security needs is achieved by storing user-owned clothing items under their respective user IDs.\n\nThe structure follows these principles:\n\n1.  **User Data:** User profiles are stored under `/users/{userId}`.  This allows for easy management of user-specific data and aligns with path-based ownership. No denormalization is needed here as only the user can access their profile.\n2.  **Clothing Items:** Each user's clothing items are stored in a subcollection `/users/{userId}/clothingItems/{clothingItemId}`. This structure enforces ownership and allows for efficient querying of a user's wardrobe. The `userId` field within each `ClothingItem` document is redundant given the path, but it supports potential future migration needs or complex queries.\n3.  **Outfit History:** Each user's outfit history is stored in `/users/{userId}/outfitHistory/{outfitHistoryId}`. Similar to clothing items, this structure enforces ownership and enables efficient querying of a user's outfit history. The `userId` field ensures data consistency.\n\nThis design supports the QAPs principle because list operations will only return data that the user is authorized to see based on the path. Security rules can be written to allow access only to the data under the authenticated user's ID, ensuring that unauthorized data is not returned. Also, because authorization does not rely on content, indexing and querying are not affected by security rules."
+  }
+}

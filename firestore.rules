@@ -1,0 +1,121 @@
+/**
+ * Core Philosophy: This ruleset enforces a strict user-ownership model. All data is
+ * sandboxed within a user's own data tree, ensuring that a user can only ever
+ * access documents they have created. The default security posture is deny-all,
+ * with explicit permissions granted only to the authenticated owner of the data.
+ *
+ * Data Structure: The data is organized hierarchically under the `/users/{userId}`
+ * path. All user-specific content, such as `clothingItems` and `outfitHistory`,
+ * is stored in subcollections under their respective user document. This structure
+ * inherently links data to its owner, simplifying security rules.
+ *
+ * Key Security Decisions:
+ * - User Enumeration Disabled: Listing documents in the top-level `/users`
+ *   collection is explicitly forbidden to protect user privacy and prevent data mining.
+ * - Path-Based Security: Authorization is primarily determined by matching the
+ *   `userId` in the document path with the authenticated user's UID.
+ * - Relational Integrity: While data shapes are flexible, the link between a
+ *   user and their content is strictly enforced. For example, a `clothingItem`
+ *   created under a user's path must contain a `userId` field that matches the
+ *   path, and this field is immutable.
+ *
+ * Denormalization for Authorization: The security model relies on path-based
+ * ownership. A `userId` field is denormalized onto documents within user
+ * subcollections (`clothingItems`, `outfitHistory`) to enforce data consistency
+ * and ensure that the document's internal owner reference always matches its
+ * location in the database.
+ *
+ * Structural Segregation: User-private data (`clothingItems`, `outfitHistory`) is
+ * segregated into subcollections under a user's document. This is a secure and
+ * performant pattern that prevents any possibility of one user's private data
+ * leaking into another user's queries.
+ */
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // --------------------------------------------------------------------
+    // Helper Functions
+    // --------------------------------------------------------------------
+
+    /**
+     * Checks if a user is authenticated.
+     */
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    /**
+     * Checks if the currently authenticated user's UID matches the provided userId.
+     * This is the primary function for enforcing data ownership.
+     */
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    /**
+     * Checks for ownership on an existing document. Used for update and delete
+     * operations to prevent acting on non-existent data.
+     */
+    function isExistingOwner(userId) {
+      return isOwner(userId) && resource != null;
+    }
+
+    // --------------------------------------------------------------------
+    // Collection: users
+    // --------------------------------------------------------------------
+
+    /**
+     * @description Controls access to user profile documents.
+     * @path /users/{userId}
+     * @allow A user (auth.uid='user123') can (create) or (get) their own profile at /users/user123.
+     * @deny An anonymous user cannot (get) any user profile. A signed-in user ('user456') cannot (list) all users.
+     * @principle Restricts access to a user's own data tree and prevents user enumeration.
+     */
+    match /users/{userId} {
+      allow get: if isOwner(userId);
+      allow list: if false;
+      allow create: if isOwner(userId) && request.resource.data.uid == userId;
+      allow update: if isExistingOwner(userId) && request.resource.data.uid == resource.data.uid;
+      allow delete: if isExistingOwner(userId);
+
+      // --------------------------------------------------------------------
+      // Subcollection: clothingItems
+      // --------------------------------------------------------------------
+
+      /**
+       * @description Manages a user's private collection of clothing items.
+       * @path /users/{userId}/clothingItems/{clothingItemId}
+       * @allow A user (auth.uid='user123') can (create), (list), or (delete) items under /users/user123/clothingItems.
+       * @deny A different user (auth.uid='user456') cannot (get) an item at /users/user123/clothingItems/itemABC.
+       * @principle Enforces document ownership and validates relational integrity between the item and its owner.
+       */
+      match /clothingItems/{clothingItemId} {
+        allow get: if isOwner(userId);
+        allow list: if isOwner(userId);
+        allow create: if isOwner(userId) && request.resource.data.userId == userId;
+        allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
+        allow delete: if isExistingOwner(userId);
+      }
+
+      // --------------------------------------------------------------------
+      // Subcollection: outfitHistory
+      // --------------------------------------------------------------------
+
+      /**
+       * @description Manages a user's private log of previously worn outfits.
+       * @path /users/{userId}/outfitHistory/{outfitHistoryId}
+       * @allow A user (auth.uid='user123') can (create), (list), or (update) their history at /users/user123/outfitHistory.
+       * @deny An anonymous user cannot access any outfit history.
+       * @principle Enforces document ownership and validates relational integrity between the history entry and its owner.
+       */
+      match /outfitHistory/{outfitHistoryId} {
+        allow get: if isOwner(userId);
+        allow list: if isOwner(userId);
+        allow create: if isOwner(userId) && request.resource.data.userId == userId;
+        allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
+        allow delete: if isExistingOwner(userId);
+      }
+    }
+  }
+}
