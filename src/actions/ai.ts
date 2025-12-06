@@ -3,6 +3,7 @@
 import { suggestOutfit as suggestOutfitFlow } from '@/ai/flows/suggest-outfit-flow';
 import { chatWithStylist as chatWithStylistFlow } from '@/ai/flows/chat-with-stylist-flow';
 import { generateAudioDescription as generateAudioDescriptionFlow } from '@/ai/flows/generate-audio-description-flow';
+import { recognizeItem as recognizeItemFlow } from '@/ai/flows/recognize-item-flow';
 import { mockClothingItems } from '@/lib/mock-data';
 
 export async function getOutfitSuggestion() {
@@ -49,6 +50,16 @@ export async function getAudioDescription(text: string) {
     return result;
   } catch (error) {
     console.error('Error generating audio description:', error);
+    return null;
+  }
+}
+
+export async function getItemRecognition(photoDataUri: string) {
+  try {
+    const result = await recognizeItemFlow({ photoDataUri });
+    return result;
+  } catch (error) {
+    console.error('Error recognizing item:', error);
     return null;
   }
 }

@@ -3,6 +3,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
+import React, { useState, useRef, useEffect } from 'react';
+import Image from 'next/image';
 import { toast } from '@/hooks/use-toast';
 import {
   Sheet,
@@ -23,7 +25,6 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import {
   Select,
   SelectContent,
@@ -31,8 +32,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 import { CATEGORIES, SEASONS, LENGTHS } from '@/lib/types';
-import { Upload } from 'lucide-react';
+import { Upload, Camera, Sparkles, Loader2 } from 'lucide-react';
+import { getItemRecognition } from '@/actions/ai';
+import type { RecognizeItemOutput } from '@/ai/flows/recognize-item-flow';
+
 
 const clothingItemSchema = z.object({
   description: z.string().min(3, { message: 'Description must be at least 3 characters.' }),
@@ -43,7 +48,7 @@ const clothingItemSchema = z.object({
   season: z.enum(SEASONS),
   length: z.enum(LENGTHS),
   occasion: z.string().min(2, { message: 'Occasion is required.' }),
-  image: z.any().refine(files => files?.length === 1, 'Image is required.'),
+  image: z.any().refine(file => file, 'Image is required.'),
 });
 
 type ClothingItemFormValues = z.infer<typeof clothingItemSchema>;
@@ -70,6 +75,128 @@ export function AddItemSheet({
     defaultValues,
   });
 
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [isRecognizing, setIsRecognizing] = useState(false);
+  const [showCamera, setShowCamera] = useState(false);
+  const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  const handleImageChange = (file: File | null) => {
+    if (file) {
+      form.setValue('image', file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+      setShowCamera(false); 
+    }
+  };
+  
+  const handleScanItem = async () => {
+    if (!imagePreview) return;
+    setIsRecognizing(true);
+    try {
+      const result = await getItemRecognition(imagePreview);
+      if (result) {
+        // We need to check if the returned values are valid enum values.
+        const validatedResult: Partial<RecognizeItemOutput> = {};
+        for (const key in result) {
+          const typedKey = key as keyof RecognizeItemOutput;
+          const value = result[typedKey];
+          switch (typedKey) {
+            case 'category':
+              if (CATEGORIES.includes(value as any)) validatedResult.category = value as any;
+              break;
+            case 'season':
+              if (SEASONS.includes(value as any)) validatedResult.season = value as any;
+              break;
+            case 'length':
+              if (LENGTHS.includes(value as any)) validatedResult.length = value as any;
+              break;
+            default:
+               (validatedResult as any)[typedKey] = value;
+          }
+        }
+        form.reset({ ...form.getValues(), ...validatedResult });
+        toast({
+          title: 'Item Recognized!',
+          description: 'The form has been filled with the recognized details.',
+        });
+      } else {
+        throw new Error('Recognition failed.');
+      }
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        title: 'Recognition Failed',
+        description: 'Could not recognize the item. Please fill the form manually.',
+      });
+    } finally {
+      setIsRecognizing(false);
+    }
+  };
+
+  const handleShowCamera = async () => {
+    setShowCamera(true);
+    setImagePreview(null);
+    form.setValue('image', null);
+  };
+  
+  const handleCapture = () => {
+    if (videoRef.current && canvasRef.current) {
+      const video = videoRef.current;
+      const canvas = canvasRef.current;
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const context = canvas.getContext('2d');
+      if(context) {
+        context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+        const dataUrl = canvas.toDataURL('image/png');
+        setImagePreview(dataUrl);
+        
+        fetch(dataUrl)
+          .then(res => res.blob())
+          .then(blob => {
+            const file = new File([blob], "capture.png", { type: "image/png" });
+            form.setValue('image', file);
+          });
+      }
+      setShowCamera(false);
+    }
+  };
+  
+  useEffect(() => {
+    let stream: MediaStream | null = null;
+    const enableCamera = async () => {
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+        }
+        setHasCameraPermission(true);
+      } catch (err) {
+        console.error("Error accessing camera: ", err);
+        setHasCameraPermission(false);
+        setShowCamera(false);
+        toast({
+          variant: "destructive",
+          title: "Camera Access Denied",
+          description: "Please enable camera permissions in your browser settings.",
+        });
+      }
+    };
+    if (showCamera) {
+      enableCamera();
+    }
+    return () => {
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+      }
+    };
+  }, [showCamera]);
+  
   function onSubmit(data: ClothingItemFormValues) {
     console.log(data);
     toast({
@@ -78,16 +205,26 @@ export function AddItemSheet({
     });
     onOpenChange?.(false);
     form.reset();
+    setImagePreview(null);
   }
 
+  const handleOpenChange = (isOpen: boolean) => {
+    if (!isOpen) {
+      form.reset(defaultValues);
+      setImagePreview(null);
+      setShowCamera(false);
+    }
+    onOpenChange?.(isOpen);
+  };
+
   return (
-    <Sheet open={open} onOpenChange={onOpenChange}>
+    <Sheet open={open} onOpenChange={handleOpenChange}>
       <SheetTrigger asChild>{children}</SheetTrigger>
-      <SheetContent className="sm:max-w-lg">
+      <SheetContent className="sm:max-w-lg overflow-y-auto">
         <SheetHeader>
           <SheetTitle>Add New Clothing Item</SheetTitle>
           <SheetDescription>
-            Digitize your wardrobe one piece at a time. Fill in the details below.
+            Upload a photo or take a picture of your item, then let our AI recognize it for you.
           </SheetDescription>
         </SheetHeader>
         <Form {...form}>
@@ -98,22 +235,61 @@ export function AddItemSheet({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Image</FormLabel>
-                  <FormControl>
-                    <div className="flex items-center justify-center w-full">
-                      <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer border-border bg-muted/50 hover:bg-muted">
-                          <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                              <Upload className="w-8 h-8 mb-4 text-muted-foreground" />
-                              <p className="mb-2 text-sm text-muted-foreground"><span className="font-semibold">Click to upload</span> or drag and drop</p>
-                              <p className="text-xs text-muted-foreground">PNG, JPG or WEBP (MAX. 800x400px)</p>
+                   <div className="space-y-2">
+                     {showCamera && (
+                        <div className="w-full">
+                          <video ref={videoRef} className="w-full aspect-video rounded-md" autoPlay muted playsInline />
+                          {hasCameraPermission === false && (
+                            <Alert variant="destructive">
+                              <AlertTitle>Camera Access Required</AlertTitle>
+                              <AlertDescription>
+                                Please allow camera access to use this feature.
+                              </AlertDescription>
+                            </Alert>
+                          )}
+                          <div className="flex justify-center gap-2 mt-2">
+                            <Button type="button" onClick={handleCapture} disabled={hasCameraPermission === false}>Capture Photo</Button>
+                            <Button type="button" variant="outline" onClick={() => setShowCamera(false)}>Cancel</Button>
                           </div>
-                          <Input id="dropzone-file" type="file" className="hidden" onChange={(e) => field.onChange(e.target.files)} />
-                      </label>
-                    </div> 
-                  </FormControl>
+                        </div>
+                      )}
+                      
+                      {!showCamera && (
+                        <>
+                          {imagePreview ? (
+                              <div className="relative w-full pt-[100%]">
+                                <Image src={imagePreview} alt="Item preview" fill className="object-contain rounded-md" />
+                              </div>
+                          ) : (
+                            <div className="flex items-center justify-center w-full">
+                              <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer border-border bg-muted/50 hover:bg-muted">
+                                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                      <Upload className="w-8 h-8 mb-4 text-muted-foreground" />
+                                      <p className="mb-2 text-sm text-muted-foreground"><span className="font-semibold">Click to upload</span> or drag and drop</p>
+                                  </div>
+                                  <Input id="dropzone-file" type="file" accept="image/*" className="hidden" onChange={(e) => handleImageChange(e.target.files?.[0] ?? null)} />
+                              </label>
+                            </div> 
+                          )}
+                        
+                          <div className="flex gap-2">
+                            <Button type="button" variant="outline" size="sm" onClick={handleShowCamera} className="flex-1">
+                              <Camera className="mr-2 h-4 w-4" /> Take a Picture
+                            </Button>
+                            <Button type="button" size="sm" onClick={handleScanItem} disabled={!imagePreview || isRecognizing} className="flex-1">
+                              {isRecognizing ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Sparkles className="mr-2 h-4 w-4" />}
+                              Scan Item
+                            </Button>
+                          </div>
+                        </>
+                      )}
+                   </div>
                   <FormMessage />
                 </FormItem>
               )}
             />
+            <canvas ref={canvasRef} className="hidden"></canvas>
+            
             <FormField
               control={form.control}
               name="description"
@@ -134,7 +310,7 @@ export function AddItemSheet({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Category</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
                       <FormControl>
                         <SelectTrigger><SelectValue placeholder="Select a category" /></SelectTrigger>
                       </FormControl>
@@ -152,7 +328,7 @@ export function AddItemSheet({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Season</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
                       <FormControl>
                         <SelectTrigger><SelectValue placeholder="Select a season" /></SelectTrigger>
                       </FormControl>
@@ -187,7 +363,7 @@ export function AddItemSheet({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Length</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Select onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger><SelectValue placeholder="Select a length" /></SelectTrigger>
                     </FormControl>
@@ -199,7 +375,7 @@ export function AddItemSheet({
                 </FormItem>
               )}
             />
-            <SheetFooter className="pt-4">
+            <SheetFooter className="pt-4 sticky bottom-0 bg-background">
               <Button type="submit">Save Item</Button>
             </SheetFooter>
           </form>
