@@ -63,21 +63,21 @@ export function ItemCard({
   return (
     <Card
       className={cn(
-        'group overflow-hidden transition-all duration-300 shadow-md hover:shadow-xl'
+        'group overflow-hidden transition-all duration-300 shadow-md hover:shadow-xl bg-card/50 border-0'
       )}
     >
       <CardContent className="p-0">
-        <div className="relative aspect-[3/4]">
+        <div className="relative aspect-[3/4] bg-background/50 flex items-center justify-center">
           <Image
             src={item.imageUrl}
             alt={item.description}
-            fill
-            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            width={150}
+            height={200}
+            className="object-contain transition-transform duration-300 group-hover:scale-105"
             data-ai-hint={`${item.color} ${item.category}`}
           />
           <div className="absolute top-0 left-0 right-0 p-2 flex justify-between items-start">
-             <Badge variant="secondary">{item.category}</Badge>
+             <Badge variant="secondary" className="opacity-0 group-hover:opacity-100 transition-opacity">{item.category}</Badge>
              <div className="flex flex-col gap-2 items-end opacity-0 group-hover:opacity-100 transition-opacity">
                {variant === 'wardrobe' && (
                  <>
@@ -134,7 +134,7 @@ export function ItemCard({
         <div className="p-3">
           <p className="font-semibold truncate" title={item.description}>{item.description}</p>
           <div className="flex flex-wrap items-center justify-between gap-1 mt-1 text-xs text-muted-foreground">
-             <p>Last worn: {lastWornDisplay}</p>
+             <p>{item.fabric}</p>
           </div>
         </div>
       </CardContent>

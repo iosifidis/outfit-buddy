@@ -18,7 +18,7 @@ export default function WardrobePage() {
 
   return (
     <AppLayout>
-      <div className="flex-1 p-4 pt-6 space-y-4 md:p-8">
+      <div className="flex-1 p-4 pt-6 space-y-6 md:p-8">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-bold tracking-tight">My Wardrobe</h1>
           <div>

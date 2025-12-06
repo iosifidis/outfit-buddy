@@ -22,7 +22,7 @@ export function WardrobeGrid() {
     : visibleItems.filter(item => item.category === filter);
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <CategoryFilter selected={filter} onSelect={setFilter} />
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
         {filteredItems.map(item => (
