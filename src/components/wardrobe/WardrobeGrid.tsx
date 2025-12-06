@@ -8,10 +8,9 @@ import type { ClothingItem } from '@/lib/types';
 
 interface WardrobeGridProps {
   items: ClothingItem[];
-  onDeleteItem: (itemId: string) => void;
 }
 
-export function WardrobeGrid({ items, onDeleteItem }: WardrobeGridProps) {
+export function WardrobeGrid({ items }: WardrobeGridProps) {
   const [filter, setFilter] = useState<Category | 'All'>('All');
 
   const filteredItems = filter === 'All'
@@ -24,7 +23,7 @@ export function WardrobeGrid({ items, onDeleteItem }: WardrobeGridProps) {
       {filteredItems.length > 0 ? (
          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
             {filteredItems.map(item => (
-              <ItemCard key={item.id} item={item} onDelete={onDeleteItem} />
+              <ItemCard key={item.id} item={item} />
             ))}
           </div>
       ) : (

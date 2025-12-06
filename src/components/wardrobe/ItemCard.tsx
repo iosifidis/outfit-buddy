@@ -7,26 +7,39 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ItemDetailsDialog } from './ItemDetailsDialog';
 import { Shirt, Trash2 } from 'lucide-react';
+import { useFirestore } from '@/firebase';
+import { deleteDocumentNonBlocking } from '@/firebase/non-blocking-updates';
+import { doc } from 'firebase/firestore';
+
 
 interface ItemCardProps {
   item: ClothingItem;
-  onDelete: (itemId: string) => void;
 }
 
-export function ItemCard({ item, onDelete }: ItemCardProps) {
+export function ItemCard({ item }: ItemCardProps) {
   const [isDetailsOpen, setDetailsOpen] = useState(false);
+  const firestore = useFirestore();
 
   const handleDelete = (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent opening the dialog
-    onDelete(item.id);
+    if (!firestore) return;
+    const itemRef = doc(firestore, 'users', item.userId, 'clothingItems', item.id);
+    deleteDocumentNonBlocking(itemRef);
   };
+  
+  const onDeleteFromDialog = () => {
+     if (!firestore) return;
+    const itemRef = doc(firestore, 'users', item.userId, 'clothingItems', item.id);
+    deleteDocumentNonBlocking(itemRef);
+    setDetailsOpen(false);
+  }
 
   return (
     <ItemDetailsDialog
       item={item}
       open={isDetailsOpen}
       onOpenChange={setDetailsOpen}
-      onDelete={() => onDelete(item.id)}
+      onDelete={onDeleteFromDialog}
     >
       <Card
         className="group overflow-hidden transition-all duration-300 shadow-md hover:shadow-xl bg-card/80 border-0 cursor-pointer hover:-translate-y-1"

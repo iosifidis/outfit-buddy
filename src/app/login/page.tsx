@@ -14,21 +14,41 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useEffect, useState } from 'react';
+import { useAuth, useUser } from '@/firebase';
+import { 
+  initiateAnonymousSignIn,
+  initiateEmailSignIn,
+} from '@/firebase/non-blocking-login';
+import { toast } from '@/hooks/use-toast';
 
 export default function LoginPage() {
   const router = useRouter();
-
+  const auth = useAuth();
+  const { user, isUserLoading } = useUser();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = () => {
-    // Mock login
-    router.push('/dashboard');
+  useEffect(() => {
+    if (!isUserLoading && user) {
+      router.push('/dashboard');
+    }
+  }, [user, isUserLoading, router]);
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email || !password) {
+      toast({
+        variant: 'destructive',
+        title: 'Missing Fields',
+        description: 'Please enter both email and password.',
+      });
+      return;
+    }
+    initiateEmailSignIn(auth, email, password);
   };
   
   const handleAnonymousLogin = () => {
-    // Mock login
-    router.push('/dashboard');
+    initiateAnonymousSignIn(auth);
   };
 
   return (
@@ -44,7 +64,7 @@ export default function LoginPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4">
+          <form onSubmit={handleLogin} className="grid gap-4">
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -71,16 +91,16 @@ export default function LoginPage() {
                 type="password"
                 required
                 value={password}
-                onChange={(e) => setPassword(e.targe.value)}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            <Button onClick={handleLogin} className="w-full">
+            <Button type="submit" className="w-full">
               Login
             </Button>
-            <Button variant="outline" className="w-full" onClick={handleAnonymousLogin}>
+            <Button type="button" variant="outline" className="w-full" onClick={handleAnonymousLogin}>
               Sign In Anonymously
             </Button>
-          </div>
+          </form>
           <div className="mt-4 text-sm text-center">
             Don&apos;t have an account?{' '}
             <Link href="#" className="underline">
