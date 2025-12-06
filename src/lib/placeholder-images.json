@@ -65,6 +65,42 @@
       "description": "Woman avatar placeholder",
       "imageUrl": "https://images.unsplash.com/photo-1580489944761-15a19d654956?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx3b21hbiUyMGF2YXRhcnxlbnwwfHx8fDE3NjUyNzgxMTd8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "woman avatar"
+    },
+    {
+      "id": "item11",
+      "description": "Classic Denim Jacket",
+      "imageUrl": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxkZW5pbSUyMGphY2tldHxlbnwwfHx8fDE3NjUyODEzOTB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "denim jacket"
+    },
+    {
+      "id": "item12",
+      "description": "White Canvas Sneakers",
+      "imageUrl": "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx3aGl0ZSUyMHNuZWFrZXJzfGVufDB8fHx8MTc2NTI4MTQxN3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "white sneakers"
+    },
+    {
+      "id": "item13",
+      "description": "Gold Statement Necklace",
+      "imageUrl": "https://images.unsplash.com/photo-1616848948259-a5f7c2ed77e6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxnb2xkJTIwbmVja2xhY2V8ZW58MHx8fHwxNzY1MjgxNDUwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "gold necklace"
+    },
+    {
+      "id": "item14",
+      "description": "Pink Satin Midi Skirt",
+      "imageUrl": "https://images.unsplash.com/photo-1690025987082-f233433a1e04?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwaW5rJTIwc2F0aW4lMjBza2lydHxlbnwwfHx8fDE3NjUyODE0NzR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "pink skirt"
+    },
+    {
+      "id": "item15",
+      "description": "Black Graphic T-Shirt",
+      "imageUrl": "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxibGFjayUyMHQtc2hpcnR8ZW58MHx8fHwxNzY1MjgxNTE0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "black t-shirt"
+    },
+    {
+      "id": "item16",
+      "description": "Black Wool Peacoat",
+      "imageUrl": "https://images.unsplash.com/photo-1617133501980-9943b355d9d3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxibGFjayUyMHBlYWNvYXR8ZW58MHx8fHwxNzY1MjgxNTM4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "black peacoat"
     }
   ]
 }
