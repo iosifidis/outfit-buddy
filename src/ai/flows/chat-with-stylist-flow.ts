@@ -11,6 +11,7 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 import {getWeather} from '@/services/mockContext';
 import {getCalendarEvents} from '@/services/mockContext';
+import { getAvailableClothing } from '@/ai/tools/get-available-clothing-tool';
 
 const ChatWithStylistInputSchema = z.object({
   userId: z.string().describe('The ID of the user requesting outfit suggestions.'),
@@ -30,13 +31,19 @@ export async function chatWithStylist(input: ChatWithStylistInput): Promise<Chat
 
 const prompt = ai.definePrompt({
   name: 'chatWithStylistPrompt',
+  tools: [getAvailableClothing],
   input: {
-    schema: ChatWithStylistInputSchema,
+    schema: ChatWithStylistInputSchema.extend({
+      weather: z.any(),
+      calendarEvents: z.any(),
+    }),
   },
   output: {
     schema: ChatWithStylistOutputSchema,
   },
   prompt: `You are a personal stylist helping a female user choose outfits from her digital wardrobe.
+
+  First, use the 'getAvailableClothing' tool to see what items the user has.
 
   The user is asking for outfit recommendations for the following scenario: {{{query}}}.
 
