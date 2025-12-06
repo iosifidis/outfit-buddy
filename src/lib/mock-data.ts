@@ -1,5 +1,6 @@
 import type { ClothingItem } from './types';
 import { PlaceHolderImages } from './placeholder-images';
+import { OutfitHistory } from './types';
 
 const getImage = (id: string) => PlaceHolderImages.find(img => img.id === id)?.imageUrl || '';
 
@@ -16,4 +17,25 @@ export const mockClothingItems: ClothingItem[] = [
   { id: '10', userId: 'user1', imageUrl: getImage('item11'), color: 'Blue', fabric: 'Denim', pattern: 'Solid', season: 'Spring', length: 'Long', category: 'Outerwear', occasion: 'Casual', description: 'Classic Denim Jacket', lastWorn: '2023-10-18', formal: 2, warmth: 4, relaxed: 8, isFavorite: true },
   { id: '11', userId: 'user1', imageUrl: getImage('item13'), color: 'Gold', fabric: 'Metal', pattern: 'Solid', season: 'Spring', length: 'Long', category: 'Accessory', occasion: 'Party', description: 'Gold Statement Necklace', lastWorn: null, formal: 7, warmth: 0, relaxed: 2, isFavorite: false },
   { id: '12', userId: 'user1', imageUrl: getImage('item14'), color: 'Pink', fabric: 'Satin', pattern: 'Solid', season: 'Summer', length: 'Midi', category: 'Bottom', occasion: 'Party', description: 'Pink Satin Midi Skirt', lastWorn: '2023-07-20', formal: 8, warmth: 2, relaxed: 4, isFavorite: true },
+];
+
+export const mockOutfitHistory: Omit<OutfitHistory, 'userId'>[] = [
+  {
+    id: 'hist1',
+    date: new Date(new Date().setDate(new Date().getDate() - 1)), // Yesterday
+    selectedItems: [mockClothingItems[7], mockClothingItems[3], mockClothingItems[4]],
+    notes: 'Important business review. Wanted to look sharp but comfortable.'
+  },
+  {
+    id: 'hist2',
+    date: new Date(new Date().setDate(new Date().getDate() - 3)), // 3 days ago
+    selectedItems: [mockClothingItems[0], mockClothingItems[2], mockClothingItems[9]],
+    notes: 'Casual Friday, grabbing coffee with the team.'
+  },
+    {
+    id: 'hist3',
+    date: new Date(new Date().setDate(new Date().getDate() - 5)), // 5 days ago
+    selectedItems: [mockClothingItems[1], mockClothingItems[6], mockClothingItems[5]],
+    notes: 'A bit chilly today, went with a cozy and warm outfit for running errands.'
+  },
 ];

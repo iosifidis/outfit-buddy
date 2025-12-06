@@ -44,4 +44,5 @@ export type OutfitHistory = {
   userId: string;
   date: Date;
   selectedItems: ClothingItem[];
+  notes?: string;
 };
