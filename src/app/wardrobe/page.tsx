@@ -1,38 +1,31 @@
 'use client';
 
-import { useState, useMemo } from 'react';
-import { collection, doc } from 'firebase/firestore';
+import { useState } from 'react';
 import { AppLayout } from '@/components/AppLayout';
 import { WardrobeGrid } from '@/components/wardrobe/WardrobeGrid';
 import { AddItemForm } from '@/components/wardrobe/AddItemForm';
 import { Button } from '@/components/ui/button';
 import { Plus, Loader2 } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { useUser, useFirestore, useCollection, useMemoFirebase } from '@/firebase';
-import { addDocumentNonBlocking } from '@/firebase/non-blocking-updates';
 import type { ClothingItem } from '@/lib/types';
-
+import { mockClothingItems } from '@/lib/mock-data';
 
 export default function WardrobePage() {
   const [showAddItemDialog, setShowAddItemDialog] = useState(false);
-  const { user, isUserLoading } = useUser();
-  const firestore = useFirestore();
+  const [items, setItems] = useState<ClothingItem[]>(mockClothingItems.filter(i => i.userId === 'user1'));
+  const isLoading = false; // Will be implemented with real data fetching
+  const error = null; // Will be implemented with real data fetching
 
-  const clothingItemsCollection = useMemoFirebase(() => {
-    if (!user || !firestore) return null;
-    return collection(firestore, `users/${user.uid}/clothingItems`);
-  }, [user, firestore]);
-
-  const { data: items, isLoading: areItemsLoading, error } = useCollection<ClothingItem>(clothingItemsCollection);
-
-  const handleItemAdded = (newItem: Omit<ClothingItem, 'id' | 'userId'>) => {
-    if (!clothingItemsCollection) return;
-    const itemWithUserId = { ...newItem, userId: user!.uid };
-    addDocumentNonBlocking(clothingItemsCollection, itemWithUserId);
+  const handleItemAdded = (newItemData: Omit<ClothingItem, 'id' | 'userId'>) => {
+    const newItem: ClothingItem = {
+      ...newItemData,
+      id: `new-${Date.now()}`, // temp id
+      userId: 'user1',
+    };
+    setItems(prevItems => [newItem, ...prevItems]);
     setShowAddItemDialog(false);
   };
 
-  const isLoading = isUserLoading || areItemsLoading;
 
   return (
     <AppLayout>

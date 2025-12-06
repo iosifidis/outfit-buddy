@@ -13,42 +13,23 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useAuth, useUser } from '@/firebase';
-import {
-  initiateAnonymousSignIn,
-  initiateEmailSignIn,
-} from '@/firebase/non-blocking-login';
 import { useEffect, useState } from 'react';
 
 export default function LoginPage() {
-  const auth = useAuth();
-  const { user, isUserLoading } = useUser();
   const router = useRouter();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  useEffect(() => {
-    if (!isUserLoading && user) {
-      router.push('/dashboard');
-    }
-  }, [user, isUserLoading, router]);
-
   const handleLogin = () => {
-    initiateEmailSignIn(auth, email, password);
+    // Mock login
+    router.push('/dashboard');
   };
   
   const handleAnonymousLogin = () => {
-    initiateAnonymousSignIn(auth);
+    // Mock login
+    router.push('/dashboard');
   };
-
-  if (isUserLoading || user) {
-    return (
-      <div className="flex items-center justify-center min-h-screen bg-background">
-        <p>Loading...</p>
-      </div>
-    );
-  }
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-background">
@@ -90,7 +71,7 @@ export default function LoginPage() {
                 type="password"
                 required
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.targe.value)}
               />
             </div>
             <Button onClick={handleLogin} className="w-full">

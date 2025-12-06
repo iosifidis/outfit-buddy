@@ -2,29 +2,23 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
-import { doc } from 'firebase/firestore';
-import { useFirestore } from '@/firebase';
-import { deleteDocumentNonBlocking } from '@/firebase/non-blocking-updates';
 import type { ClothingItem } from '@/lib/types';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ItemDetailsDialog } from './ItemDetailsDialog';
-import { cn } from '@/lib/utils';
 import { Shirt, Trash2 } from 'lucide-react';
 
 interface ItemCardProps {
   item: ClothingItem;
+  onDelete: (itemId: string) => void;
 }
 
-export function ItemCard({ item }: ItemCardProps) {
+export function ItemCard({ item, onDelete }: ItemCardProps) {
   const [isDetailsOpen, setDetailsOpen] = useState(false);
-  const firestore = useFirestore();
 
   const handleDelete = (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent opening the dialog
-    if (!firestore || !item.userId || !item.id) return;
-    const docRef = doc(firestore, `users/${item.userId}/clothingItems/${item.id}`);
-    deleteDocumentNonBlocking(docRef);
+    onDelete(item.id);
   };
 
   return (
@@ -32,11 +26,7 @@ export function ItemCard({ item }: ItemCardProps) {
       item={item}
       open={isDetailsOpen}
       onOpenChange={setDetailsOpen}
-      onDelete={() => {
-        if (!firestore || !item.userId || !item.id) return;
-        const docRef = doc(firestore, `users/${item.userId}/clothingItems/${item.id}`);
-        deleteDocumentNonBlocking(docRef);
-      }}
+      onDelete={() => onDelete(item.id)}
     >
       <Card
         className="group overflow-hidden transition-all duration-300 shadow-md hover:shadow-xl bg-card/80 border-0 cursor-pointer hover:-translate-y-1"

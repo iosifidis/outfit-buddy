@@ -57,21 +57,27 @@ export function ItemDetailsDialog({ item, open, onOpenChange, onDelete }: ItemDe
         <div className="flex flex-col md:flex-row">
           <div className="w-full md:w-1/2 p-6 pr-0 md:pr-6">
             <div className="relative aspect-square bg-background rounded-lg flex items-center justify-center">
-              <Image
-                src={item.imageUrl}
-                alt={item.description}
-                width={250}
-                height={250}
-                className="object-contain"
-                data-ai-hint={`${item.color} ${item.category}`}
-              />
+              {item.imageUrl ? (
+                 <Image
+                    src={item.imageUrl}
+                    alt={item.description}
+                    fill
+                    className="object-contain"
+                    data-ai-hint={`${item.color} ${item.category}`}
+                  />
+              ): (
+                <Shirt className="w-24 h-24 text-muted-foreground"/>
+              )}
+             
               <Badge className="absolute bottom-3 left-3">{item.category}</Badge>
             </div>
           </div>
           <div className="w-full md:w-1/2 p-6 flex flex-col">
-            <DialogClose className="absolute top-4 right-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
-              <X className="h-5 w-5" />
-              <span className="sr-only">Close</span>
+            <DialogClose asChild>
+                <button className="absolute top-4 right-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+                  <X className="h-5 w-5" />
+                  <span className="sr-only">Close</span>
+                </button>
             </DialogClose>
             <h2 className="text-2xl font-bold font-headline mb-1">{item.description}</h2>
             <p className="text-muted-foreground mb-6">{item.color} • {item.pattern}</p>
@@ -90,19 +96,19 @@ export function ItemDetailsDialog({ item, open, onOpenChange, onDelete }: ItemDe
                 <div className="flex items-center gap-3">
                     <BriefcaseIcon className="w-5 h-5 text-muted-foreground" />
                     <span className="text-muted-foreground flex-1">Formal Scale</span>
-                    <Progress value={(item.formal || 0) * 10} className="w-24 h-1.5" indicatorClassName={getProgressColor(item.formal || 0)} />
+                    <Progress value={(item.formal || 0) * 10} className="w-24 h-1.5" />
                     <span className="w-8 text-right font-mono text-xs">{(item.formal || 0)}/10</span>
                 </div>
                  <div className="flex items-center gap-3">
                     <ThermometerIcon className="w-5 h-5 text-muted-foreground" />
                     <span className="text-muted-foreground flex-1">Warmth Scale</span>
-                    <Progress value={(item.warmth || 0) * 10} className="w-24 h-1.5" indicatorClassName={getProgressColor(item.warmth || 0)} />
+                    <Progress value={(item.warmth || 0) * 10} className="w-24 h-1.5" />
                     <span className="w-8 text-right font-mono text-xs">{(item.warmth || 0)}/10</span>
                 </div>
                  <div className="flex items-center gap-3">
                     <SmileIcon className="w-5 h-5 text-muted-foreground" />
                     <span className="text-muted-foreground flex-1">Relaxed Scale</span>
-                    <Progress value={(item.relaxed || 0) * 10} className="w-24 h-1.5" indicatorClassName={getProgressColor(item.relaxed || 0)} />
+                    <Progress value={(item.relaxed || 0) * 10} className="w-24 h-1.5" />
                     <span className="w-8 text-right font-mono text-xs">{(item.relaxed || 0)}/10</span>
                 </div>
             </div>
