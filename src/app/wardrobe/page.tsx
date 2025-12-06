@@ -6,13 +6,12 @@ import { WardrobeGrid } from '@/components/wardrobe/WardrobeGrid';
 import { AddItemForm } from '@/components/wardrobe/AddItemForm';
 import { Button } from '@/components/ui/button';
 import { Plus, X } from 'lucide-react';
+import { AnimatePresence, motion } from 'framer-motion';
 
 export default function WardrobePage() {
   const [showAddItemForm, setShowAddItemForm] = useState(false);
 
   const handleItemAdded = () => {
-    // Here you would typically refetch the items
-    // For now, we just close the form
     setShowAddItemForm(false);
   };
 
@@ -37,11 +36,21 @@ export default function WardrobePage() {
             </Button>
           </div>
         </div>
-        {showAddItemForm && (
-          <div className="p-6 border-2 border-dashed rounded-lg border-border">
-              <AddItemForm onItemAdded={handleItemAdded} />
-          </div>
-        )}
+        <AnimatePresence>
+          {showAddItemForm && (
+             <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
+              className="overflow-hidden"
+            >
+              <div className="p-6 border-2 border-dashed rounded-lg border-border mb-6">
+                <AddItemForm onItemAdded={handleItemAdded} />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
         <WardrobeGrid />
       </div>
     </AppLayout>
