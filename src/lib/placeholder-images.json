@@ -3,103 +3,103 @@
     {
       "id": "item1",
       "description": "White silk blouse",
-      "imageUrl": "https://images.unsplash.com/photo-1622470953794-3450536c167e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx3aGl0ZSUyMHNpbGslMjBibG91c2V8ZW58MHx8fHwxNzE2NDgxOTI4fDA&ixlib=rb-4.0.3&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1761121317492-57feee4fc674?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxzaWxrJTIwYmxvdXNlfGVufDB8fHx8MTc2NDk2ODAyM3ww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "silk blouse"
     },
     {
       "id": "item2",
       "description": "Black wool trousers",
-      "imageUrl": "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxibGFjayUyMHdvb2wlMjB0cm91c2Vyc3xlbnwwfHx8fDE3MjE4MzUwMjR8MA&ixlib=rb-4.0.3&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1656991483595-8a11da8d2bde?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHx3b29sJTIwdHJvdXNlcnN8ZW58MHx8fHwxNzY1MDUxNzAzfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "wool trousers"
     },
     {
       "id": "item3",
       "description": "Black leather loafers",
-      "imageUrl": "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxibGFjayUyMGxlYXRoZXIlMjBsb2FmZXJzfGVufDB8fHx8MTcxNjQ4MjA5MHww&ixlib=rb-4.0.3&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1761896904104-334cad0f5d3b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxsZWF0aGVyJTIwbG9hZmVyc3xlbnwwfHx8fDE3NjUwNTE3MDR8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "leather loafers"
     },
     {
       "id": "item4",
       "description": "Red summer dress",
-      "imageUrl": "https://images.unsplash.com/photo-1595223293848-18c6340c274d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxyZWQlMjBzdW1tZXIlMjBkcmVzc3xlbnwwfHx8fDE3MjE4MzUyMDJ8MA&ixlib=rb-4.0.3&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1594749210541-ca17da156770?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxyZWQlMjBkcmVzc3xlbnwwfHx8fDE3NjQ5MzQxMDV8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "red dress"
     },
     {
       "id": "item5",
       "description": "Gray plaid skirt",
-      "imageUrl": "https://images.unsplash.com/photo-1582787114695-4273c59059c2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxncmF5JTIwcGxhaWQlMjBza2lydHxlbnwwfHx8fDE3NjUyNzgxMTR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1762314907978-7cd272344d0e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxwbGFpZCUyMHNraXJ0fGVufDB8fHx8MTc2NDk5MzQzMnww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "plaid skirt"
     },
     {
       "id": "item6",
       "description": "Black ankle boots",
-      "imageUrl": "https://images.unsplash.com/photo-1603577093229-373b40526a7f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxibGFjayUyMGFua2xlJTIwYm9vdHN8ZW58MHx8fHwxNzY1Mjc4MTE0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1762339107598-c3bf3036559f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxhbmtsZSUyMGJvb3RzfGVufDB8fHx8MTc2NTA1MTcwM3ww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "ankle boots"
     },
     {
       "id": "item7",
       "description": "Beige trench coat",
-      "imageUrl": "https://images.unsplash.com/photo-1616781294436-16995f5733f5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx0cmVuY2glMjBjb2F0fGVufDB8fHx8MTcxNjQ4MjI0MXww&ixlib=rb-4.0.3&w=1080&h=1920&q=80&fit=crop&crop=entropy",
+      "imageUrl": "https://images.unsplash.com/photo-1592327877233-90b9bfd92e48?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHx0cmVuY2glMjBjb2F0fGVufDB8fHx8MTc2NDk1NTI1NXww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "trench coat"
     },
     {
       "id": "item8",
       "description": "Olive green knit sweater",
-      "imageUrl": "https://images.unsplash.com/photo-1616781294178-062df6746237?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxvbGl2ZSUyMGdyZWVuJTIwa25pdCUyMHN3ZWF0ZXJ8ZW58MHx8fHwxNzY1Mjc4MTE1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1633008004504-f5378d2f7da5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxrbml0JTIwc3dlYXRlcnxlbnwwfHx8fDE3NjUwMzg4NTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "knit sweater"
     },
     {
       "id": "item9",
       "description": "High-waisted denim shorts",
-      "imageUrl": "https://images.unsplash.com/photo-1630331010250-7524271ed506?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxkZW5pbSUyMHNob3J0c3xlbnwwfHx8fDE3NjUwMjc3OTF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1620231619471-b28081fc3509?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8ZGVuaW0lMjBzaG9ydHN8ZW58MHx8fHwxNzY1MDI3NzkxfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "denim shorts"
     },
     {
       "id": "item10",
       "description": "Brown leather crossbody bag",
-      "imageUrl": "https://images.unsplash.com/photo-1629156763116-29a3a992fb09?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxicm93biUyMGxlYXRoZXIlMjBjcm9zc2JvZHklMjBiYWd8ZW58MHx8fHwxNzY1Mjc4MTE2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1760624294514-ca40aafe3d96?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxjcm9zc2JvZHklMjBiYWd8ZW58MHx8fHwxNzY1MDUxNzAzfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "crossbody bag"
     },
     {
       "id": "userAvatar",
       "description": "Woman avatar placeholder",
-      "imageUrl": "https://images.unsplash.com/photo-1580489944761-15a19d654956?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx3b21hbiUyMGF2YXRhcnxlbnwwfHx8fDE3NjUyNzgxMTd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1643732994192-03856731da2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHx3b21hbiUyMGF2YXRhcnxlbnwwfHx8fDE3NjQ5OTY1MDN8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "woman avatar"
     },
     {
       "id": "item11",
       "description": "Classic Denim Jacket",
-      "imageUrl": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxkZW5pbSUyMGphY2tldHxlbnwwfHx8fDE3NjUyODEzOTB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1608147152875-b0eb0c53d491?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxkZW5pbSUyMGphY2tldHxlbnwwfHx8fDE3NjUwMDc5NzV8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "denim jacket"
     },
     {
       "id": "item12",
       "description": "White Canvas Sneakers",
-      "imageUrl": "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx3aGl0ZSUyMHNuZWFrZXJzfGVufDB8fHx8MTc2NTI4MTQxN3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1722489291778-cb2a414d6ee0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHx3aGl0ZSUyMHNuZWFrZXJzfGVufDB8fHx8MTc2NTA1MDcxNXww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "white sneakers"
     },
     {
       "id": "item13",
       "description": "Gold Statement Necklace",
-      "imageUrl": "https://images.unsplash.com/photo-1616848948259-a5f7c2ed77e6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxnb2xkJTIwbmVja2xhY2V8ZW58MHx8fHwxNzY1MjgxNDUwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1610223515982-5bae48b7c2c2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxnb2xkJTIwbmVja2xhY2V8ZW58MHx8fHwxNzY1MDIzNzIxfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "gold necklace"
     },
     {
       "id": "item14",
       "description": "Pink Satin Midi Skirt",
-      "imageUrl": "https://images.unsplash.com/photo-1690025987082-f233433a1e04?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwaW5rJTIwc2F0aW4lMjBza2lydHxlbnwwfHx8fDE3NjUyODE0NzR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1616249136282-b8675d07a780?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8cGluayUyMHNraXJ0fGVufDB8fHx8MTc2NTA1MTcwNHww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "pink skirt"
     },
     {
       "id": "item15",
       "description": "Black Graphic T-Shirt",
-      "imageUrl": "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxibGFjayUyMHQtc2hpcnR8ZW58MHx8fHwxNzY1MjgxNTE0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1657364890995-1ec4bb3aefcf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxibGFjayUyMHQtc2hpcnR8ZW58MHx8fHwxNzY0OTU2NDYwfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "black t-shirt"
     },
     {
       "id": "item16",
       "description": "Black Wool Peacoat",
-      "imageUrl": "https://images.unsplash.com/photo-1617133501980-9943b355d9d3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxibGFjayUyMHBlYWNvYXR8ZW58MHx8fHwxNzY1MjgxNTM4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1597835260780-d0ea22a9b66e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxibGFjayUyMHBlYWNvYXR8ZW58MHx8fHwxNzY1MDUxNzAzfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "black peacoat"
     }
   ]
