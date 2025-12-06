@@ -72,7 +72,7 @@ function MainSidebar() {
         <SidebarMenu>
           {navItems.map(item => (
             <SidebarMenuItem key={item.href}>
-              <Link href={item.href} legacyBehavior passHref>
+              <Link href={item.href}>
                 <SidebarMenuButton
                   isActive={pathname === item.href}
                   className="group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:h-12"
