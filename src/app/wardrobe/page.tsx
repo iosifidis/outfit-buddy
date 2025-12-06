@@ -5,17 +5,25 @@ import { AppLayout } from '@/components/AppLayout';
 import { WardrobeGrid } from '@/components/wardrobe/WardrobeGrid';
 import { AddItemForm } from '@/components/wardrobe/AddItemForm';
 import { Button } from '@/components/ui/button';
-import { Plus } from 'lucide-react';
+import { Plus, Sparkles } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useWardrobe } from '@/hooks/use-wardrobe';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function WardrobePage() {
   const [showAddItemDialog, setShowAddItemDialog] = useState(false);
-  const { allItems, handleItemAdded, handleItemDeleted, handleToggleFavorite } = useWardrobe();
+  const { allItems, handleItemAdded, handleItemDeleted, handleToggleFavorite, handleSeedDatabase, isLoading } = useWardrobe();
 
   const onItemAdded = (newItemData: Omit<any, 'id' | 'userId'>) => {
     handleItemAdded(newItemData);
     setShowAddItemDialog(false);
+  };
+
+  const [isSeeding, setIsSeeding] = useState(false);
+  const onSeedDatabase = async () => {
+    setIsSeeding(true);
+    await handleSeedDatabase();
+    setIsSeeding(false);
   };
 
   return (
@@ -41,9 +49,20 @@ export default function WardrobePage() {
           </Dialog>
         </div>
         
-        {allItems.length === 0 ? (
-           <div className="text-center py-12 text-muted-foreground">
-             <p>Your wardrobe is empty. Start by adding some items!</p>
+        {isLoading ? (
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+            {Array.from({ length: 12 }).map((_, i) => (
+              <Skeleton key={i} className="h-64 w-full" />
+            ))}
+          </div>
+        ) : allItems.length === 0 ? (
+           <div className="text-center py-12 text-muted-foreground border-2 border-dashed rounded-lg">
+             <h3 className="text-lg font-semibold text-foreground">Your Wardrobe is Empty</h3>
+             <p className="mt-2">Start by adding your first item, or seed your wardrobe with sample data for your presentation.</p>
+             <Button onClick={onSeedDatabase} disabled={isSeeding} className="mt-4">
+               <Sparkles className="w-4 h-4 mr-2" />
+               {isSeeding ? "Adding Items..." : "Seed Sample Wardrobe"}
+             </Button>
            </div>
         ) : (
           <WardrobeGrid items={allItems} onItemDeleted={handleItemDeleted} onToggleFavorite={handleToggleFavorite} />
