@@ -1,36 +1,38 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
+import { collection, doc } from 'firebase/firestore';
 import { AppLayout } from '@/components/AppLayout';
 import { WardrobeGrid } from '@/components/wardrobe/WardrobeGrid';
 import { AddItemForm } from '@/components/wardrobe/AddItemForm';
 import { Button } from '@/components/ui/button';
-import { Plus } from 'lucide-react';
+import { Plus, Loader2 } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { type ClothingItem } from '@/lib/types';
-import { mockClothingItems } from '@/lib/mock-data';
+import { useUser, useFirestore, useCollection, useMemoFirebase } from '@/firebase';
+import { addDocumentNonBlocking } from '@/firebase/non-blocking-updates';
+import type { ClothingItem } from '@/lib/types';
 
 
 export default function WardrobePage() {
   const [showAddItemDialog, setShowAddItemDialog] = useState(false);
-  const [items, setItems] = useState<ClothingItem[]>(mockClothingItems.filter(item => item.userId === 'user1'));
+  const { user, isUserLoading } = useUser();
+  const firestore = useFirestore();
 
-  const handleItemAdded = (newItem: Omit<ClothingItem, 'id' | 'userId' | 'lastWorn'>) => {
-    const fullItem: ClothingItem = {
-      ...newItem,
-      id: Date.now().toString(),
-      userId: 'user1',
-      lastWorn: null,
-      imageUrl: newItem.imageUrl || '/placeholder.png'
-    };
-    setItems(prev => [fullItem, ...prev]);
+  const clothingItemsCollection = useMemoFirebase(() => {
+    if (!user || !firestore) return null;
+    return collection(firestore, `users/${user.uid}/clothingItems`);
+  }, [user, firestore]);
+
+  const { data: items, isLoading: areItemsLoading, error } = useCollection<ClothingItem>(clothingItemsCollection);
+
+  const handleItemAdded = (newItem: Omit<ClothingItem, 'id' | 'userId'>) => {
+    if (!clothingItemsCollection) return;
+    const itemWithUserId = { ...newItem, userId: user!.uid };
+    addDocumentNonBlocking(clothingItemsCollection, itemWithUserId);
     setShowAddItemDialog(false);
   };
 
-  const handleItemDeleted = (itemId: string) => {
-    setItems(prev => prev.filter(item => item.id !== itemId));
-  };
-
+  const isLoading = isUserLoading || areItemsLoading;
 
   return (
     <AppLayout>
@@ -54,7 +56,29 @@ export default function WardrobePage() {
             </DialogContent>
           </Dialog>
         </div>
-        <WardrobeGrid items={items} onDelete={handleItemDeleted} />
+
+        {isLoading && (
+          <div className="flex items-center justify-center py-12 text-muted-foreground">
+            <Loader2 className="w-6 h-6 mr-2 animate-spin" />
+            <span>Loading your wardrobe...</span>
+          </div>
+        )}
+
+        {!isLoading && error && (
+          <div className="text-center py-12 text-destructive">
+            <p>Could not load your wardrobe. Please try again later.</p>
+          </div>
+        )}
+        
+        {!isLoading && !error && items && items.length === 0 && (
+           <div className="text-center py-12 text-muted-foreground">
+             <p>Your wardrobe is empty. Start by adding some items!</p>
+           </div>
+        )}
+
+        {!isLoading && !error && items && items.length > 0 && (
+          <WardrobeGrid items={items} />
+        )}
       </div>
     </AppLayout>
   );

@@ -40,19 +40,20 @@ const addItemFormSchema = z.object({
   length: z.enum(LENGTHS),
   occasion: z.string().min(2, { message: 'Occasion is required.' }),
   imageUrl: z.string().optional(),
-  formal: z.number().min(0).max(10),
-  warmth: z.number().min(0).max(10),
-  relaxed: z.number().min(0).max(10),
+  formal: z.number().min(0).max(10).optional(),
+  warmth: z.number().min(0).max(10).optional(),
+  relaxed: z.number().min(0).max(10).optional(),
+  lastWorn: z.string().nullable().optional(),
 });
 
-type AddItemFormValues = Omit<z.infer<typeof addItemFormSchema>, 'image'>;
+type AddItemFormValues = z.infer<typeof addItemFormSchema>;
 
 interface AddItemFormProps {
-  onItemAdded: (item: Omit<ClothingItem, 'id' | 'userId' | 'lastWorn'>) => void;
+  onItemAdded: (item: Omit<ClothingItem, 'id' | 'userId'>) => void;
 }
 
 export function AddItemForm({ onItemAdded }: AddItemFormProps) {
-  const form = useForm<z.infer<typeof addItemFormSchema>>({
+  const form = useForm<AddItemFormValues>({
     resolver: zodResolver(addItemFormSchema),
     defaultValues: {
       description: '',
@@ -66,6 +67,7 @@ export function AddItemForm({ onItemAdded }: AddItemFormProps) {
       formal: 5,
       warmth: 5,
       relaxed: 5,
+      lastWorn: null,
     },
   });
 
@@ -186,7 +188,7 @@ export function AddItemForm({ onItemAdded }: AddItemFormProps) {
     };
   }, [showCamera]);
   
-  function onSubmit(data: z.infer<typeof addItemFormSchema>) {
+  function onSubmit(data: AddItemFormValues) {
     if (!data.imageUrl) {
         form.setError('imageUrl', { type: 'manual', message: 'Image is required.' });
         toast({
@@ -235,7 +237,7 @@ export function AddItemForm({ onItemAdded }: AddItemFormProps) {
                       ) : (
                         <div className="w-full aspect-square border-2 border-dashed rounded-lg flex flex-col items-center justify-center bg-card hover:bg-muted/50 transition-colors relative">
                            {imagePreview ? (
-                             <Image src={imagePreview} alt="Item preview" layout="fill" className="object-cover rounded-md p-2" />
+                             <Image src={imagePreview} alt="Item preview" fill className="object-cover rounded-md p-2" />
                             ) : (
                               <div className="text-center text-muted-foreground">
                                 <p>No image selected</p>
@@ -303,7 +305,7 @@ export function AddItemForm({ onItemAdded }: AddItemFormProps) {
                     <FormItem>
                       <div className="flex justify-between items-center"><FormLabel>Formal</FormLabel><span className="text-sm text-muted-foreground">{field.value}/10</span></div>
                       <FormControl>
-                        <Slider defaultValue={[field.value]} max={10} step={1} onValueChange={(value) => field.onChange(value[0])} />
+                        <Slider defaultValue={[field.value || 5]} max={10} step={1} onValueChange={(value) => field.onChange(value[0])} />
                       </FormControl>
                     </FormItem>
                   )}
@@ -315,7 +317,7 @@ export function AddItemForm({ onItemAdded }: AddItemFormProps) {
                     <FormItem>
                        <div className="flex justify-between items-center"><FormLabel>Warmth</FormLabel><span className="text-sm text-muted-foreground">{field.value}/10</span></div>
                       <FormControl>
-                        <Slider defaultValue={[field.value]} max={10} step={1} onValueChange={(value) => field.onChange(value[0])} />
+                        <Slider defaultValue={[field.value || 5]} max={10} step={1} onValueChange={(value) => field.onChange(value[0])} />
                       </FormControl>
                     </FormItem>
                   )}
@@ -327,7 +329,7 @@ export function AddItemForm({ onItemAdded }: AddItemFormProps) {
                     <FormItem>
                       <div className="flex justify-between items-center"><FormLabel>Relaxed</FormLabel><span className="text-sm text-muted-foreground">{field.value}/10</span></div>
                       <FormControl>
-                        <Slider defaultValue={[field.value]} max={10} step={1} onValueChange={(value) => field.onChange(value[0])} />
+                        <Slider defaultValue={[field.value || 5]} max={10} step={1} onValueChange={(value) => field.onChange(value[0])} />
                       </FormControl>
                     </FormItem>
                   )}

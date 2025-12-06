@@ -2,63 +2,74 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
-import { ClothingItem } from '@/lib/types';
+import { doc } from 'firebase/firestore';
+import { useFirestore } from '@/firebase';
+import { deleteDocumentNonBlocking } from '@/firebase/non-blocking-updates';
+import type { ClothingItem } from '@/lib/types';
 import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import { ItemDetailsDialog } from './ItemDetailsDialog';
 import { cn } from '@/lib/utils';
-import { BriefcaseIcon, ThermometerIcon, SmileIcon } from '@/components/icons';
+import { Shirt, Trash2 } from 'lucide-react';
 
 interface ItemCardProps {
   item: ClothingItem;
-  onDelete?: (itemId: string) => void;
 }
 
-export function ItemCard({ item, onDelete }: ItemCardProps) {
+export function ItemCard({ item }: ItemCardProps) {
   const [isDetailsOpen, setDetailsOpen] = useState(false);
+  const firestore = useFirestore();
+
+  const handleDelete = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent opening the dialog
+    if (!firestore || !item.userId || !item.id) return;
+    const docRef = doc(firestore, `users/${item.userId}/clothingItems/${item.id}`);
+    deleteDocumentNonBlocking(docRef);
+  };
 
   return (
     <ItemDetailsDialog
       item={item}
       open={isDetailsOpen}
       onOpenChange={setDetailsOpen}
-      onDelete={onDelete}
+      onDelete={() => {
+        if (!firestore || !item.userId || !item.id) return;
+        const docRef = doc(firestore, `users/${item.userId}/clothingItems/${item.id}`);
+        deleteDocumentNonBlocking(docRef);
+      }}
     >
       <Card
-        className={cn(
-          'group overflow-hidden transition-all duration-300 shadow-md hover:shadow-xl bg-card/80 border-0 cursor-pointer hover:-translate-y-1'
-        )}
+        className="group overflow-hidden transition-all duration-300 shadow-md hover:shadow-xl bg-card/80 border-0 cursor-pointer hover:-translate-y-1"
         onClick={() => setDetailsOpen(true)}
       >
-        <CardContent className="p-4">
-          <div className="relative aspect-square bg-background/50 rounded-md flex items-center justify-center mb-4">
-            <Image
-              src={item.imageUrl}
-              alt={item.description}
-              width={100}
-              height={100}
-              className="object-contain transition-transform duration-300 group-hover:scale-110"
-              data-ai-hint={`${item.color} ${item.category}`}
-            />
+        <CardContent className="p-0">
+          <div className="relative aspect-square bg-background/50 rounded-t-lg flex items-center justify-center">
+            {item.imageUrl ? (
+              <Image
+                src={item.imageUrl}
+                alt={item.description}
+                fill
+                className="object-cover transition-transform duration-300 group-hover:scale-110"
+                data-ai-hint={`${item.color} ${item.category}`}
+              />
+            ) : (
+              <Shirt className="w-16 h-16 text-muted-foreground" />
+            )}
+             <button
+              onClick={handleDelete}
+              className="absolute top-2 right-2 z-10 p-1.5 bg-background/50 rounded-full text-foreground/70 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-destructive hover:text-destructive-foreground"
+            >
+              <Trash2 className="w-4 h-4" />
+            </button>
           </div>
-          <div className="text-center">
+          <div className="p-3 text-center">
             <p className="font-semibold truncate text-sm" title={item.description}>
               {item.description}
             </p>
-            <p className="text-xs text-muted-foreground">{item.fabric}</p>
-          </div>
-          <div className="flex items-center justify-center gap-4 mt-3 text-xs text-muted-foreground">
-             <div className="flex items-center gap-1.5">
-                <BriefcaseIcon className="w-3.5 h-3.5" />
-                <span>{item.formal || 0}</span>
-             </div>
-             <div className="flex items-center gap-1.5">
-                <ThermometerIcon className="w-3.5 h-3.5" />
-                <span>{item.warmth || 0}</span>
-             </div>
-             <div className="flex items-center gap-1.5">
-                <SmileIcon className="w-3.5 h-3.5" />
-                <span>{item.relaxed || 0}</span>
-             </div>
+            <div className="flex items-center justify-center gap-2 mt-1.5">
+              <Badge variant="secondary" className="text-xs">{item.category}</Badge>
+              <Badge variant="outline" className="text-xs">{item.season}</Badge>
+            </div>
           </div>
         </CardContent>
       </Card>

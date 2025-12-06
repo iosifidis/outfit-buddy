@@ -1,7 +1,21 @@
+'use client';
+import { useUser } from '@/firebase';
 import { redirect } from 'next/navigation';
 
 export default function Home() {
-  // For now, we redirect to the dashboard.
-  // In a real app, you'd check for authentication status.
-  redirect('/dashboard');
+  const { user, isUserLoading } = useUser();
+
+  if (isUserLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        Loading...
+      </div>
+    );
+  }
+
+  if (user) {
+    redirect('/dashboard');
+  } else {
+    redirect('/login');
+  }
 }
