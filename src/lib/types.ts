@@ -15,6 +15,9 @@ export const ClothingItemSchema = z.object({
   occasion: z.string().describe('Occasion for which the clothing item is suitable'),
   description: z.string().describe('Description of the clothing item'),
   lastWorn: z.string().nullable().describe('Date the item was last worn'),
+  formal: z.number().optional(),
+  warmth: z.number().optional(),
+  relaxed: z.number().optional(),
 });
 
 export type User = {
