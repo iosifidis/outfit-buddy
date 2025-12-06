@@ -52,11 +52,14 @@ export default function HistoryPage() {
                 }
               }}
               classNames={{
-                head_row: 'hidden', // This hides the weekday names (Mon, Tue, etc.)
+                head_row: 'hidden', 
                 month: 'space-y-2',
                 caption_label: 'text-base font-medium',
                 day: 'h-8 w-8',
                 head_cell: 'h-8 w-8',
+                caption: 'flex justify-center items-center relative gap-4',
+                nav_button_previous: 'relative',
+                nav_button_next: 'relative',
               }}
             />
           </Card>
