@@ -1,55 +1,128 @@
 
 import type { ClothingItem } from './types';
-import { PlaceHolderImages } from './placeholder-images';
 import { OutfitHistory } from './types';
 
-const getImage = (id: string) => PlaceHolderImages.find(img => img.id === id)?.imageUrl || '';
+function mapApiToClothingItem(apiItem: any, index: number, userId: string): ClothingItem {
+    let category: ClothingItem['category'] = 'Top';
+    if (apiItem.category === "women's clothing") {
+        if (apiItem.title.toLowerCase().includes('jacket') || apiItem.title.toLowerCase().includes('coat')) {
+            category = 'Outerwear';
+        } else if (apiItem.title.toLowerCase().includes('shirt') || apiItem.title.toLowerCase().includes('top')) {
+            category = 'Top';
+        }
+    }
 
-export const mockClothingItems: ClothingItem[] = [
-  { id: '1', userId: 'user1', imageUrl: 'https://firebasestorage.googleapis.com/v0/b/studio-2998395971-59cfc.appspot.com/o/defaults%2Fclassic-white-tee.png?alt=media', color: 'White', fabric: 'Cotton', pattern: 'Solid', season: 'Summer', length: 'Long', category: 'Top', occasion: 'Casual', description: 'Classic White Tee', lastWorn: '2023-10-15', formal: 2, warmth: 1, relaxed: 10, isFavorite: true },
-  { id: '2', userId: 'user1', imageUrl: 'https://firebasestorage.googleapis.com/v0/b/studio-2998395971-59cfc.appspot.com/o/defaults%2Fcozy-black-hoodie.png?alt=media', color: 'Black', fabric: 'Fleece', pattern: 'Solid', season: 'Winter', length: 'Long', category: 'Outerwear', occasion: 'Casual', description: 'Cozy Black Hoodie', lastWorn: '2023-10-20', formal: 1, warmth: 7, relaxed: 9, isFavorite: false },
-  { id: '3', userId: 'user1', imageUrl: 'https://firebasestorage.googleapis.com/v0/b/studio-2998395971-59cfc.appspot.com/o/defaults%2Fstandard-blue-jeans.png?alt=media', color: 'Blue', fabric: 'Denim', pattern: 'Solid', season: 'Autumn', length: 'Long', category: 'Bottom', occasion: 'Casual', description: 'Standard Blue Jeans', lastWorn: null, formal: 4, warmth: 5, relaxed: 6, isFavorite: true },
-  { id: '4', userId: 'user1', imageUrl: 'https://firebasestorage.googleapis.com/v0/b/studio-2998395971-59cfc.appspot.com/o/defaults%2Foffice-chinos.png?alt=media', color: 'Beige', fabric: 'Cotton Twill', pattern: 'Solid', season: 'Spring', length: 'Long', category: 'Bottom', occasion: 'Business', description: 'Office Chinos', lastWorn: '2023-09-01', formal: 8, warmth: 3, relaxed: 5, isFavorite: false },
-  { id: '5', userId: 'user1', imageUrl: 'https://firebasestorage.googleapis.com/v0/b/studio-2998395971-59cfc.appspot.com/o/defaults%2Fstreet-sneakers.png?alt=media', color: 'White', fabric: 'Leather', pattern: 'Solid', season: 'Spring', length: 'Long', category: 'Shoes', occasion: 'Casual', description: 'Street Sneakers', lastWorn: null, formal: 3, warmth: 4, relaxed: 9, isFavorite: false },
-  { id: '6', userId: 'user1', imageUrl: 'https://firebasestorage.googleapis.com/v0/b/studio-2998395971-59cfc.appspot.com/o/defaults%2Fwinter-boots.png?alt=media', color: 'Brown', fabric: 'Leather', pattern: 'Solid', season: 'Winter', length: 'Long', category: 'Shoes', occasion: 'Everyday', description: 'Winter Boots', lastWorn: '2023-10-22', formal: 5, warmth: 9, relaxed: 4, isFavorite: true },
-  { id: '7', userId: 'user1', imageUrl: 'https://firebasestorage.googleapis.com/v0/b/studio-2998395971-59cfc.appspot.com/o/defaults%2Fvintage-jacket.png?alt=media', color: 'Brown', fabric: 'Denim', pattern: 'Solid', season: 'Autumn', length: 'Long', category: 'Outerwear', occasion: 'Casual', description: 'Vintage Jacket', lastWorn: '2023-10-28', formal: 2, warmth: 6, relaxed: 8, isFavorite: false },
-  { id: '8', userId: 'user1', imageUrl: 'https://firebasestorage.googleapis.com/v0/b/studio-2998395971-59cfc.appspot.com/o/defaults%2Foxford-shirt.png?alt=media', color: 'Blue', fabric: 'Cotton', pattern: 'Solid', season: 'Spring', length: 'Long', category: 'Top', occasion: 'Business', description: 'Oxford Shirt', lastWorn: '2023-08-15', formal: 9, warmth: 2, relaxed: 3, isFavorite: false },
-  { id: '9', userId: 'user1', imageUrl: getImage('item10'), color: 'Brown', fabric: 'Leather', pattern: 'Solid', season: 'Autumn', length: 'Long', category: 'Accessory', occasion: 'Everyday', description: 'Brown Leather Crossbody Bag', lastWorn: null, formal: 4, warmth: 3, relaxed: 7, isFavorite: false },
-  { id: '10', userId: 'user1', imageUrl: getImage('item11'), color: 'Blue', fabric: 'Denim', pattern: 'Solid', season: 'Spring', length: 'Long', category: 'Outerwear', occasion: 'Casual', description: 'Classic Denim Jacket', lastWorn: '2023-10-18', formal: 2, warmth: 4, relaxed: 8, isFavorite: true },
-  { id: '11', userId: 'user1', imageUrl: getImage('item13'), color: 'Gold', fabric: 'Metal', pattern: 'Solid', season: 'Spring', length: 'Long', category: 'Accessory', occasion: 'Party', description: 'Gold Statement Necklace', lastWorn: null, formal: 7, warmth: 0, relaxed: 2, isFavorite: false },
-  { id: '12', userId: 'user1', imageUrl: getImage('item14'), color: 'Pink', fabric: 'Satin', pattern: 'Solid', season: 'Summer', length: 'Midi', category: 'Bottom', occasion: 'Party', description: 'Pink Satin Midi Skirt', lastWorn: '2023-07-20', formal: 8, warmth: 2, relaxed: 4, isFavorite: true },
+    return {
+        id: `${userId}-item-${apiItem.id}`,
+        userId: userId,
+        imageUrl: apiItem.image,
+        color: 'Mixed', // Placeholder
+        fabric: 'Mixed', // Placeholder
+        pattern: 'Solid', // Placeholder
+        season: 'Autumn', // Placeholder
+        length: 'Long', // Placeholder
+        category: category,
+        occasion: 'Casual', // Placeholder
+        description: apiItem.title,
+        lastWorn: index % 3 === 0 ? new Date(new Date().setDate(new Date().getDate() - (index * 2))).toISOString() : null,
+        formal: Math.floor(apiItem.rating.rate),
+        warmth: 3, // Placeholder
+        relaxed: 7, // Placeholder
+        isFavorite: index % 4 === 0,
+    };
+}
+
+
+const fakestoreWomenClothing = [
+    {
+        "id": 15,
+        "title": "BIYLACLESEN Women's 3-in-1 Snowboard Jacket Winter Coats",
+        "price": 56.99,
+        "description": "Note:The Jackets is US standard size, Please choose size as your usual wear Material: 100% Polyester; Detachable Liner Fabric: Warm Fleece. Detachable Functional Liner: Skin Friendly, Lightweigt and Warm.Stand Collar Liner jacket, keep you warm in cold weather. Zippered Pockets: 2 Zippered Hand Pockets, 2 Zippered Pockets on Chest (enough to keep cards or keys)and 1 Hidden Pocket Inside.Zippered Hand Pockets and Hidden Pocket keep your things secure. Humanized Design: Adjustable and Detachable Hood and Adjustable cuff to prevent the wind and water,for a comfortable fit. 2 Inner Pockets Offer a Great Storing for Many Items Like Phone, Krey, Passport, Headset & so on. An ideal Winter Sports Outfits, especially Recording-breaking/Snowboarding/Skiing. You can wear this jacket when you're skiing, snowboarding, hiking, climbing, hunting, fishing, running, camping, walking, driving, traveling, and doing other outdoor activities.",
+        "category": "women's clothing",
+        "image": "https://fakestoreapi.com/img/51Y5NI-I5jL._AC_UX679_.jpg",
+        "rating": {
+            "rate": 2.6,
+            "count": 235
+        }
+    },
+    {
+        "id": 16,
+        "title": "Lock and Love Women's Removable Hooded Faux Leather Moto Biker Jacket",
+        "price": 29.95,
+        "description": "100% POLYURETHANE(shell) 100% POLYESTER(lining) 75% POLYESTER 25% COTTON (SWEATER), Faux leather material for style and comfort / 2 pockets of front, 2-For-One Hooded denim style faux leather jacket, Button detail on waist / Detail stitching at sides, HAND WASH ONLY / DO NOT BLEACH / LINE DRY / DO NOT IRON",
+        "category": "women's clothing",
+        "image": "https://fakestoreapi.com/img/81XH0e8fefL._AC_UY879_.jpg",
+        "rating": {
+            "rate": 2.9,
+            "count": 340
+        }
+    },
+    {
+        "id": 17,
+        "title": "Rain Jacket Women Windbreaker Striped Climbing Raincoats",
+        "price": 39.99,
+        "description": "Lightweight perfet for trip or casual wear---Long sleeve with hooded, adjustable drawstring waist design. Button and zipper front closure raincoat, fully stripes Lined and The Raincoat has 2 side pockets are a good size to hold all kinds of things, it covers the hips, and the hood is generous but doesn't overdo it.Attached Cotton Lined Hood with Adjustable Drawstrings give it a real styled look.",
+        "category": "women's clothing",
+        "image": "https://fakestoreapi.com/img/71HblAHs5xL._AC_UY879_-2.jpg",
+        "rating": {
+            "rate": 3.8,
+            "count": 679
+        }
+    },
+    {
+        "id": 18,
+        "title": "MBJ Women's Solid Short Sleeve Boat Neck V ",
+        "price": 9.85,
+        "description": "95% RAYON 5% SPANDEX, Made in USA or Imported, Do Not Bleach, Lightweight fabric with great stretch for comfort, Ribbed on sleeves and neckline / Double stitching on bottom hem",
+        "category": "women's clothing",
+        "image": "https://fakestoreapi.com/img/71z3kpMAYsL._AC_UY879_.jpg",
+        "rating": {
+            "rate": 4.7,
+            "count": 130
+        }
+    },
+    {
+        "id": 19,
+        "title": "Opna Women's Short Sleeve Moisture",
+        "price": 7.95,
+        "description": "100% Polyester, Machine wash, 100% cationic polyester interlock, Machine Wash & Pre Shrunk for a Great Fit, Lightweight, roomy and highly breathable with moisture wicking fabric which helps to keep moisture away, Soft Lightweight Fabric with comfortable V-neck collar and a slimmer fit, delivers a sleek, more feminine silhouette and Added Comfort",
+        "category": "women's clothing",
+        "image": "https://fakestoreapi.com/img/51eg55uWmdL._AC_UX679_.jpg",
+        "rating": {
+            "rate": 4.5,
+            "count": 146
+        }
+    },
+    {
+        "id": 20,
+        "title": "DANVOUY Womens T Shirt Casual Cotton Short",
+        "price": 12.99,
+        "description": "95%Cotton,5%Spandex, Features: Casual, Short Sleeve, Letter Print,V-Neck,Fashion Tees, The fabric is soft and has some stretch., Occasion: Casual/Office/Beach/School/Home/Street. Season: Spring,Summer,Autumn,Winter.",
+        "category": "women's clothing",
+        "image": "https://fakestoreapi.com/img/61pHAEJ4NML._AC_UX679_.jpg",
+        "rating": {
+            "rate": 3.6,
+            "count": 145
+        }
+    }
 ];
 
-export const mockShopItems: ClothingItem[] = [
-    { id: 'shop1', userId: 'shop', imageUrl: getImage('item1'), color: 'Cream', fabric: 'Silk', pattern: 'Solid', season: 'Spring', length: 'Long', category: 'Top', occasion: 'Evening', description: 'Elegant Silk Blouse', lastWorn: null, formal: 9, warmth: 2, relaxed: 3, isFavorite: false },
-    { id: 'shop2', userId: 'shop', imageUrl: getImage('item4'), color: 'Red', fabric: 'Cotton', pattern: 'Floral', season: 'Summer', length: 'Maxi', category: 'Outerwear', occasion: 'Beach', description: 'Flowy Red Dress', lastWorn: null, formal: 3, warmth: 1, relaxed: 9, isFavorite: false },
-    { id: 'shop3', userId: 'shop', imageUrl: getImage('item5'), color: 'Grey', fabric: 'Wool', pattern: 'Plaid', season: 'Autumn', length: 'Mini', category: 'Bottom', occasion: 'School', description: 'Plaid Mini Skirt', lastWorn: null, formal: 5, warmth: 5, relaxed: 6, isFavorite: false },
-    { id: 'shop4', userId: 'shop', imageUrl: getImage('item7'), color: 'Khaki', fabric: 'Cotton', pattern: 'Solid', season: 'Autumn', length: 'Long', category: 'Outerwear', occasion: 'Everyday', description: 'Classic Trench Coat', lastWorn: null, formal: 7, warmth: 6, relaxed: 4, isFavorite: false },
-    { id: 'shop5', userId: 'shop', imageUrl: getImage('item8'), color: 'Green', fabric: 'Knit', pattern: 'Solid', season: 'Winter', length: 'Long', category: 'Top', occasion: 'Casual', description: 'Chunky Knit Sweater', lastWorn: null, formal: 2, warmth: 8, relaxed: 8, isFavorite: false },
-    { id: 'shop6', userId: 'shop', imageUrl: getImage('item9'), color: 'Light Blue', fabric: 'Denim', pattern: 'Solid', season: 'Summer', length: 'Mini', category: 'Bottom', occasion: 'Casual', description: 'Denim Cutoff Shorts', lastWorn: null, formal: 1, warmth: 1, relaxed: 10, isFavorite: false },
-    { id: 'shop7', userId: 'shop', imageUrl: getImage('item12'), color: 'White', fabric: 'Canvas', pattern: 'Solid', season: 'Spring', length: 'Long', category: 'Shoes', occasion: 'Casual', description: 'White Canvas Sneakers', lastWorn: null, formal: 2, warmth: 3, relaxed: 9, isFavorite: false },
-    { id: 'shop8', userId: 'shop', imageUrl: getImage('item15'), color: 'Black', fabric: 'Cotton', pattern: 'Graphic', season: 'Summer', length: 'Long', category: 'Top', occasion: 'Casual', description: 'Graphic Band Tee', lastWorn: null, formal: 1, warmth: 2, relaxed: 10, isFavorite: false },
-    { id: 'shop9', userId: 'shop', imageUrl: getImage('item16'), color: 'Navy', fabric: 'Wool', pattern: 'Solid', season: 'Winter', length: 'Long', category: 'Outerwear', occasion: 'Business', description: 'Wool Peacoat', lastWorn: null, formal: 8, warmth: 9, relaxed: 3, isFavorite: false },
-];
+export const mockClothingItems: ClothingItem[] = fakestoreWomenClothing.map((item, index) => mapApiToClothingItem(item, index, 'user1'));
+export const mockShopItems: ClothingItem[] = fakestoreWomenClothing.slice(0,4).map((item, index) => mapApiToClothingItem(item, index, 'shop'));
 
 
 export const mockOutfitHistory: Omit<OutfitHistory, 'userId'>[] = [
   {
     id: 'hist1',
     date: new Date(new Date().setDate(new Date().getDate() - 1)), // Yesterday
-    selectedItems: [mockClothingItems[7], mockClothingItems[3], mockClothingItems[4]],
+    selectedItems: [mockClothingItems[0], mockClothingItems[1], mockClothingItems[2]],
     notes: 'Important business review. Wanted to look sharp but comfortable.'
   },
   {
     id: 'hist2',
     date: new Date(new Date().setDate(new Date().getDate() - 3)), // 3 days ago
-    selectedItems: [mockClothingItems[0], mockClothingItems[2], mockClothingItems[9]],
+    selectedItems: [mockClothingItems[3], mockClothingItems[4], mockClothingItems[5]],
     notes: 'Casual Friday, grabbing coffee with the team.'
-  },
-    {
-    id: 'hist3',
-    date: new Date(new Date().setDate(new Date().getDate() - 5)), // 5 days ago
-    selectedItems: [mockClothingItems[1], mockClothingItems[6], mockClothingItems[5]],
-    notes: 'A bit chilly today, went with a cozy and warm outfit for running errands.'
   },
 ];
