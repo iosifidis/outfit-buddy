@@ -38,6 +38,9 @@ export default function HistoryPage() {
               mode="single"
               selected={date}
               onSelect={setDate}
+              captionLayout="dropdown-buttons"
+              fromYear={new Date().getFullYear() - 5}
+              toYear={new Date().getFullYear()}
               className="p-3"
               modifiers={{
                 worn: wornDates,
@@ -58,8 +61,6 @@ export default function HistoryPage() {
                 day: 'h-8 w-8',
                 head_cell: 'h-8 w-8',
                 caption: 'flex justify-center items-center relative gap-4',
-                nav_button_previous: 'relative',
-                nav_button_next: 'relative',
               }}
             />
           </Card>
