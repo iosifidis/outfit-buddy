@@ -8,10 +8,8 @@ import {
   MessageSquare,
   PanelLeft,
   Settings,
-  PlusCircle,
   HeartHandshake,
 } from 'lucide-react';
-import Image from 'next/image';
 
 import {
   SidebarProvider,
@@ -36,10 +34,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Logo } from '@/components/icons';
-import { cn } from '@/lib/utils';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { AddItemSheet } from './wardrobe/AddItemSheet';
-import React from 'react';
 
 const navItems = [
   { href: '/dashboard', icon: Home, label: 'Dashboard' },
@@ -53,7 +48,6 @@ const userAvatar = PlaceHolderImages.find(p => p.id === 'userAvatar');
 function MainSidebar() {
   const pathname = usePathname();
   const { isMobile } = useSidebar();
-  const [isSheetOpen, setSheetOpen] = React.useState(false);
 
   return (
     <Sidebar
@@ -85,22 +79,7 @@ function MainSidebar() {
           ))}
         </SidebarMenu>
       </SidebarContent>
-      <SidebarFooter className="p-2">
-        <AddItemSheet open={isSheetOpen} onOpenChange={setSheetOpen}>
-          <Button
-            variant="ghost"
-            className={cn(
-              'w-full justify-start gap-2',
-              'group-data-[collapsible=icon]:w-8 group-data-[collapsible=icon]:h-8 group-data-[collapsible=icon]:p-2 group-data-[collapsible=icon]:justify-center'
-            )}
-          >
-            <PlusCircle />
-            <span className="group-data-[collapsible=icon]:hidden">
-              Add Item
-            </span>
-          </Button>
-        </AddItemSheet>
-      </SidebarFooter>
+      <SidebarFooter className="p-2"></SidebarFooter>
     </Sidebar>
   );
 }

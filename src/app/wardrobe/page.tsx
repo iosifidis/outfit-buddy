@@ -10,9 +10,9 @@ export default function WardrobePage() {
       <div className="flex-1 p-4 pt-6 space-y-4 md:p-8">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-bold tracking-tight">Digital Wardrobe</h1>
-          <div className="md:hidden">
+          <div>
             <AddItemSheet>
-              <Button size="sm">
+              <Button>
                 <Plus className="w-4 h-4 mr-2" />
                 Add Item
               </Button>
