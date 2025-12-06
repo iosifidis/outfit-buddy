@@ -37,3 +37,5 @@ Access the live application here: **[https://white-grass-0a295f903.3.azurestatic
 2.  Navigate to the **Dashboard**. Observe the Weather and Outlook Calendar integration.
 3.  Check the **AI Stylist** suggestion card. It suggests items based on the "Rainy" weather.
 4.  Go to **Your Impact** (bottom left) to see donation recommendations for unused items.
+
+![Screen](https://github.com/iosifidis/outfit-buddy/blob/main/outfit-buddy.png)
