@@ -59,7 +59,7 @@ const prompt = ai.definePrompt({
   Here are the calendar events: {{calendarEvents}}.
 
   Based on the request, weather, and calendar, suggest an outfit. If the user is asking for another suggestion, do not suggest the same items from the chat history.
-  Respond with the \"suggestedItems\" which is a list of clothing item objects, and a short \"stylistNote\" explaining your choice. Be mindful of the weather and calendar. For example, do not suggest open shoes if it is raining. Suggest appropriate business attire for meetings.
+  Respond with the \"suggestedItems\" which is a list of clothing item objects, and a short \"stylistNote\" explaining your choice. Be mindful of the weather and calendar. For example, do not suggest open shoes if it is raining. Suggest appropriate business attire for meetings. Suggest outerwear if the weather is cold or rainy.
   `,
 });
 

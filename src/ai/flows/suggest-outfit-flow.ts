@@ -25,7 +25,7 @@ const SuggestOutfitOutputSchema = z.object({
   suggestedItems: z.array(ClothingItemSchema).describe('The list of suggested clothing items for the outfit.'),
   stylistNote: z.string().describe('A short note from the AI stylist explaining the outfit choice.'),
 });
-export type SuggestOutfitOutput = z.infer<typeof SuggestOutfitOutputSchema>;
+export type SuggestOutfitOutput = z_infer<typeof SuggestOutfitOutputSchema>;
 
 export async function suggestOutfit(input: SuggestOutfitInput): Promise<SuggestOutfitOutput> {
   return suggestOutfitFlow(input);
@@ -52,7 +52,7 @@ Calendar Event: {{{calendarEvent}}}
 
 Pay attention to items that have been worn recently and try to suggest something different. The 'lastWorn' property indicates the last date the item was worn. Today's date is ${new Date().toISOString().split('T')[0]}.
 
-Output the 'suggestedItems' array with items chosen from the available clothing, and a 'stylistNote' explaining your outfit choice. Make sure the outfit is appropriate for the weather and calendar event.
+Output the 'suggestedItems' array with items chosen from the available clothing, and a 'stylistNote' explaining your outfit choice. Make sure the outfit is appropriate for the weather and calendar event. For example, if it is raining, suggest a suitable jacket or outerwear and avoid suggesting open shoes.
 `,
 });
 
