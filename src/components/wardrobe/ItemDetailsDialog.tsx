@@ -53,9 +53,9 @@ export function ItemDetailsDialog({ item, open, onOpenChange, onDelete }: ItemDe
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl bg-card border-border p-0">
-        <div className="flex">
-          <div className="w-1/2 p-6 pr-0">
+      <DialogContent className="max-w-2xl bg-card border-border p-0 overflow-y-auto max-h-screen">
+        <div className="flex flex-col md:flex-row">
+          <div className="w-full md:w-1/2 p-6 pr-0 md:pr-6">
             <div className="relative aspect-square bg-background rounded-lg flex items-center justify-center">
               <Image
                 src={item.imageUrl}
@@ -68,7 +68,7 @@ export function ItemDetailsDialog({ item, open, onOpenChange, onDelete }: ItemDe
               <Badge className="absolute bottom-3 left-3">{item.category}</Badge>
             </div>
           </div>
-          <div className="w-1/2 p-6 flex flex-col">
+          <div className="w-full md:w-1/2 p-6 flex flex-col">
             <DialogClose className="absolute top-4 right-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
               <X className="h-5 w-5" />
               <span className="sr-only">Close</span>

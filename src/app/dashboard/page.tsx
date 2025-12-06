@@ -276,7 +276,7 @@ export default function DashboardPage() {
                 <WeatherCard />
                 <CalendarCard />
             </div>
-            <div className="lg:col-span-1">
+            <div className="lg:col-span-1 h-[calc(100vh-10rem)]">
                 <StylistCard />
             </div>
         </div>

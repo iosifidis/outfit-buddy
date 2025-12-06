@@ -211,7 +211,7 @@ export function AddItemForm({ onItemAdded }: { onItemAdded: () => void }) {
                           </div>
                         </div>
                       ) : (
-                        <div className="w-full aspect-square border-2 border-dashed rounded-lg flex flex-col items-center justify-center bg-card hover:bg-muted/50 transition-colors">
+                        <div className="w-full aspect-square border-2 border-dashed rounded-lg flex flex-col items-center justify-center bg-card hover:bg-muted/50 transition-colors relative">
                            {imagePreview ? (
                              <Image src={imagePreview} alt="Item preview" layout="fill" className="object-cover rounded-md p-2" />
                             ) : (

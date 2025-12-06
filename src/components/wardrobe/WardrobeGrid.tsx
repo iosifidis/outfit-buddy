@@ -23,7 +23,7 @@ export function WardrobeGrid() {
     <div className="space-y-6">
       <CategoryFilter selected={filter} onSelect={setFilter} />
       {filteredItems.length > 0 ? (
-         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
             {filteredItems.map(item => (
               <ItemCard key={item.id} item={item} onDelete={handleDelete} />
             ))}
