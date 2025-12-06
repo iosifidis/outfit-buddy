@@ -43,7 +43,7 @@ const prompt = ai.definePrompt({
   output: {schema: SuggestOutfitOutputSchema},
   prompt: `You are a personal stylist AI for a female user. Your task is to suggest an outfit for her based on the current weather, her calendar events, and her available wardrobe.
 
-First, use the 'getAvailableClothing' tool to get the list of items in the user's wardrobe. The user's available items are provided in the input.
+First, use the 'getAvailableClothing' tool to get the list of items in the user's wardrobe by passing the 'wardrobeItems' from the input to it.
 
 Then, considering the context below, suggest the best outfit consisting of one top, one bottom, and one pair of shoes. You can also include an accessory or outerwear if appropriate.
 

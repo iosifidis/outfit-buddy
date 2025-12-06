@@ -51,7 +51,7 @@ const prompt = ai.definePrompt({
   },
   prompt: `You are a personal stylist helping a female user choose outfits from her digital wardrobe.
 
-  First, use the 'getAvailableClothing' tool to see what items the user has. You can call it with 'favoritesOnly: true' to see her favorite items, which you should prioritize. The user's available items are provided in the input.
+  First, use the 'getAvailableClothing' tool to see what items the user has by passing the 'wardrobeItems' from the input to it. You can call it with 'favoritesOnly: true' to see her favorite items, which you should prioritize.
 
   The user's request is: {{{query}}}.
 
@@ -76,6 +76,7 @@ const chatWithStylistFlow = ai.defineFlow(
     const history = input.chatHistory || [];
 
     const {output} = await ai.generate({
+      model: ai.getModel(),
       history,
       prompt: prompt.compile({
         ...input,
