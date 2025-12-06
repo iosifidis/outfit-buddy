@@ -39,3 +39,11 @@ Access the live application here: **[https://white-grass-0a295f903.3.azurestatic
 4.  Go to **Your Impact** (bottom left) to see donation recommendations for unused items.
 
 ![Screen](https://github.com/iosifidis/outfit-buddy/blob/main/outfit-buddy.png)
+
+## Developers
+
+1. Efstathios Iosifidis
+2. Efrosini Nalbanti
+3. Dimitris Topalidis
+4. Christos Kopsahilis
+5. Evagelia Tsioumani
