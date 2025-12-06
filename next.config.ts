@@ -1,7 +1,7 @@
 import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
-  output: 'export', // <--- ΣΗΜΑΝΤΙΚΟ: Αυτό φτιάχνει τον φάκελο "out"
+  output: 'standalone', // <--- ΑΛΛΑΓΗ: Από 'export' το κάνουμε 'standalone'
   
   typescript: {
     ignoreBuildErrors: true,
@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
   images: {
-    unoptimized: true, // <--- ΣΗΜΑΝΤΙΚΟ: Χωρίς αυτό οι εικόνες δεν παίζουν στο Azure Free
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
