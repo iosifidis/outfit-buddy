@@ -39,82 +39,8 @@ function createMockItem(
   };
 }
 
-export const mockClothingItems: ClothingItem[] = [
-  createMockItem('1', 'item1', 'Top', {
-    color: 'White',
-    fabric: 'Silk',
-    occasion: 'Business',
-    formal: 8,
-    isFavorite: true,
-  }),
-  createMockItem('2', 'item2', 'Bottom', {
-    color: 'Black',
-    fabric: 'Wool',
-    occasion: 'Business',
-    formal: 9,
-    lastWorn: new Date(new Date().setDate(new Date().getDate() - 5)).toISOString(),
-  }),
-  createMockItem('3', 'item3', 'Shoes', { color: 'Black', fabric: 'Leather', occasion: 'Business', formal: 8 }),
-  createMockItem('4', 'item4', 'Bottom', {
-    color: 'Red',
-    fabric: 'Cotton',
-    season: 'Summer',
-    occasion: 'Party',
-    isFavorite: true,
-    lastWorn: new Date(new Date().setDate(new Date().getDate() - 2)).toISOString(),
-  }),
-  createMockItem('5', 'item5', 'Bottom', { color: 'Gray', pattern: 'Plaid', season: 'Autumn', isFavorite: true }),
-  createMockItem('6', 'item6', 'Shoes', {
-    color: 'Black',
-    fabric: 'Leather',
-    season: 'Winter',
-    lastWorn: new Date(new Date().setDate(new Date().getDate() - 10)).toISOString(),
-  }),
-  createMockItem('7', 'item7', 'Outerwear', { color: 'Beige', fabric: 'Gabardine', season: 'Spring' }),
-  createMockItem('8', 'item8', 'Top', { color: 'Olive', fabric: 'Wool', season: 'Winter', isFavorite: true }),
-  createMockItem('9', 'item9', 'Bottom', { color: 'Blue', fabric: 'Denim', season: 'Summer' }),
-  createMockItem('10', 'item10', 'Accessory', { color: 'Brown', fabric: 'Leather' }),
-  createMockItem('11', 'item11', 'Outerwear', { color: 'Blue', fabric: 'Denim', isFavorite: false }),
-  createMockItem('12', 'item12', 'Shoes', { color: 'White', fabric: 'Canvas', occasion: 'Casual' }),
-  createMockItem('13', 'item13', 'Accessory', { color: 'Gold', fabric: 'Metal', occasion: 'Party' }),
-  createMockItem('14', 'item14', 'Bottom', {
-    color: 'Pink',
-    fabric: 'Satin',
-    occasion: 'Party',
-    season: 'Spring',
-    isFavorite: false,
-  }),
-  createMockItem('15', 'item15', 'Top', { color: 'Black', fabric: 'Cotton', pattern: 'Graphic' }),
-  createMockItem('16', 'item16', 'Outerwear', {
-    color: 'Black',
-    fabric: 'Wool',
-    season: 'Winter',
-    formal: 9,
-    isFavorite: true,
-  }),
-];
+export const mockClothingItems: ClothingItem[] = [];
 
-// For the shop, we can create a few items that don't exist in the user's wardrobe
-export const mockShopItems: ClothingItem[] = [
-  { ...createMockItem('shop1', 'item11', 'Outerwear'), userId: 'shop' },
-  { ...createMockItem('shop2', 'item12', 'Shoes'), userId: 'shop' },
-  { ...createMockItem('shop3', 'item13', 'Accessory'), userId: 'shop' },
-  { ...createMockItem('shop4', 'item14', 'Bottom'), userId: 'shop' },
-  { ...createMockItem('shop5', 'item15', 'Top'), userId: 'shop' },
-  { ...createMockItem('shop6', 'item16', 'Outerwear'), userId: 'shop' },
-];
+export const mockShopItems: ClothingItem[] = [];
 
-export const mockOutfitHistory: Omit<OutfitHistory, 'userId'>[] = [
-  {
-    id: 'hist1',
-    date: new Date(new Date().setDate(new Date().getDate() - 1)), // Yesterday
-    selectedItems: [mockClothingItems[0], mockClothingItems[1], mockClothingItems[2]],
-    notes: 'Important business review. Wanted to look sharp but comfortable.'
-  },
-  {
-    id: 'hist2',
-    date: new Date(new Date().setDate(new Date().getDate() - 3)), // 3 days ago
-    selectedItems: [mockClothingItems[3], mockClothingItems[4], mockClothingItems[5]],
-    notes: 'Casual Friday, grabbing coffee with the team.'
-  },
-];
+export const mockOutfitHistory: Omit<OutfitHistory, 'userId'>[] = [];
