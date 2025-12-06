@@ -46,7 +46,7 @@ export async function suggestOutfit(input: SuggestOutfitInput): Promise<SuggestO
 const getAvailableClothing = ai.defineTool(
   {
     name: 'getAvailableClothing',
-    description: 'Returns a list of available clothing items for the user.',
+    description: "Returns a list of available clothing items for the user. These are women's clothes.",
     inputSchema: z.object({
       userId: z.string(),
     }),
@@ -69,11 +69,11 @@ const prompt = ai.definePrompt({
     }),
   },
   output: {schema: SuggestOutfitOutputSchema},
-  prompt: `You are a personal stylist AI. Your task is to suggest an outfit for a user based on the current weather, their calendar events, and their available wardrobe.
+  prompt: `You are a personal stylist AI for a female user. Your task is to suggest an outfit for her based on the current weather, her calendar events, and her available wardrobe.
 
 First, use the 'getAvailableClothing' tool to get the list of items in the user's wardrobe.
 
-Then, considering the context below, suggest the best outfit consisting of one top, one bottom, and one pair of shoes.
+Then, considering the context below, suggest the best outfit consisting of one top, one bottom, and one pair of shoes. You can also include an accessory or outerwear if appropriate.
 
 Weather Conditions: {{{weatherCondition}}}
 Calendar Event: {{{calendarEvent}}}

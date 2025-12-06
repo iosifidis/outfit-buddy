@@ -2,39 +2,39 @@
   "placeholderImages": [
     {
       "id": "item1",
-      "description": "Blue cotton t-shirt",
-      "imageUrl": "https://images.unsplash.com/photo-1758267928367-35886ad47bc4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxibHVlJTIwdC1zaGlydHxlbnwwfHx8fDE3NjUwMjc3OTB8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "blue t-shirt"
+      "description": "Blue floral blouse",
+      "imageUrl": "https://images.unsplash.com/photo-1589134812389-75571c6a2e45?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxmbG9yYWwlMjBibG91c2V8ZW58MHx8fHwxNzY1Mjc4MTEyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "floral blouse"
     },
     {
       "id": "item2",
-      "description": "Black denim jeans",
-      "imageUrl": "https://images.unsplash.com/photo-1744383390068-abfc7bc7fd07?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxibGFjayUyMGplYW5zfGVufDB8fHx8MTc2NTAyNzc5MXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "description": "Black skinny jeans",
+      "imageUrl": "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxibGFjayUyMHNraW5ueSUyMGplYW5zfGVufDB8fHx8MTc2NTI3ODExM3ww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "black jeans"
     },
     {
       "id": "item3",
-      "description": "White leather sneakers",
-      "imageUrl": "https://images.unsplash.com/photo-1597350584914-55bb62285896?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx3aGl0ZSUyMHNuZWFrZXJzfGVufDB8fHx8MTc2NDkyMTg5MXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "description": "White canvas sneakers",
+      "imageUrl": "https://images.unsplash.com/photo-1608231387042-66d1773070a5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx3aGl0ZSUyMGNhbnZhcyUyMHNuZWFrZXJzfGVufDB8fHx8MTc2NTI3ODExM3ww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "white sneakers"
     },
     {
       "id": "item4",
-      "description": "Red silk blouse",
-      "imageUrl": "https://images.unsplash.com/photo-1762331967924-0229c616a46f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxyZWQlMjBibG91c2V8ZW58MHx8fHwxNzY1MDI3NzkxfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "red blouse"
+      "description": "Red summer dress",
+      "imageUrl": "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxyZWQlMjBzdW1tZXIlMjBkcmVzc3xlbnwwfHx8fDE3NjUyNzgxMTN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "red dress"
     },
     {
       "id": "item5",
-      "description": "Gray wool trousers",
-      "imageUrl": "https://images.unsplash.com/photo-1592467674817-23092d6d3f3e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxncmF5JTIwdHJvdXNlcnN8ZW58MHx8fHwxNzY1MDI3NzkxfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "gray trousers"
+      "description": "Gray plaid skirt",
+      "imageUrl": "https://images.unsplash.com/photo-1582787114695-4273c59059c2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxncmF5JTIwcGxhaWQlMjBza2lydHxlbnwwfHx8fDE3NjUyNzgxMTR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "plaid skirt"
     },
     {
       "id": "item6",
-      "description": "Black leather heels",
-      "imageUrl": "https://images.unsplash.com/photo-1519748771451-a94c596fad67?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxibGFjayUyMGhlZWxzfGVufDB8fHx8MTc2NTAxNjkyM3ww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "black heels"
+      "description": "Black ankle boots",
+      "imageUrl": "https://images.unsplash.com/photo-1603577093229-373b40526a7f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxibGFjayUyMGFua2xlJTIwYm9vdHN8ZW58MHx8fHwxNzY1Mjc4MTE0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "ankle boots"
     },
     {
       "id": "item7",
@@ -44,27 +44,27 @@
     },
     {
       "id": "item8",
-      "description": "Green hoodie",
-      "imageUrl": "https://images.unsplash.com/photo-1569534038640-69a6a85e9adf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxncmVlbiUyMGhvb2RpZXxlbnwwfHx8fDE3NjUwMTEwNTB8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "green hoodie"
+      "description": "Olive green knit sweater",
+      "imageUrl": "https://images.unsplash.com/photo-1616781294178-062df6746237?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxvbGl2ZSUyMGdyZWVuJTIwa25pdCUyMHN3ZWF0ZXJ8ZW58MHx8fHwxNzY1Mjc4MTE1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "knit sweater"
     },
     {
       "id": "item9",
-      "description": "Denim shorts",
+      "description": "High-waisted denim shorts",
       "imageUrl": "https://images.unsplash.com/photo-1630331010250-7524271ed506?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxkZW5pbSUyMHNob3J0c3xlbnwwfHx8fDE3NjUwMjc3OTF8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "denim shorts"
     },
     {
       "id": "item10",
-      "description": "Brown leather boots",
-      "imageUrl": "https://images.unsplash.com/photo-1639270602419-6392f0723174?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxsZWF0aGVyJTIwYm9vdHN8ZW58MHx8fHwxNzY0OTU5NDUyfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "leather boots"
+      "description": "Brown leather crossbody bag",
+      "imageUrl": "https://images.unsplash.com/photo-1629156763116-29a3a992fb09?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxicm93biUyMGxlYXRoZXIlMjBjcm9zc2JvZHklMjBiYWd8ZW58MHx8fHwxNzY1Mjc4MTE2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "crossbody bag"
     },
     {
       "id": "userAvatar",
-      "description": "User avatar placeholder",
-      "imageUrl": "https://images.unsplash.com/photo-1641288883869-c463bc6c2a58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxwZXJzb24lMjBhdmF0YXJ8ZW58MHx8fHwxNzY0OTMwNTQxfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "person avatar"
+      "description": "Woman avatar placeholder",
+      "imageUrl": "https://images.unsplash.com/photo-1580489944761-15a19d654956?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx3b21hbiUyMGF2YXRhcnxlbnwwfHx8fDE3NjUyNzgxMTd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "woman avatar"
     }
   ]
 }
