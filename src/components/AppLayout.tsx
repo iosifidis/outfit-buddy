@@ -38,8 +38,8 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 const navItems = [
   { href: '/dashboard', icon: Home, label: 'Dashboard' },
-  { href: '/wardrobe', icon: Shirt, label: 'Wardrobe' },
   { href: '/chat', icon: MessageSquare, label: 'Chat Stylist' },
+  { href: '/wardrobe', icon: Shirt, label: 'Wardrobe' },
   { href: '/impact', icon: HeartHandshake, label: 'Your Impact' },
 ];
 
