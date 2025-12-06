@@ -19,21 +19,23 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button } from '../ui/button';
-import { MoreVertical } from 'lucide-react';
+import { MoreVertical, Heart } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { cn } from '@/lib/utils';
 
 
 interface ItemCardProps {
   item: ClothingItem;
   onDeleteItem: (itemId: string) => void;
+  onToggleFavorite: (itemId: string) => void;
 }
 
-export function ItemCard({ item, onDeleteItem }: ItemCardProps) {
+export function ItemCard({ item, onDeleteItem, onToggleFavorite }: ItemCardProps) {
   const [isDetailsOpen, setDetailsOpen] = useState(false);
 
   const handleDelete = (e: React.MouseEvent) => {
@@ -43,6 +45,15 @@ export function ItemCard({ item, onDeleteItem }: ItemCardProps) {
       title: 'Item Deleted',
       description: `${item.description} has been removed.`,
       variant: 'destructive',
+    });
+  };
+  
+  const handleFavoriteClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onToggleFavorite(item.id);
+    toast({
+      title: item.isFavorite ? 'Removed from Favorites' : 'Added to Favorites',
+      description: `${item.description} has been ${item.isFavorite ? 'removed from' : 'added to'} your favorites.`,
     });
   };
 
@@ -76,6 +87,14 @@ export function ItemCard({ item, onDeleteItem }: ItemCardProps) {
                         <BriefcaseIcon className="w-16 h-16 text-muted-foreground" />
                     </div>
                 )}
+                 <Button
+                  variant="ghost"
+                  size="icon"
+                  className="absolute top-0 left-0 h-7 w-7 text-pink-500 rounded-full bg-transparent hover:bg-pink-500/10"
+                  onClick={handleFavoriteClick}
+                >
+                  <Heart className={cn("h-4 w-4", item.isFavorite && "fill-current")} />
+                </Button>
             </div>
 
             <h3 className="font-semibold text-sm truncate w-full" title={item.description}>

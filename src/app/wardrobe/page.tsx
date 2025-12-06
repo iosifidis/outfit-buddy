@@ -28,6 +28,14 @@ export default function WardrobePage() {
     setItems(prevItems => prevItems.filter(item => item.id !== itemId));
   };
 
+  const handleToggleFavorite = (itemId: string) => {
+    setItems(prevItems =>
+      prevItems.map(item =>
+        item.id === itemId ? { ...item, isFavorite: !item.isFavorite } : item
+      )
+    );
+  };
+
 
   return (
     <AppLayout>
@@ -57,7 +65,7 @@ export default function WardrobePage() {
              <p>Your wardrobe is empty. Start by adding some items!</p>
            </div>
         ) : (
-          <WardrobeGrid items={items} onItemDeleted={handleItemDeleted} />
+          <WardrobeGrid items={items} onItemDeleted={handleItemDeleted} onToggleFavorite={handleToggleFavorite} />
         )}
       </div>
     </AppLayout>

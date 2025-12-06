@@ -18,6 +18,7 @@ export const ClothingItemSchema = z.object({
   formal: z.number().optional(),
   warmth: z.number().optional(),
   relaxed: z.number().optional(),
+  isFavorite: z.boolean().optional(),
 });
 
 export type User = {
