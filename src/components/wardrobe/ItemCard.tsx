@@ -108,22 +108,22 @@ export function ItemCard({ item, onDeleteItem, onToggleFavorite }: ItemCardProps
             </div>
 
             <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-            <AlertDialog onOpenChange={(e) => e.stopPropagation()}>
+            <AlertDialog>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="icon" className="h-7 w-7" onClick={(e) => e.stopPropagation()}>
                     <MoreVertical className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent onClick={(e) => e.stopPropagation()}>
+                <DropdownMenuContent>
                   <AlertDialogTrigger asChild>
-                    <DropdownMenuItem className="text-destructive focus:text-destructive">
+                    <DropdownMenuItem className="text-destructive focus:text-destructive" onSelect={(e) => e.preventDefault()}>
                       Delete
                     </DropdownMenuItem>
                   </AlertDialogTrigger>
                 </DropdownMenuContent>
               </DropdownMenu>
-              <AlertDialogContent onClick={(e) => e.stopPropagation()}>
+              <AlertDialogContent>
                 <AlertDialogHeader>
                   <AlertDialogTitle>Are you sure?</AlertDialogTitle>
                   <AlertDialogDescription>
