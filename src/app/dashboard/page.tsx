@@ -31,7 +31,7 @@ async function DailyRecommendation() {
 
   if (!recommendation) {
     return (
-      <Card className="lg:col-span-3 flex flex-col items-center justify-center p-8 text-center">
+      <Card className="lg:col-span-4 flex flex-col items-center justify-center p-8 text-center">
         <CardHeader>
           <CardTitle>Could not generate a recommendation</CardTitle>
           <CardDescription>
@@ -45,7 +45,7 @@ async function DailyRecommendation() {
   const outfitItems = recommendation.suggestedItems;
 
   return (
-    <Card className="col-span-1 lg:col-span-3">
+    <Card className="col-span-1 lg:col-span-4">
       <CardHeader>
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-2">
           <div>
@@ -114,8 +114,8 @@ function ContextCards() {
   const calendar = getCalendarEvents();
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:contents">
-       <Card className="col-span-1">
+    <>
+       <Card className="col-span-1 lg:col-span-2">
         <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
           <CardTitle className="text-sm font-medium">Weather</CardTitle>
           <Cloudy className="w-4 h-4 text-muted-foreground" />
@@ -130,7 +130,7 @@ function ContextCards() {
           </div>
         </CardContent>
       </Card>
-      <Card className="col-span-1">
+      <Card className="col-span-1 lg:col-span-2">
         <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
           <CardTitle className="text-sm font-medium">
             Today's Main Event
@@ -142,7 +142,7 @@ function ContextCards() {
           <p className="text-xs text-muted-foreground">at {calendar.time}</p>
         </CardContent>
       </Card>
-    </div>
+    </>
   );
 }
 
@@ -152,8 +152,8 @@ export default async function DashboardPage() {
       <div className="flex-1 p-4 pt-6 space-y-4 md:p-8">
         <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-4">
-          <DailyRecommendation />
           <ContextCards />
+          <DailyRecommendation />
         </div>
       </div>
     </AppLayout>
