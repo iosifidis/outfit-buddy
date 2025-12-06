@@ -14,6 +14,7 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Skeleton } from '../ui/skeleton';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import Link from 'next/link';
+import { cn } from '@/lib/utils';
 
 const userAvatar = PlaceHolderImages.find(p => p.id === 'userAvatar');
 
@@ -35,19 +36,27 @@ export function ChatInterface() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const scrollToBottom = () => {
     if (scrollAreaRef.current) {
-      scrollAreaRef.current.scrollTo({
-        top: scrollAreaRef.current.scrollHeight,
-        behavior: 'smooth',
-      });
+      const viewport = scrollAreaRef.current.querySelector('div');
+      if (viewport) {
+        viewport.scrollTo({
+          top: viewport.scrollHeight,
+          behavior: 'smooth',
+        });
+      }
     }
   };
 
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+  
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -80,15 +89,15 @@ export function ChatInterface() {
   };
 
   return (
-    <div className="flex-1 flex flex-col">
-      <ScrollArea className="flex-1 p-4" ref={scrollAreaRef}>
-        <div className="space-y-6">
+    <div className="flex-1 flex flex-col h-full">
+      <ScrollArea className="flex-1" ref={scrollAreaRef}>
+        <div className="space-y-6 p-4">
           {messages.map(message => (
             <div
               key={message.id}
-              className={`flex items-start gap-3 ${
-                message.sender === 'user' ? 'justify-end' : ''
-              }`}
+              className={cn('flex items-start gap-3',
+                message.sender === 'user' ? 'justify-end' : 'justify-start'
+              )}
             >
               {message.sender === 'ai' && (
                 <Avatar className="w-8 h-8 border">
@@ -98,11 +107,11 @@ export function ChatInterface() {
                 </Avatar>
               )}
               <div
-                className={`max-w-md rounded-xl p-3 ${
+                className={cn('max-w-xs md:max-w-md rounded-xl p-3',
                   message.sender === 'user'
                     ? 'bg-primary text-primary-foreground'
                     : 'bg-card'
-                }`}
+                )}
               >
                 {message.text && <p className="text-sm">{message.text}</p>}
                 {message.items && message.items.length > 0 && (
@@ -158,6 +167,7 @@ export function ChatInterface() {
       <div className="p-4 bg-background border-t">
         <form onSubmit={handleSendMessage} className="flex items-center gap-3">
           <Input
+            ref={inputRef}
             value={input}
             onChange={e => setInput(e.target.value)}
             placeholder="Ask for an outfit..."

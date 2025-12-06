@@ -1,3 +1,4 @@
+
 import {
   Cloudy,
   Calendar,
@@ -28,11 +29,9 @@ import Link from 'next/link';
 async function DailyRecommendation() {
   const recommendation = await getOutfitSuggestion();
 
-  const getFullItem = (id: string) => mockClothingItems.find(i => i.id === id);
-
   if (!recommendation) {
     return (
-      <Card className="col-span-1 lg:col-span-4 flex flex-col items-center justify-center p-8 text-center">
+      <Card className="lg:col-span-3 flex flex-col items-center justify-center p-8 text-center">
         <CardHeader>
           <CardTitle>Could not generate a recommendation</CardTitle>
           <CardDescription>
@@ -43,22 +42,12 @@ async function DailyRecommendation() {
     );
   }
 
-  const top = getFullItem(
-    recommendation.suggestedItems.find(i => i.category === 'Top')?.id || ''
-  );
-  const bottom = getFullItem(
-    recommendation.suggestedItems.find(i => i.category === 'Bottom')?.id || ''
-  );
-  const shoes = getFullItem(
-    recommendation.suggestedItems.find(i => i.category === 'Shoes')?.id || ''
-  );
-
-  const outfitItems = [top, bottom, shoes].filter(Boolean);
+  const outfitItems = recommendation.suggestedItems;
 
   return (
-    <Card className="col-span-1 lg:col-span-4">
+    <Card className="col-span-1 lg:col-span-3">
       <CardHeader>
-        <div className="flex items-start justify-between">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-2">
           <div>
             <CardTitle className="text-2xl">Today's Outfit</CardTitle>
             <CardDescription>
@@ -71,37 +60,42 @@ async function DailyRecommendation() {
           </Badge>
         </div>
       </CardHeader>
-      <CardContent className="grid gap-6 md:grid-cols-3">
-        {outfitItems.map(item => (
-          item && (
-          <div key={item.id} className="relative group">
-            <Card className="overflow-hidden">
-              <Image
-                src={item.imageUrl}
-                alt={item.description}
-                width={400}
-                height={600}
-                className="object-cover w-full h-auto aspect-[2/3] transition-transform duration-300 group-hover:scale-105"
-                data-ai-hint={`${item.color} ${item.category}`}
-              />
-            </Card>
-            <div className="mt-2 text-center">
-              <p className="font-semibold">{item.description}</p>
-              <p className="text-sm text-muted-foreground">{item.category}</p>
-            </div>
-          </div>
-          )
-        ))}
+      <CardContent>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {outfitItems.map(
+            item =>
+              item && (
+                <div key={item.id} className="relative group">
+                  <Card className="overflow-hidden">
+                    <Image
+                      src={item.imageUrl}
+                      alt={item.description}
+                      width={400}
+                      height={600}
+                      className="object-cover w-full h-auto aspect-[2/3] transition-transform duration-300 group-hover:scale-105"
+                      data-ai-hint={`${item.color} ${item.category}`}
+                    />
+                  </Card>
+                  <div className="mt-2 text-center">
+                    <p className="font-semibold">{item.description}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {item.category}
+                    </p>
+                  </div>
+                </div>
+              )
+          )}
+        </div>
       </CardContent>
       <Separator className="my-4" />
-      <CardFooter className="flex flex-col items-start gap-4 md:flex-row md:justify-between">
+      <CardFooter className="flex flex-col items-stretch gap-4 md:flex-row md:items-center md:justify-between">
         <div className="max-w-md p-4 rounded-lg bg-muted/50">
           <p className="text-sm font-semibold">Stylist's Note</p>
           <p className="text-sm text-muted-foreground">
             {recommendation.stylistNote}
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 justify-end">
           <Button variant="outline">
             <Shirt className="w-4 h-4 mr-2" />
             Mark as Worn
@@ -120,8 +114,8 @@ function ContextCards() {
   const calendar = getCalendarEvents();
 
   return (
-    <>
-      <Card>
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:contents">
+       <Card className="col-span-1">
         <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
           <CardTitle className="text-sm font-medium">Weather</CardTitle>
           <Cloudy className="w-4 h-4 text-muted-foreground" />
@@ -136,7 +130,7 @@ function ContextCards() {
           </div>
         </CardContent>
       </Card>
-      <Card>
+      <Card className="col-span-1">
         <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
           <CardTitle className="text-sm font-medium">
             Today's Main Event
@@ -148,7 +142,7 @@ function ContextCards() {
           <p className="text-xs text-muted-foreground">at {calendar.time}</p>
         </CardContent>
       </Card>
-    </>
+    </div>
   );
 }
 
@@ -157,11 +151,9 @@ export default async function DashboardPage() {
     <AppLayout>
       <div className="flex-1 p-4 pt-6 space-y-4 md:p-8">
         <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <ContextCards />
-        </div>
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-4">
           <DailyRecommendation />
+          <ContextCards />
         </div>
       </div>
     </AppLayout>
