@@ -70,12 +70,10 @@ const chatWithStylistFlow = ai.defineFlow(
   async input => {
     const weather = await getWeather();
     const calendarEvents = await getCalendarEvents();
-
-    const llm = ai.getModel(ai.getModel()!)
+    
     const history = input.chatHistory || [];
 
     const {output} = await ai.generate({
-      model: llm,
       history,
       prompt: prompt.compile({
         ...input,
