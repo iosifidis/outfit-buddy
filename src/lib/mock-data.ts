@@ -63,23 +63,51 @@ export const mockShopItems: ClothingItem[] = [
   createMockItem('s6', 'item8', 'Top', { userId: 'shop', color: 'Olive Green', fabric: 'Knit', season: 'Autumn', warmth: 7, relaxed: 7 }),
 ];
 
-export const mockOutfitHistory: Omit<OutfitHistory, 'userId'>[] = [
-  {
-    id: '1',
-    date: new Date('2024-07-22T12:00:00.000Z'),
-    selectedItems: [mockClothingItems[8], mockClothingItems[3], mockClothingItems[11]],
-    notes: 'A bit chilly today, the denim jacket was a good call.'
-  },
-  {
-    id: '2',
-    date: new Date('2024-07-20T12:00:00.000Z'),
-    selectedItems: [mockClothingItems[1], mockClothingItems[0], mockClothingItems[2]],
-    notes: 'Important meeting. Felt confident in the business outfit.'
-  },
-   {
-    id: '3',
-    date: new Date('2024-06-10T12:00:00.000Z'),
-    selectedItems: [mockClothingItems[4], mockClothingItems[7], mockClothingItems[5]],
-    notes: 'Casual Friday, perfect for the plaid skirt.'
-  },
-];
+
+const generateDecemberHistory = (): Omit<OutfitHistory, 'userId'>[] => {
+  const history: Omit<OutfitHistory, 'userId'>[] = [];
+  const year = 2025;
+  const month = 11; // December (0-indexed)
+
+  const tops = mockClothingItems.filter(item => item.category === 'Top');
+  const bottoms = mockClothingItems.filter(item => item.category === 'Bottom');
+  const shoes = mockClothingItems.filter(item => item.category === 'Shoes');
+  const outerwears = mockClothingItems.filter(item => item.category === 'Outerwear');
+
+  const notes = [
+    "Felt great in this outfit today!",
+    "A bit chilly, probably should have worn a jacket.",
+    "Perfect for the office meeting.",
+    "Comfortable and casual for a day out.",
+    "Got a compliment on my shoes!",
+    "This combination works surprisingly well.",
+    "A classic look that never fails.",
+  ];
+
+  for (let day = 1; day <= 31; day++) {
+    const selectedItems: ClothingItem[] = [];
+    
+    const top = tops[Math.floor(Math.random() * tops.length)];
+    const bottom = bottoms[Math.floor(Math.random() * bottoms.length)];
+    const shoe = shoes[Math.floor(Math.random() * shoes.length)];
+
+    selectedItems.push(top, bottom, shoe);
+
+    // Occasionally add outerwear
+    if (Math.random() > 0.5) {
+      const outerwear = outerwears[Math.floor(Math.random() * outerwears.length)];
+      selectedItems.push(outerwear);
+    }
+    
+    history.push({
+      id: (day).toString(),
+      date: new Date(year, month, day),
+      selectedItems: selectedItems,
+      notes: notes[Math.floor(Math.random() * notes.length)],
+    });
+  }
+  return history;
+}
+
+
+export const mockOutfitHistory: Omit<OutfitHistory, 'userId'>[] = generateDecemberHistory();
