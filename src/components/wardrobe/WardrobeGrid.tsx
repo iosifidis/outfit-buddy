@@ -1,19 +1,18 @@
 'use client';
 
 import { useState } from 'react';
-import { mockClothingItems } from '@/lib/mock-data';
 import { ItemCard } from './ItemCard';
 import { CategoryFilter } from './CategoryFilter';
 import type { Category } from '@/lib/types';
 import type { ClothingItem } from '@/lib/types';
 
-export function WardrobeGrid() {
-  const [items, setItems] = useState<ClothingItem[]>(mockClothingItems.filter(item => item.userId === 'user1'));
-  const [filter, setFilter] = useState<Category | 'All'>('All');
+interface WardrobeGridProps {
+  items: ClothingItem[];
+  onDelete: (itemId: string) => void;
+}
 
-  const handleDelete = (itemId: string) => {
-    setItems(prev => prev.filter(item => item.id !== itemId));
-  };
+export function WardrobeGrid({ items, onDelete }: WardrobeGridProps) {
+  const [filter, setFilter] = useState<Category | 'All'>('All');
 
   const filteredItems = filter === 'All'
     ? items
@@ -25,7 +24,7 @@ export function WardrobeGrid() {
       {filteredItems.length > 0 ? (
          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
             {filteredItems.map(item => (
-              <ItemCard key={item.id} item={item} onDelete={handleDelete} />
+              <ItemCard key={item.id} item={item} onDelete={onDelete} />
             ))}
           </div>
       ) : (

@@ -5,16 +5,32 @@ import { AppLayout } from '@/components/AppLayout';
 import { WardrobeGrid } from '@/components/wardrobe/WardrobeGrid';
 import { AddItemForm } from '@/components/wardrobe/AddItemForm';
 import { Button } from '@/components/ui/button';
-import { Plus, X } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { type ClothingItem } from '@/lib/types';
+import { mockClothingItems } from '@/lib/mock-data';
 
 
 export default function WardrobePage() {
   const [showAddItemDialog, setShowAddItemDialog] = useState(false);
+  const [items, setItems] = useState<ClothingItem[]>(mockClothingItems.filter(item => item.userId === 'user1'));
 
-  const handleItemAdded = () => {
+  const handleItemAdded = (newItem: Omit<ClothingItem, 'id' | 'userId' | 'lastWorn'>) => {
+    const fullItem: ClothingItem = {
+      ...newItem,
+      id: Date.now().toString(),
+      userId: 'user1',
+      lastWorn: null,
+      imageUrl: newItem.imageUrl || '/placeholder.png'
+    };
+    setItems(prev => [fullItem, ...prev]);
     setShowAddItemDialog(false);
   };
+
+  const handleItemDeleted = (itemId: string) => {
+    setItems(prev => prev.filter(item => item.id !== itemId));
+  };
+
 
   return (
     <AppLayout>
@@ -38,7 +54,7 @@ export default function WardrobePage() {
             </DialogContent>
           </Dialog>
         </div>
-        <WardrobeGrid />
+        <WardrobeGrid items={items} onDelete={handleItemDeleted} />
       </div>
     </AppLayout>
   );

@@ -25,9 +25,10 @@ import {
 } from '@/components/ui/select';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 import { Slider } from '@/components/ui/slider';
-import { CATEGORIES } from '@/lib/types';
+import { CATEGORIES, SEASONS, LENGTHS } from '@/lib/types';
 import { Camera, Sparkles, Loader2, Upload } from 'lucide-react';
 import { getItemRecognition } from '@/actions/ai';
+import type { ClothingItem } from '@/lib/types';
 
 const addItemFormSchema = z.object({
   description: z.string().min(2, { message: 'Description must be at least 2 characters.' }),
@@ -35,16 +36,23 @@ const addItemFormSchema = z.object({
   color: z.string().min(2, { message: 'Color is required.' }),
   fabric: z.string().min(2, { message: 'Fabric is required.' }),
   pattern: z.string().min(2, { message: 'Pattern is required.' }),
-  image: z.any().refine(file => file, 'Image is required.'),
+  season: z.enum(SEASONS),
+  length: z.enum(LENGTHS),
+  occasion: z.string().min(2, { message: 'Occasion is required.' }),
+  imageUrl: z.string().optional(),
   formal: z.number().min(0).max(10),
   warmth: z.number().min(0).max(10),
   relaxed: z.number().min(0).max(10),
 });
 
-type AddItemFormValues = z.infer<typeof addItemFormSchema>;
+type AddItemFormValues = Omit<z.infer<typeof addItemFormSchema>, 'image'>;
 
-export function AddItemForm({ onItemAdded }: { onItemAdded: () => void }) {
-  const form = useForm<AddItemFormValues>({
+interface AddItemFormProps {
+  onItemAdded: (item: Omit<ClothingItem, 'id' | 'userId' | 'lastWorn'>) => void;
+}
+
+export function AddItemForm({ onItemAdded }: AddItemFormProps) {
+  const form = useForm<z.infer<typeof addItemFormSchema>>({
     resolver: zodResolver(addItemFormSchema),
     defaultValues: {
       description: '',
@@ -52,6 +60,9 @@ export function AddItemForm({ onItemAdded }: { onItemAdded: () => void }) {
       color: '',
       fabric: '',
       pattern: '',
+      season: 'Autumn',
+      length: 'Long',
+      occasion: 'Casual',
       formal: 5,
       warmth: 5,
       relaxed: 5,
@@ -68,10 +79,11 @@ export function AddItemForm({ onItemAdded }: { onItemAdded: () => void }) {
 
   const handleImageChange = (file: File | null) => {
     if (file) {
-      form.setValue('image', file);
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImagePreview(reader.result as string);
+        const result = reader.result as string;
+        setImagePreview(result);
+        form.setValue('imageUrl', result);
       };
       reader.readAsDataURL(file);
       setShowCamera(false);
@@ -95,6 +107,13 @@ export function AddItemForm({ onItemAdded }: { onItemAdded: () => void }) {
         form.setValue('color', result.color);
         form.setValue('fabric', result.fabric);
         form.setValue('pattern', result.pattern);
+        if (SEASONS.includes(result.season)) {
+          form.setValue('season', result.season);
+        }
+        if (LENGTHS.includes(result.length)) {
+          form.setValue('length', result.length);
+        }
+        form.setValue('occasion', result.occasion);
         
         toast({
           title: 'Item Recognized!',
@@ -117,7 +136,7 @@ export function AddItemForm({ onItemAdded }: { onItemAdded: () => void }) {
   const handleShowCamera = async () => {
     setShowCamera(true);
     setImagePreview(null);
-    form.setValue('image', null);
+    form.setValue('imageUrl', undefined);
   };
   
   const handleCapture = () => {
@@ -131,12 +150,7 @@ export function AddItemForm({ onItemAdded }: { onItemAdded: () => void }) {
         context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
         const dataUrl = canvas.toDataURL('image/png');
         setImagePreview(dataUrl);
-        fetch(dataUrl)
-          .then(res => res.blob())
-          .then(blob => {
-            const file = new File([blob], "capture.png", { type: "image/png" });
-            form.setValue('image', file);
-          });
+        form.setValue('imageUrl', dataUrl);
       }
       setShowCamera(false);
     }
@@ -172,13 +186,21 @@ export function AddItemForm({ onItemAdded }: { onItemAdded: () => void }) {
     };
   }, [showCamera]);
   
-  function onSubmit(data: AddItemFormValues) {
-    console.log(data);
+  function onSubmit(data: z.infer<typeof addItemFormSchema>) {
+    if (!data.imageUrl) {
+        form.setError('imageUrl', { type: 'manual', message: 'Image is required.' });
+        toast({
+            variant: "destructive",
+            title: "No Image",
+            description: "Please upload or capture an image for the item.",
+        });
+        return;
+    }
     toast({
       title: 'Item Added!',
       description: `${data.description} has been added to your wardrobe.`,
     });
-    onItemAdded();
+    onItemAdded(data);
     form.reset();
     setImagePreview(null);
   }
@@ -191,7 +213,7 @@ export function AddItemForm({ onItemAdded }: { onItemAdded: () => void }) {
           <div className="space-y-4">
              <FormField
               control={form.control}
-              name="image"
+              name="imageUrl"
               render={() => (
                 <FormItem>
                   <FormControl>
@@ -267,6 +289,8 @@ export function AddItemForm({ onItemAdded }: { onItemAdded: () => void }) {
               <FormField control={form.control} name="color" render={({ field }) => (<FormItem><FormLabel>Color</FormLabel><FormControl><Input placeholder="e.g. White" {...field} /></FormControl><FormMessage /></FormItem>)} />
               <FormField control={form.control} name="fabric" render={({ field }) => (<FormItem><FormLabel>Fabric</FormLabel><FormControl><Input placeholder="e.g. Cotton" {...field} /></FormControl><FormMessage /></FormItem>)} />
               <FormField control={form.control} name="pattern" render={({ field }) => (<FormItem><FormLabel>Pattern</FormLabel><FormControl><Input placeholder="e.g. Solid" {...field} /></FormControl><FormMessage /></FormItem>)} />
+              <FormField control={form.control} name="occasion" render={({ field }) => (<FormItem><FormLabel>Occasion</FormLabel><FormControl><Input placeholder="e.g. Casual" {...field} /></FormControl><FormMessage /></FormItem>)} />
+              
             </div>
 
             <div className="p-4 rounded-lg bg-card border">
