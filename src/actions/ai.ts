@@ -2,6 +2,7 @@
 
 import { suggestOutfit as suggestOutfitFlow } from '@/ai/flows/suggest-outfit-flow';
 import { chatWithStylist as chatWithStylistFlow } from '@/ai/flows/chat-with-stylist-flow';
+import { generateAudioDescription as generateAudioDescriptionFlow } from '@/ai/flows/generate-audio-description-flow';
 import { mockClothingItems } from '@/lib/mock-data';
 
 export async function getOutfitSuggestion() {
@@ -38,6 +39,16 @@ export async function getChatResponse(query: string) {
     };
   } catch (error) {
     console.error('Error in chat with stylist:', error);
+    return null;
+  }
+}
+
+export async function getAudioDescription(text: string) {
+  try {
+    const result = await generateAudioDescriptionFlow(text);
+    return result;
+  } catch (error) {
+    console.error('Error generating audio description:', error);
     return null;
   }
 }
