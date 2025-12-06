@@ -8,7 +8,7 @@
  */
 
 import { ai } from '@/ai/genkit';
-import { z } from 'genkit';
+import { z } from 'zod';
 import { CATEGORIES, SEASONS, LENGTHS } from '@/lib/types';
 import { getAvailableClothing } from '@/ai/tools/get-available-clothing-tool';
 
@@ -43,9 +43,9 @@ const prompt = ai.definePrompt({
   tools: [getAvailableClothing],
   input: { schema: RecognizeItemInputSchema },
   output: { schema: RecognizeItemOutputSchema },
-  prompt: `You are an expert fashion assistant. Analyze the provided image of a single clothing item and identify its key attributes.
+  prompt: `You are an expert fashion assistant. Analyze the provided image and identify the key attributes of the most prominent clothing item.
 
-Based on the image, provide the following details:
+Based on the image, provide the following details for that single item:
 - A concise, descriptive name for the item.
 - Its category (Top, Bottom, Shoes, Outerwear, Accessory).
 - Its primary color.
