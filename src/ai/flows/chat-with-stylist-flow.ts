@@ -12,6 +12,7 @@ import {z} from 'genkit';
 import {getWeather} from '@/services/mockContext';
 import {getCalendarEvents} from '@/services/mockContext';
 import { getAvailableClothing } from '@/ai/tools/get-available-clothing-tool';
+import { ClothingItem, ClothingItemSchema } from '@/lib/types';
 
 const ChatMessageSchema = z.object({
   role: z.enum(['user', 'model']),
@@ -22,11 +23,12 @@ const ChatWithStylistInputSchema = z.object({
   userId: z.string().describe('The ID of the user requesting outfit suggestions.'),
   query: z.string().describe('The user query for outfit recommendations.'),
   chatHistory: z.array(ChatMessageSchema).optional().describe('The history of the conversation so far.'),
+  wardrobeItems: z.array(ClothingItemSchema).describe("The user's current wardrobe items."),
 });
 export type ChatWithStylistInput = z.infer<typeof ChatWithStylistInputSchema>;
 
 const ChatWithStylistOutputSchema = z.object({
-  suggestedItems: z.array(z.string()).describe('An array of suggested clothing item IDs.'),
+  suggestedItems: z.array(ClothingItemSchema).describe('An array of suggested clothing items.'),
   stylistNote: z.string().describe('A short note from the stylist explaining the outfit choice.'),
 });
 export type ChatWithStylistOutput = z.infer<typeof ChatWithStylistOutputSchema>;
@@ -49,7 +51,7 @@ const prompt = ai.definePrompt({
   },
   prompt: `You are a personal stylist helping a female user choose outfits from her digital wardrobe.
 
-  First, use the 'getAvailableClothing' tool to see what items the user has. You can call it with 'favoritesOnly: true' to see her favorite items, which you should prioritize.
+  First, use the 'getAvailableClothing' tool to see what items the user has. You can call it with 'favoritesOnly: true' to see her favorite items, which you should prioritize. The user's available items are provided in the input.
 
   The user's request is: {{{query}}}.
 
@@ -57,7 +59,7 @@ const prompt = ai.definePrompt({
   Here are the calendar events: {{calendarEvents}}.
 
   Based on the request, weather, and calendar, suggest an outfit. If the user is asking for another suggestion, do not suggest the same items from the chat history.
-  Respond with the \"suggestedItems\" which is a list of item ids, and a short \"stylistNote\" explaining your choice. Be mindful of the weather and calendar. For example, do not suggest open shoes if it is raining. Suggest appropriate business attire for meetings.
+  Respond with the \"suggestedItems\" which is a list of clothing item objects, and a short \"stylistNote\" explaining your choice. Be mindful of the weather and calendar. For example, do not suggest open shoes if it is raining. Suggest appropriate business attire for meetings.
   `,
 });
 

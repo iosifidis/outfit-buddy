@@ -34,6 +34,7 @@ import { Badge } from '@/components/ui/badge';
 import { getOutfitSuggestion, getChatResponse } from '@/actions/ai';
 import type { ClothingItem } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useWardrobe } from '@/hooks/use-wardrobe';
 
 function WeatherCard() {
   return (
@@ -130,14 +131,27 @@ type Message = {
 };
 
 function StylistCard() {
+  const { allItems } = useWardrobe();
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [query, setQuery] = useState('');
 
   useEffect(() => {
     async function fetchInitialSuggestion() {
+      if (allItems.length === 0) {
+        setMessages([
+          {
+            id: 'initial-prompt',
+            sender: 'ai',
+            text: "Hello! It looks like your wardrobe is empty. Add some items and I'll help you pick an outfit!",
+            items: [],
+          },
+        ]);
+        setIsLoading(false);
+        return;
+      }
       setIsLoading(true);
-      const result = await getOutfitSuggestion();
+      const result = await getOutfitSuggestion(allItems);
       if (result) {
         setMessages([
           {
@@ -151,7 +165,7 @@ function StylistCard() {
       setIsLoading(false);
     }
     fetchInitialSuggestion();
-  }, []);
+  }, [allItems]);
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -168,7 +182,7 @@ function StylistCard() {
       content: [{ text: msg.text }],
     }));
 
-    const result = await getChatResponse(query, chatHistory);
+    const result = await getChatResponse(allItems, query, chatHistory);
     
     if (result) {
       const aiMessage: Message = {

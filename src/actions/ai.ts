@@ -4,41 +4,33 @@ import { suggestOutfit as suggestOutfitFlow } from '@/ai/flows/suggest-outfit-fl
 import { chatWithStylist as chatWithStylistFlow } from '@/ai/flows/chat-with-stylist-flow';
 import { generateAudioDescription as generateAudioDescriptionFlow } from '@/ai/flows/generate-audio-description-flow';
 import { recognizeItem as recognizeItemFlow } from '@/ai/flows/recognize-item-flow';
-import { mockClothingItems } from '@/lib/mock-data';
+import type { ClothingItem } from '@/lib/types';
 import type { SuggestOutfitOutput } from '@/ai/flows/suggest-outfit-flow';
 import type { ChatWithStylistInput } from '@/ai/flows/chat-with-stylist-flow';
 
-export async function getOutfitSuggestion(): Promise<SuggestOutfitOutput> {
+export async function getOutfitSuggestion(wardrobeItems: ClothingItem[]): Promise<SuggestOutfitOutput> {
   try {
-    const result = await suggestOutfitFlow({ userId: 'user1' });
+    const result = await suggestOutfitFlow({ userId: 'user1', wardrobeItems });
     if (result && result.suggestedItems.length > 0) {
       return result;
     }
     throw new Error('AI suggestion failed or returned empty.');
   } catch (error) {
     console.error('Error suggesting outfit:', error);
-    // Return a default outfit as a fallback
+    // Return an empty outfit as a fallback
     return {
-      suggestedItems: [
-        mockClothingItems.find(item => item.id === '7')!, // Trench Coat
-        mockClothingItems.find(item => item.id === '1')!, // Silk Blouse
-        mockClothingItems.find(item => item.id === '2')!, // Wool Trousers
-        mockClothingItems.find(item => item.id === '6')!, // Ankle Boots
-      ].filter(Boolean),
+      suggestedItems: [],
       stylistNote:
-        "Hello! I'm your AI Stylist. I've generated some looks for you based on the weather in Thessaloniki. Check them out!",
+        "Hello! I'm your AI Stylist. I had some trouble coming up with an outfit. Please make sure you have items in your wardrobe and try again!",
     };
   }
 }
 
-export async function getChatResponse(query: string, chatHistory?: ChatWithStylistInput['chatHistory']) {
+export async function getChatResponse(wardrobeItems: ClothingItem[], query: string, chatHistory?: ChatWithStylistInput['chatHistory']) {
   try {
     // In a real app, you'd get the userId from the session
-    const result = await chatWithStylistFlow({ userId: 'user1', query, chatHistory });
-    return {
-      ...result,
-      suggestedItems: mockClothingItems.filter(item => result.suggestedItems.includes(item.id))
-    };
+    const result = await chatWithStylistFlow({ userId: 'user1', query, chatHistory, wardrobeItems });
+    return result;
   } catch (error) {
     console.error('Error in chat with stylist:', error);
     return null;
