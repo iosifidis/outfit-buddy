@@ -44,6 +44,7 @@ const addItemFormSchema = z.object({
   warmth: z.number().min(0).max(10).optional(),
   relaxed: z.number().min(0).max(10).optional(),
   lastWorn: z.string().nullable().optional(),
+  isFavorite: z.boolean().optional(),
 });
 
 type AddItemFormValues = z.infer<typeof addItemFormSchema>;
@@ -68,6 +69,7 @@ export function AddItemForm({ onItemAdded }: AddItemFormProps) {
       warmth: 5,
       relaxed: 5,
       lastWorn: null,
+      isFavorite: false,
     },
   });
 
@@ -198,10 +200,6 @@ export function AddItemForm({ onItemAdded }: AddItemFormProps) {
         });
         return;
     }
-    toast({
-      title: 'Item Added!',
-      description: `${data.description} has been added to your wardrobe.`,
-    });
     onItemAdded(data);
     form.reset();
     setImagePreview(null);

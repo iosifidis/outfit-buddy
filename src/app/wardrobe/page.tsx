@@ -5,37 +5,18 @@ import { AppLayout } from '@/components/AppLayout';
 import { WardrobeGrid } from '@/components/wardrobe/WardrobeGrid';
 import { AddItemForm } from '@/components/wardrobe/AddItemForm';
 import { Button } from '@/components/ui/button';
-import { Plus, Loader2 } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import type { ClothingItem } from '@/lib/types';
-import { mockClothingItems } from '@/lib/mock-data';
+import { useWardrobe } from '@/hooks/use-wardrobe';
 
 export default function WardrobePage() {
   const [showAddItemDialog, setShowAddItemDialog] = useState(false);
-  const [items, setItems] = useState<ClothingItem[]>(mockClothingItems.filter(item => item.userId === 'user1'));
-  
-  const handleItemAdded = (newItemData: Omit<ClothingItem, 'id' | 'userId'>) => {
-    const newItem: ClothingItem = {
-      id: (items.length + 1).toString(),
-      userId: 'user1',
-      ...newItemData,
-    };
-    setItems(prevItems => [...prevItems, newItem]);
+  const { allItems, handleItemAdded, handleItemDeleted, handleToggleFavorite } = useWardrobe();
+
+  const onItemAdded = (newItemData: Omit<any, 'id' | 'userId'>) => {
+    handleItemAdded(newItemData);
     setShowAddItemDialog(false);
   };
-
-  const handleItemDeleted = (itemId: string) => {
-    setItems(prevItems => prevItems.filter(item => item.id !== itemId));
-  };
-
-  const handleToggleFavorite = (itemId: string) => {
-    setItems(prevItems =>
-      prevItems.map(item =>
-        item.id === itemId ? { ...item, isFavorite: !item.isFavorite } : item
-      )
-    );
-  };
-
 
   return (
     <AppLayout>
@@ -54,18 +35,18 @@ export default function WardrobePage() {
                   <DialogTitle>Add a New Item to Your Wardrobe</DialogTitle>
                </DialogHeader>
                <div className="p-6">
-                <AddItemForm onItemAdded={handleItemAdded} />
+                <AddItemForm onItemAdded={onItemAdded} />
               </div>
             </DialogContent>
           </Dialog>
         </div>
         
-        {items.length === 0 ? (
+        {allItems.length === 0 ? (
            <div className="text-center py-12 text-muted-foreground">
              <p>Your wardrobe is empty. Start by adding some items!</p>
            </div>
         ) : (
-          <WardrobeGrid items={items} onItemDeleted={handleItemDeleted} onToggleFavorite={handleToggleFavorite} />
+          <WardrobeGrid items={allItems} onItemDeleted={handleItemDeleted} onToggleFavorite={handleToggleFavorite} />
         )}
       </div>
     </AppLayout>

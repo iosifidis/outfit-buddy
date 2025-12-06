@@ -1,32 +1,11 @@
 'use client';
 
-import { useState } from 'react';
 import { AppLayout } from '@/components/AppLayout';
 import { WardrobeGrid } from '@/components/wardrobe/WardrobeGrid';
-import type { ClothingItem } from '@/lib/types';
-import { mockClothingItems } from '@/lib/mock-data';
+import { useWardrobe } from '@/hooks/use-wardrobe';
 
 export default function FavoritesPage() {
-  // NOTE: In a real app, this state would be managed globally (e.g., via Context or Zustand)
-  // to ensure consistency between the wardrobe and favorites pages.
-  // For now, we'll manage it locally on each page.
-  const [items, setItems] = useState<ClothingItem[]>(mockClothingItems.filter(item => item.userId === 'user1'));
-  
-  const handleItemDeleted = (itemId: string) => {
-    // This is a simplified delete for the mock data.
-    // In a real app, you would also update the source of truth (database).
-    setItems(prevItems => prevItems.filter(item => item.id !== itemId));
-  };
-
-  const handleToggleFavorite = (itemId: string) => {
-    setItems(prevItems =>
-      prevItems.map(item =>
-        item.id === itemId ? { ...item, isFavorite: !item.isFavorite } : item
-      )
-    );
-  };
-
-  const favoriteItems = items.filter(item => item.isFavorite);
+  const { favoriteItems, handleItemDeleted, handleToggleFavorite } = useWardrobe();
 
   return (
     <AppLayout>

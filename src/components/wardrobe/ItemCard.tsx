@@ -6,7 +6,6 @@ import type { ClothingItem } from '@/lib/types';
 import { Card, CardContent } from '@/components/ui/card';
 import { ItemDetailsDialog } from './ItemDetailsDialog';
 import { BriefcaseIcon, ThermometerIcon, SmileIcon } from '@/components/icons';
-import { toast } from '@/hooks/use-toast';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -41,20 +40,11 @@ export function ItemCard({ item, onDeleteItem, onToggleFavorite }: ItemCardProps
   const handleDelete = (e: React.MouseEvent) => {
     e.stopPropagation();
     onDeleteItem(item.id);
-    toast({
-      title: 'Item Deleted',
-      description: `${item.description} has been removed.`,
-      variant: 'destructive',
-    });
   };
   
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     onToggleFavorite(item.id);
-    toast({
-      title: item.isFavorite ? 'Removed from Favorites' : 'Added to Favorites',
-      description: `${item.description} has been ${item.isFavorite ? 'removed from' : 'added to'} your favorites.`,
-    });
   };
 
   return (
