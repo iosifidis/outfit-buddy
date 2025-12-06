@@ -33,20 +33,12 @@ export default function HistoryPage() {
       <div className="flex-1 p-4 pt-6 space-y-6 md:p-8">
         <h1 className="text-3xl font-bold tracking-tight">Outfit History</h1>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <Card className="lg:col-span-1">
+          <Card className="lg:col-span-1 p-0">
             <Calendar
               mode="single"
               selected={date}
               onSelect={setDate}
-              className="p-0"
-              classNames={{
-                root: "w-full",
-                months: "w-full",
-                month: "w-full",
-                table: "w-full",
-                head_row: "w-full",
-                row: "w-full justify-between",
-              }}
+              className="p-3"
               modifiers={{
                 worn: wornDates,
               }}
