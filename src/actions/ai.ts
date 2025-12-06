@@ -6,6 +6,7 @@ import { generateAudioDescription as generateAudioDescriptionFlow } from '@/ai/f
 import { recognizeItem as recognizeItemFlow } from '@/ai/flows/recognize-item-flow';
 import { mockClothingItems } from '@/lib/mock-data';
 import type { SuggestOutfitOutput } from '@/ai/flows/suggest-outfit-flow';
+import type { ChatWithStylistInput } from '@/ai/flows/chat-with-stylist-flow';
 
 export async function getOutfitSuggestion(): Promise<SuggestOutfitOutput> {
   try {
@@ -30,10 +31,10 @@ export async function getOutfitSuggestion(): Promise<SuggestOutfitOutput> {
   }
 }
 
-export async function getChatResponse(query: string) {
+export async function getChatResponse(query: string, chatHistory?: ChatWithStylistInput['chatHistory']) {
   try {
     // In a real app, you'd get the userId from the session
-    const result = await chatWithStylistFlow({ userId: 'user1', query });
+    const result = await chatWithStylistFlow({ userId: 'user1', query, chatHistory });
     return {
       ...result,
       suggestedItems: mockClothingItems.filter(item => result.suggestedItems.includes(item.id))

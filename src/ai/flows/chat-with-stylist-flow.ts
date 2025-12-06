@@ -13,9 +13,15 @@ import {getWeather} from '@/services/mockContext';
 import {getCalendarEvents} from '@/services/mockContext';
 import { getAvailableClothing } from '@/ai/tools/get-available-clothing-tool';
 
+const ChatMessageSchema = z.object({
+  role: z.enum(['user', 'model']),
+  content: z.array(z.object({text: z.string()})),
+});
+
 const ChatWithStylistInputSchema = z.object({
   userId: z.string().describe('The ID of the user requesting outfit suggestions.'),
   query: z.string().describe('The user query for outfit recommendations.'),
+  chatHistory: z.array(ChatMessageSchema).optional().describe('The history of the conversation so far.'),
 });
 export type ChatWithStylistInput = z.infer<typeof ChatWithStylistInputSchema>;
 
@@ -43,15 +49,15 @@ const prompt = ai.definePrompt({
   },
   prompt: `You are a personal stylist helping a female user choose outfits from her digital wardrobe.
 
-  First, use the 'getAvailableClothing' tool to see what items the user has.
+  First, use the 'getAvailableClothing' tool to see what items the user has. You can call it with 'favoritesOnly: true' to see her favorite items, which you should prioritize.
 
-  The user is asking for outfit recommendations for the following scenario: {{{query}}}.
+  The user's request is: {{{query}}}.
 
   Here's the weather information: {{weather}}.
   Here are the calendar events: {{calendarEvents}}.
 
-  Based on the scenario, weather, and calendar events, suggest a combination of clothing items (Top, Bottom, Shoes, etc.) from the user's wardrobe.
-  Respond with the \"suggestedItems\" which is a list of item ids, and a short \"stylistNote\" explaining the outfit choice. Be mindful of the weather and calendar events when creating the outfit. For example, do not suggest open shoes if it is raining. Suggest appropriate business attire for meetings.
+  Based on the request, weather, and calendar, suggest an outfit. If the user is asking for another suggestion, do not suggest the same items from the chat history.
+  Respond with the \"suggestedItems\" which is a list of item ids, and a short \"stylistNote\" explaining your choice. Be mindful of the weather and calendar. For example, do not suggest open shoes if it is raining. Suggest appropriate business attire for meetings.
   `,
 });
 
@@ -65,11 +71,19 @@ const chatWithStylistFlow = ai.defineFlow(
     const weather = await getWeather();
     const calendarEvents = await getCalendarEvents();
 
-    const {output} = await prompt({
-      ...input,
-      weather,
-      calendarEvents,
-    });
+    const llm = ai.getModel(ai.getModel()!)
+    const history = input.chatHistory || [];
+
+    const {output} = await ai.generate({
+      model: llm,
+      history,
+      prompt: prompt.compile({
+        ...input,
+        weather,
+        calendarEvents,
+      })
+    })
+
     return output!;
   }
 );

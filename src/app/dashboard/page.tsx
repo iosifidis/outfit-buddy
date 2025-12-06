@@ -158,11 +158,18 @@ function StylistCard() {
     if (!query.trim() || isLoading) return;
 
     const userMessage: Message = { id: Date.now().toString(), sender: 'user', text: query };
-    setMessages(prev => [...prev, userMessage]);
+    const newMessages = [...messages, userMessage];
+    setMessages(newMessages);
     setQuery('');
     setIsLoading(true);
 
-    const result = await getChatResponse(query);
+    const chatHistory = newMessages.map(msg => ({
+      role: msg.sender === 'user' ? 'user' as const : 'model' as const,
+      content: [{ text: msg.text }],
+    }));
+
+    const result = await getChatResponse(query, chatHistory);
+    
     if (result) {
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),
@@ -232,6 +239,14 @@ function StylistCard() {
                     </div>
                 </div>
              ))}
+             {isLoading && messages.length > 0 && (
+                <div className="flex items-start gap-3">
+                   <Skeleton className="w-9 h-9 rounded-full" />
+                   <div className="flex-1 space-y-2">
+                      <Skeleton className="h-4 w-3/4" />
+                   </div>
+                </div>
+             )}
              {isLoading && messages.length === 0 && (
                 <div className="flex items-start gap-3">
                    <Skeleton className="w-9 h-9 rounded-full" />
