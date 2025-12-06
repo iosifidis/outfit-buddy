@@ -11,7 +11,7 @@ export const ClothingItemSchema = z.object({
   pattern: z.string().describe('Pattern of the clothing item'),
   season: z.enum(['Spring', 'Summer', 'Autumn', 'Winter']).describe('Season for which the clothing item is suitable'),
   length: z.enum(['Mini', 'Midi', 'Maxi', 'Long']).describe('Length of the clothing item'),
-  category: z.string().describe('Category of the clothing item (e.g., Top, Bottom, Shoes, Outerwear)'),
+  category: z.enum(['Top', 'Bottom', 'Shoes', 'Outerwear', 'Accessory']).describe('Category of the clothing item (e.g., Top, Bottom, Shoes, Outerwear)'),
   occasion: z.string().describe('Occasion for which the clothing item is suitable'),
   description: z.string().describe('Description of the clothing item'),
   lastWorn: z.string().nullable().describe('Date the item was last worn'),

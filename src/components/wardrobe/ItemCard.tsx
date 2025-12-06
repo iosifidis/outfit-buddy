@@ -4,75 +4,128 @@ import Image from 'next/image';
 import { useState } from 'react';
 import type { ClothingItem } from '@/lib/types';
 import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { ItemDetailsDialog } from './ItemDetailsDialog';
-import { Shirt, Trash2 } from 'lucide-react';
-import { useFirestore } from '@/firebase';
-import { deleteDocumentNonBlocking } from '@/firebase/non-blocking-updates';
-import { doc } from 'firebase/firestore';
+import { BriefcaseIcon, ThermometerIcon, SmileIcon } from '@/components/icons';
+import { toast } from '@/hooks/use-toast';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+import { Button } from '../ui/button';
+import { MoreVertical } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 
 interface ItemCardProps {
   item: ClothingItem;
+  onDeleteItem: (itemId: string) => void;
 }
 
-export function ItemCard({ item }: ItemCardProps) {
+export function ItemCard({ item, onDeleteItem }: ItemCardProps) {
   const [isDetailsOpen, setDetailsOpen] = useState(false);
-  const firestore = useFirestore();
 
   const handleDelete = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent opening the dialog
-    if (!firestore) return;
-    const itemRef = doc(firestore, 'users', item.userId, 'clothingItems', item.id);
-    deleteDocumentNonBlocking(itemRef);
+    e.stopPropagation();
+    onDeleteItem(item.id);
+    toast({
+      title: 'Item Deleted',
+      description: `${item.description} has been removed.`,
+      variant: 'destructive',
+    });
   };
-  
-  const onDeleteFromDialog = () => {
-     if (!firestore) return;
-    const itemRef = doc(firestore, 'users', item.userId, 'clothingItems', item.id);
-    deleteDocumentNonBlocking(itemRef);
-    setDetailsOpen(false);
-  }
 
   return (
     <ItemDetailsDialog
       item={item}
       open={isDetailsOpen}
       onOpenChange={setDetailsOpen}
-      onDelete={onDeleteFromDialog}
+      onDelete={() => {
+        onDeleteItem(item.id);
+        setDetailsOpen(false);
+      }}
     >
       <Card
-        className="group overflow-hidden transition-all duration-300 shadow-md hover:shadow-xl bg-card/80 border-0 cursor-pointer hover:-translate-y-1"
+        className="group overflow-hidden transition-all duration-300 shadow-md hover:shadow-xl bg-card border-border cursor-pointer hover:-translate-y-1"
         onClick={() => setDetailsOpen(true)}
       >
-        <CardContent className="p-0">
-          <div className="relative aspect-square bg-background/50 rounded-t-lg flex items-center justify-center">
-            {item.imageUrl ? (
-              <Image
-                src={item.imageUrl}
-                alt={item.description}
-                fill
-                className="object-cover transition-transform duration-300 group-hover:scale-110"
-                data-ai-hint={`${item.color} ${item.category}`}
-              />
-            ) : (
-              <Shirt className="w-16 h-16 text-muted-foreground" />
-            )}
-             <button
-              onClick={handleDelete}
-              className="absolute top-2 right-2 z-10 p-1.5 bg-background/50 rounded-full text-foreground/70 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-destructive hover:text-destructive-foreground"
-            >
-              <Trash2 className="w-4 h-4" />
-            </button>
-          </div>
-          <div className="p-3 text-center">
-            <p className="font-semibold truncate text-sm" title={item.description}>
-              {item.description}
-            </p>
-            <div className="flex items-center justify-center gap-2 mt-1.5">
-              <Badge variant="secondary" className="text-xs">{item.category}</Badge>
-              <Badge variant="outline" className="text-xs">{item.season}</Badge>
+        <CardContent className="p-4 flex flex-col items-center text-center">
+            <div className="relative w-32 h-32 mb-4">
+                {item.imageUrl ? (
+                <Image
+                    src={item.imageUrl}
+                    alt={item.description}
+                    fill
+                    className="object-contain"
+                    data-ai-hint={`${item.color} ${item.category}`}
+                />
+                ) : (
+                    <div className="w-full h-full bg-muted rounded-md flex items-center justify-center">
+                        <BriefcaseIcon className="w-16 h-16 text-muted-foreground" />
+                    </div>
+                )}
             </div>
+
+            <h3 className="font-semibold text-sm truncate w-full" title={item.description}>
+                {item.description}
+            </h3>
+            <p className="text-xs text-muted-foreground mb-4">{item.fabric}</p>
+
+            <div className="flex justify-around w-full text-xs text-muted-foreground">
+                <div className="flex items-center gap-1">
+                <BriefcaseIcon className="w-3.5 h-3.5" />
+                <span>{item.formal || 0}</span>
+                </div>
+                <div className="flex items-center gap-1">
+                <ThermometerIcon className="w-3.5 h-3.5" />
+                <span>{item.warmth || 0}</span>
+                </div>
+                <div className="flex items-center gap-1">
+                <SmileIcon className="w-3.5 h-3.5" />
+                <span>{item.relaxed || 0}</span>
+                </div>
+            </div>
+
+            <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+            <AlertDialog onOpenChange={(e) => e.stopPropagation()}>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="h-7 w-7" onClick={(e) => e.stopPropagation()}>
+                    <MoreVertical className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent onClick={(e) => e.stopPropagation()}>
+                  <AlertDialogTrigger asChild>
+                    <DropdownMenuItem className="text-destructive focus:text-destructive">
+                      Delete
+                    </DropdownMenuItem>
+                  </AlertDialogTrigger>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              <AlertDialogContent onClick={(e) => e.stopPropagation()}>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action cannot be undone. This will permanently delete this item.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={handleDelete}>Delete</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </div>
         </CardContent>
       </Card>
