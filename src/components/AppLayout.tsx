@@ -7,9 +7,9 @@ import {
   Shirt,
   MessageSquare,
   PanelLeft,
-  Search,
   Settings,
   PlusCircle,
+  HeartHandshake,
 } from 'lucide-react';
 import Image from 'next/image';
 
@@ -45,6 +45,7 @@ const navItems = [
   { href: '/dashboard', icon: Home, label: 'Dashboard' },
   { href: '/wardrobe', icon: Shirt, label: 'Wardrobe' },
   { href: '/chat', icon: MessageSquare, label: 'Chat Stylist' },
+  { href: '/impact', icon: HeartHandshake, label: 'Your Impact' },
 ];
 
 const userAvatar = PlaceHolderImages.find(p => p.id === 'userAvatar');
