@@ -2,21 +2,21 @@
   "placeholderImages": [
     {
       "id": "item1",
-      "description": "Blue floral blouse",
-      "imageUrl": "https://images.unsplash.com/photo-1589134812389-75571c6a2e45?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxmbG9yYWwlMjBibG91c2V8ZW58MHx8fHwxNzY1Mjc4MTEyfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "floral blouse"
+      "description": "White silk blouse",
+      "imageUrl": "https://images.unsplash.com/photo-1589465885857-add797e55933?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx3aGl0ZSUyMHNpbGslMjBibG91c2V8ZW58MHx8fHwxNzE2NDgxOTI4fDA&ixlib=rb-4.0.3&q=80&w=1080",
+      "imageHint": "silk blouse"
     },
     {
       "id": "item2",
-      "description": "Black skinny jeans",
-      "imageUrl": "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxibGFjayUyMHNraW5ueSUyMGplYW5zfGVufDB8fHx8MTc2NTI3ODExM3ww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "black jeans"
+      "description": "Black wool trousers",
+      "imageUrl": "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxyZWQlMjBzdW1tZXIlMjBkcmVzc3xlbnwwfHx8fDE3NjUyNzgxMTN8MA&ixlib=rb-4.0.3&q=80&w=1080",
+      "imageHint": "wool trousers"
     },
     {
       "id": "item3",
-      "description": "White canvas sneakers",
-      "imageUrl": "https://images.unsplash.com/photo-1608231387042-66d1773070a5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx3aGl0ZSUyMGNhbnZhcyUyMHNuZWFrZXJzfGVufDB8fHx8MTc2NTI3ODExM3ww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "white sneakers"
+      "description": "Black leather loafers",
+      "imageUrl": "https://images.unsplash.com/photo-1628004758654-9f379d46059e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxibGFjayUyMGxlYXRoZXIlMjBsb2FmZXJzfGVufDB8fHx8MTcxNjQ4MjA5MHww&ixlib=rb-4.0.3&q=80&w=1080",
+      "imageHint": "leather loafers"
     },
     {
       "id": "item4",
@@ -39,7 +39,7 @@
     {
       "id": "item7",
       "description": "Beige trench coat",
-      "imageUrl": "https://images.unsplash.com/photo-1676716105765-e19fe6a01851?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx0cmVuY2glMjBjb2F0fGVufDB8fHx8MTc2NDk1NTI1NXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1542318859-2169541d146c?ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx0cmVuY2glMjBjb2F0fGVufDB8fHx8MTcxNjQ4MjI0MXww&ixlib=rb-4.0.3&w=1080&h=1920&q=80&fit=crop&crop=entropy",
       "imageHint": "trench coat"
     },
     {

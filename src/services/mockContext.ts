@@ -8,7 +8,7 @@
  * @returns A hardcoded weather object.
  */
 export const getWeather = () => {
-  return { temp: 15, condition: "Rainy", location: "Athens" };
+  return { temp: 15, condition: "Light rain and cool", location: "Athens" };
 };
 
 /**
@@ -16,5 +16,5 @@ export const getWeather = () => {
  * @returns A hardcoded calendar event object.
  */
 export const getCalendarEvents = () => {
-  return { time: "10:00 AM", event: "Business Meeting" };
+  return { time: "10:00 AM", event: "Quarterly Business Review" };
 };

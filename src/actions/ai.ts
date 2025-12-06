@@ -17,12 +17,13 @@ export async function getOutfitSuggestion() {
     // Return a default outfit as a fallback
     return {
       suggestedItems: [
-        mockClothingItems.find(item => item.id === '1')!,
-        mockClothingItems.find(item => item.id === '2')!,
-        mockClothingItems.find(item => item.id === '3')!,
+        mockClothingItems.find(item => item.id === '7')!, // Trench Coat
+        mockClothingItems.find(item => item.id === '1')!, // Silk Blouse
+        mockClothingItems.find(item => item.id === '2')!, // Wool Trousers
+        mockClothingItems.find(item => item.id === '6')!, // Ankle Boots
       ].filter(Boolean),
       stylistNote:
-        "Here's a classic and reliable choice for today. This outfit is versatile and comfortable, perfect for a variety of occasions.",
+        "Since the AI stylist is busy, I've picked out a chic and practical outfit for your business meeting. The trench coat is perfect for the rain, and the combination of the silk blouse, wool trousers, and ankle boots is both professional and stylish. You'll look sharp and stay comfortable.",
     };
   }
 }
