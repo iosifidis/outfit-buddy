@@ -1,86 +1,77 @@
 'use client';
 
-import { useState, useCallback } from 'react';
-import { mockClothingItems } from '@/lib/mock-data';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import type { ClothingItem } from '@/lib/types';
 import { toast } from '@/hooks/use-toast';
+import { useUser, useFirestore, useCollection, useMemoFirebase } from '@/firebase';
+import { collection, doc, addDoc, deleteDoc, updateDoc } from 'firebase/firestore';
+import { 
+  addDocumentNonBlocking,
+  deleteDocumentNonBlocking,
+  updateDocumentNonBlocking
+} from '@/firebase/non-blocking-updates';
 
-// This is a simple in-memory store. In a real app, you'd use React Context,
-// Zustand, or fetch/mutate data from a server.
-let wardrobeItems: ClothingItem[] = mockClothingItems.filter(item => item.userId === 'user1');
-
-// Listeners to update components when data changes.
-const listeners = new Set<() => void>();
-
-function notifyListeners() {
-  listeners.forEach(listener => listener());
-}
 
 export function useWardrobe() {
-  const [items, setItems] = useState<ClothingItem[]>(wardrobeItems);
+  const { user } = useUser();
+  const firestore = useFirestore();
 
-  useState(() => {
-    const onStoreChange = () => {
-      setItems([...wardrobeItems]); // Create a new array to trigger re-render
-    };
-    listeners.add(onStoreChange);
-    return () => {
-      listeners.delete(onStoreChange);
-    };
-  });
+  const clothingCollectionRef = useMemoFirebase(() => {
+    if (!firestore || !user) return null;
+    return collection(firestore, `users/${user.uid}/clothingItems`);
+  }, [firestore, user]);
 
+  const { data: allItems, isLoading } = useCollection<ClothingItem>(clothingCollectionRef);
+  
   const handleItemAdded = useCallback((newItemData: Omit<ClothingItem, 'id' | 'userId'>) => {
-    const newItem: ClothingItem = {
-      id: (wardrobeItems.length + 1).toString(),
-      userId: 'user1',
-      ...newItemData,
+    if (!clothingCollectionRef) return;
+    const newItem = {
+        userId: user!.uid,
+        ...newItemData
     };
-    wardrobeItems = [...wardrobeItems, newItem];
+    addDocumentNonBlocking(clothingCollectionRef, newItem);
     toast({
       title: 'Item Added!',
       description: `${newItem.description} has been added to your wardrobe.`,
     });
-    notifyListeners();
-  }, []);
+  }, [clothingCollectionRef, user]);
 
   const handleItemDeleted = useCallback((itemId: string) => {
-    const itemToDelete = wardrobeItems.find(item => item.id === itemId);
+    if (!firestore || !user) return;
+    const itemToDelete = allItems?.find(item => item.id === itemId);
     if (itemToDelete) {
-        wardrobeItems = wardrobeItems.filter(item => item.id !== itemId);
+        const docRef = doc(firestore, `users/${user.uid}/clothingItems`, itemId);
+        deleteDocumentNonBlocking(docRef);
         toast({
             title: 'Item Deleted',
             description: `${itemToDelete.description} has been removed.`,
             variant: 'destructive',
         });
-        notifyListeners();
     }
-  }, []);
+  }, [firestore, user, allItems]);
 
   const handleToggleFavorite = useCallback((itemId: string) => {
-    let itemTitle = '';
-    let isNowFavorite: boolean | undefined = false;
+    if (!firestore || !user || !allItems) return;
     
-    wardrobeItems = wardrobeItems.map(item => {
-      if (item.id === itemId) {
-        itemTitle = item.description;
-        isNowFavorite = !item.isFavorite;
-        return { ...item, isFavorite: isNowFavorite };
-      }
-      return item;
-    });
+    const item = allItems.find(i => i.id === itemId);
+    if (!item) return;
 
+    const docRef = doc(firestore, `users/${user.uid}/clothingItems`, itemId);
+    const newIsFavorite = !item.isFavorite;
+    updateDocumentNonBlocking(docRef, { isFavorite: newIsFavorite });
+    
     toast({
-      title: isNowFavorite ? 'Added to Favorites' : 'Removed from Favorites',
-      description: `${itemTitle} has been ${isNowFavorite ? 'added to' : 'removed from'} your favorites.`,
+      title: newIsFavorite ? 'Added to Favorites' : 'Removed from Favorites',
+      description: `${item.description} has been ${newIsFavorite ? 'added to' : 'removed from'} your favorites.`,
     });
 
-    notifyListeners();
-  }, []);
+  }, [firestore, user, allItems]);
 
-  const favoriteItems = items.filter(item => item.isFavorite);
+  const favoriteItems = useMemo(() => (allItems || []).filter(item => item.isFavorite), [allItems]);
 
   return {
-    allItems: items,
+    allItems: allItems || [],
+    isLoading,
     favoriteItems,
     handleItemAdded,
     handleItemDeleted,
