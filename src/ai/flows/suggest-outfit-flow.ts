@@ -10,6 +10,7 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 import {getWeather, getCalendarEvents} from '@/services/mockContext';
+import {mockClothingItems} from '@/lib/mock-data';
 
 const SuggestOutfitInputSchema = z.object({
   userId: z.string().describe('The ID of the user for whom to suggest an outfit.'),
@@ -42,26 +43,44 @@ export async function suggestOutfit(input: SuggestOutfitInput): Promise<SuggestO
   return suggestOutfitFlow(input);
 }
 
+const getAvailableClothing = ai.defineTool(
+  {
+    name: 'getAvailableClothing',
+    description: 'Returns a list of available clothing items for the user.',
+    inputSchema: z.object({
+      userId: z.string(),
+    }),
+    outputSchema: z.array(ClothingItemSchema),
+  },
+  async ({userId}) => {
+    // In a real app, you would fetch this from a database
+    // For now, we'll just filter the mock data.
+    return mockClothingItems.filter(item => item.userId === userId);
+  }
+);
+
 const prompt = ai.definePrompt({
   name: 'suggestOutfitPrompt',
+  tools: [getAvailableClothing],
   input: {
     schema: SuggestOutfitInputSchema.extend({
       weatherCondition: z.string(),
-      calendarEvent: z.string()
+      calendarEvent: z.string(),
     }),
   },
   output: {schema: SuggestOutfitOutputSchema},
-  prompt: `You are a personal stylist AI. Given the following weather conditions, calendar event, and clothing items, suggest the best outfit consisting of one top, one bottom, and one pair of shoes. Return the suggested items and a short stylist note explaining the outfit choice.
+  prompt: `You are a personal stylist AI. Your task is to suggest an outfit for a user based on the current weather, their calendar events, and their available wardrobe.
+
+First, use the 'getAvailableClothing' tool to get the list of items in the user's wardrobe.
+
+Then, considering the context below, suggest the best outfit consisting of one top, one bottom, and one pair of shoes.
 
 Weather Conditions: {{{weatherCondition}}}
 Calendar Event: {{{calendarEvent}}}
 
-Consider these clothing items:
-{{#each clothingItems}}
-  - Category: {{category}}, Color: {{color}}, Description: {{description}}
-{{/each}}
+Pay attention to items that have been worn recently and try to suggest something different. The 'lastWorn' property indicates the last date the item was worn. Today's date is ${new Date().toISOString().split('T')[0]}.
 
-Output the suggestedItems array with items chosen from the input clothingItems array, and a stylistNote explaining the outfit choice. Make sure the outfit is appropriate for the weather and calendar event.
+Output the 'suggestedItems' array with items chosen from the available clothing, and a 'stylistNote' explaining your outfit choice. Make sure the outfit is appropriate for the weather and calendar event.
 `,
 });
 
@@ -75,21 +94,10 @@ const suggestOutfitFlow = ai.defineFlow(
     const weather = getWeather();
     const calendarEvent = getCalendarEvents();
 
-    // Mock Data Connect query - replace with actual Data Connect call
-    const clothingItems: ClothingItem[] = [
-      { id: '1', userId: input.userId, imageUrl: 'top1.jpg', color: 'Blue', fabric: 'Cotton', pattern: 'Solid', season: 'Spring', length: 'Mini', category: 'Top', occasion: 'Casual', description: 'Blue cotton t-shirt', lastWorn: null },
-      { id: '2', userId: input.userId, imageUrl: 'bottom1.jpg', color: 'Black', fabric: 'Denim', pattern: 'Solid', season: 'Autumn', length: 'Long', category: 'Bottom', occasion: 'Casual', description: 'Black denim jeans', lastWorn: null },
-      { id: '3', userId: input.userId, imageUrl: 'shoes1.jpg', color: 'White', fabric: 'Leather', pattern: 'Solid', season: 'Summer', length: 'Mini', category: 'Shoes', occasion: 'Casual', description: 'White leather sneakers', lastWorn: null },
-      { id: '4', userId: input.userId, imageUrl: 'top2.jpg', color: 'Red', fabric: 'Silk', pattern: 'Floral', season: 'Summer', length: 'Mini', category: 'Top', occasion: 'Party', description: 'Red silk blouse', lastWorn: null },
-      { id: '5', userId: input.userId, imageUrl: 'bottom2.jpg', color: 'Gray', fabric: 'Wool', pattern: 'Solid', season: 'Winter', length: 'Long', category: 'Bottom', occasion: 'Business', description: 'Gray wool trousers', lastWorn: null },
-      { id: '6', userId: input.userId, imageUrl: 'shoes2.jpg', color: 'Black', fabric: 'Leather', pattern: 'Solid', season: 'Winter', length: 'Mini', category: 'Shoes', occasion: 'Business', description: 'Black leather heels', lastWorn: null },
-    ];
-
     const {output} = await prompt({
       ...input,
-      weatherCondition: `Temperature: ${weather.temp}, Condition: ${weather.condition}, Location: ${weather.location}`,
+      weatherCondition: `Temperature: ${weather.temp}°C, Condition: ${weather.condition}, Location: ${weather.location}`,
       calendarEvent: `Time: ${calendarEvent.time}, Event: ${calendarEvent.event}`,
-      clothingItems: clothingItems,
     });
     return output!;
   }
