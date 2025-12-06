@@ -1,4 +1,21 @@
-import type { ClothingItem as AIClothingItem } from '@/ai/flows/suggest-outfit-flow';
+'use client';
+
+import {z} from 'zod';
+
+export const ClothingItemSchema = z.object({
+  id: z.string().describe('The UUID of the clothing item'),
+  userId: z.string().describe('Foreign Key referencing the user'),
+  imageUrl: z.string().describe('URL of the clothing item image'),
+  color: z.string().describe('Color of the clothing item'),
+  fabric: z.string().describe('Fabric of the clothing item'),
+  pattern: z.string().describe('Pattern of the clothing item'),
+  season: z.enum(['Spring', 'Summer', 'Autumn', 'Winter']).describe('Season for which the clothing item is suitable'),
+  length: z.enum(['Mini', 'Midi', 'Maxi', 'Long']).describe('Length of the clothing item'),
+  category: z.string().describe('Category of the clothing item (e.g., Top, Bottom, Shoes, Outerwear)'),
+  occasion: z.string().describe('Occasion for which the clothing item is suitable'),
+  description: z.string().describe('Description of the clothing item'),
+  lastWorn: z.string().nullable().describe('Date the item was last worn'),
+});
 
 export type User = {
   uid: string;
@@ -7,7 +24,7 @@ export type User = {
   stylePreferences?: string[];
 };
 
-export type ClothingItem = AIClothingItem;
+export type ClothingItem = z.infer<typeof ClothingItemSchema>;
 
 export const SEASONS = ['Spring', 'Summer', 'Autumn', 'Winter'] as const;
 export type Season = (typeof SEASONS)[number];

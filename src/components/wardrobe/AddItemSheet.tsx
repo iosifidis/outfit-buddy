@@ -100,29 +100,28 @@ export function AddItemSheet({
     try {
       const result = await getItemRecognition(imagePreview);
       if (result) {
-        // We need to check if the returned values are valid enum values.
-        const validatedResult: Partial<RecognizeItemOutput> = {};
-        for (const key in result) {
-          const typedKey = key as keyof RecognizeItemOutput;
-          const value = result[typedKey];
-          switch (typedKey) {
-            case 'category':
-              if (CATEGORIES.includes(value as any)) validatedResult.category = value as any;
-              break;
-            case 'season':
-              if (SEASONS.includes(value as any)) validatedResult.season = value as any;
-              break;
-            case 'length':
-              if (LENGTHS.includes(value as any)) validatedResult.length = value as any;
-              break;
-            default:
-               (validatedResult as any)[typedKey] = value;
+        // Coerce AI response to valid form values
+        const newValues: Partial<ClothingItemFormValues> = {
+          description: result.description,
+          color: result.color,
+          fabric: result.fabric,
+          pattern: result.pattern,
+          occasion: result.occasion,
+          category: CATEGORIES.includes(result.category as any) ? result.category : undefined,
+          season: SEASONS.includes(result.season as any) ? result.season : undefined,
+          length: LENGTHS.includes(result.length as any) ? result.length : undefined,
+        };
+  
+        // Set values one by one to ensure reactivity
+        Object.entries(newValues).forEach(([key, value]) => {
+          if (value) {
+            form.setValue(key as keyof ClothingItemFormValues, value);
           }
-        }
-        form.reset({ ...form.getValues(), ...validatedResult });
+        });
+  
         toast({
           title: 'Item Recognized!',
-          description: 'The form has been filled with the recognized details.',
+          description: `AI thinks this is a: ${result.description}`,
         });
       } else {
         throw new Error('Recognition failed.');

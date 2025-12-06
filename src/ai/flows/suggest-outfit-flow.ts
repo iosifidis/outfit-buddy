@@ -10,27 +10,14 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 import {getWeather, getCalendarEvents} from '@/services/mockContext';
-import {mockClothingItems} from '@/lib/mock-data';
+import {getAvailableClothing} from '@/ai/tools/get-available-clothing-tool';
+import { ClothingItemSchema } from '@/lib/types';
 
 const SuggestOutfitInputSchema = z.object({
   userId: z.string().describe('The ID of the user for whom to suggest an outfit.'),
 });
 export type SuggestOutfitInput = z.infer<typeof SuggestOutfitInputSchema>;
 
-const ClothingItemSchema = z.object({
-  id: z.string().describe('The UUID of the clothing item'),
-  userId: z.string().describe('Foreign Key referencing the user'),
-  imageUrl: z.string().describe('URL of the clothing item image'),
-  color: z.string().describe('Color of the clothing item'),
-  fabric: z.string().describe('Fabric of the clothing item'),
-  pattern: z.string().describe('Pattern of the clothing item'),
-  season: z.enum(['Spring', 'Summer', 'Autumn', 'Winter']).describe('Season for which the clothing item is suitable'),
-  length: z.enum(['Mini', 'Midi', 'Maxi', 'Long']).describe('Length of the clothing item'),
-  category: z.string().describe('Category of the clothing item (e.g., Top, Bottom, Shoes, Outerwear)'),
-  occasion: z.string().describe('Occasion for which the clothing item is suitable'),
-  description: z.string().describe('Description of the clothing item'),
-  lastWorn: z.string().nullable().describe('Date the item was last worn'),
-});
 export type ClothingItem = z.infer<typeof ClothingItemSchema>;
 
 const SuggestOutfitOutputSchema = z.object({
@@ -42,22 +29,6 @@ export type SuggestOutfitOutput = z.infer<typeof SuggestOutfitOutputSchema>;
 export async function suggestOutfit(input: SuggestOutfitInput): Promise<SuggestOutfitOutput> {
   return suggestOutfitFlow(input);
 }
-
-const getAvailableClothing = ai.defineTool(
-  {
-    name: 'getAvailableClothing',
-    description: "Returns a list of available clothing items for the user. These are women's clothes.",
-    inputSchema: z.object({
-      userId: z.string(),
-    }),
-    outputSchema: z.array(ClothingItemSchema),
-  },
-  async ({userId}) => {
-    // In a real app, you would fetch this from a database
-    // For now, we'll just filter the mock data.
-    return mockClothingItems.filter(item => item.userId === userId);
-  }
-);
 
 const prompt = ai.definePrompt({
   name: 'suggestOutfitPrompt',

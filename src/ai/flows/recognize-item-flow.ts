@@ -10,6 +10,7 @@
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 import { CATEGORIES, SEASONS, LENGTHS } from '@/lib/types';
+import { getAvailableClothing } from '@/ai/tools/get-available-clothing-tool';
 
 const RecognizeItemInputSchema = z.object({
   photoDataUri: z
@@ -39,6 +40,7 @@ export async function recognizeItem(input: RecognizeItemInput): Promise<Recogniz
 
 const prompt = ai.definePrompt({
   name: 'recognizeItemPrompt',
+  tools: [getAvailableClothing],
   input: { schema: RecognizeItemInputSchema },
   output: { schema: RecognizeItemOutputSchema },
   prompt: `You are an expert fashion assistant. Analyze the provided image of a single clothing item and identify its key attributes.
