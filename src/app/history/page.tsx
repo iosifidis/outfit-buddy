@@ -10,18 +10,19 @@ import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { mockOutfitHistory } from '@/lib/mock-data';
 import { BriefcaseIcon, Shirt } from 'lucide-react';
-import type { OutfitHistory } from '@/lib/types';
+import type { OutfitHistory as OutfitHistoryType } from '@/lib/types';
 
 
-const historyData: OutfitHistory[] = mockOutfitHistory.map(h => ({ ...h, userId: 'user1' }));
+const historyData: OutfitHistoryType[] = mockOutfitHistory.map(h => ({ ...h, userId: 'user1' }));
 
 export default function HistoryPage() {
   const [date, setDate] = useState<Date | undefined>(new Date());
 
   const selectedOutfit = useMemo(() => {
     if (!date) return null;
+    const selectedDateString = date.toDateString();
     return historyData.find(
-      (h) => h.date.toDateString() === date.toDateString()
+      (h) => h.date.toDateString() === selectedDateString
     );
   }, [date]);
 
