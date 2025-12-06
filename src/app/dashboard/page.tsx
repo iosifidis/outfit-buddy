@@ -51,7 +51,7 @@ function WeatherCard() {
           <div className="text-right">
             <div className="flex items-center justify-end gap-2">
               <Sun className="w-6 h-6 text-yellow-400" />
-              <p className="text-4xl font-bold">18°</p>
+              <p className="text-4xl font-bold">35°</p>
             </div>
             <p className="text-sm text-muted-foreground">Sunny</p>
           </div>
@@ -61,14 +61,14 @@ function WeatherCard() {
             <p className="text-xs text-muted-foreground uppercase">Humidity</p>
             <div className="flex items-baseline gap-2 mt-1">
               <Droplets className="w-4 h-4 text-muted-foreground" />
-              <p className="text-2xl font-semibold">65%</p>
+              <p className="text-2xl font-semibold">68%</p>
             </div>
           </div>
           <div className="bg-background/50 rounded-lg p-4">
             <p className="text-xs text-muted-foreground uppercase">Wind</p>
             <div className="flex items-baseline gap-2 mt-1">
               <Wind className="w-4 h-4 text-muted-foreground" />
-              <p className="text-2xl font-semibold">12 <span className="text-sm">km/h</span></p>
+              <p className="text-2xl font-semibold">10 <span className="text-sm">km/h</span></p>
             </div>
           </div>
         </div>

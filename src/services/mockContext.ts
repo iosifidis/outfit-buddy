@@ -8,7 +8,7 @@
  * @returns A hardcoded weather object.
  */
 export const getWeather = () => {
-  return { temp: 15, condition: "Light rain and cool", location: "Athens" };
+  return { temp: 35, condition: "Sunny and hot", location: "Thessaloniki" };
 };
 
 /**
