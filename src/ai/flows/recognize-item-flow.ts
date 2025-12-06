@@ -43,7 +43,7 @@ const prompt = ai.definePrompt({
   tools: [getAvailableClothing],
   input: { schema: RecognizeItemInputSchema },
   output: { schema: RecognizeItemOutputSchema },
-  prompt: `You are an expert fashion assistant. Analyze the provided image and identify the key attributes of the clothing item.
+  prompt: `You are an expert fashion assistant. Analyze the provided image and identify the key attributes of the most prominent clothing item.
 
 Based on the image, provide the following details for that single item:
 - A concise, descriptive name for the item.

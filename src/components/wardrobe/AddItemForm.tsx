@@ -26,15 +26,15 @@ import {
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 import { Slider } from '@/components/ui/slider';
 import { CATEGORIES } from '@/lib/types';
-import { Camera, Sparkles, Loader2 } from 'lucide-react';
+import { Camera, Sparkles, Loader2, Upload } from 'lucide-react';
 import { getItemRecognition } from '@/actions/ai';
 
 const addItemFormSchema = z.object({
-  name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
-  type: z.string().min(2, { message: 'Type must be at least 2 characters.' }),
+  description: z.string().min(2, { message: 'Description must be at least 2 characters.' }),
+  category: z.enum(CATEGORIES),
   color: z.string().min(2, { message: 'Color is required.' }),
   fabric: z.string().min(2, { message: 'Fabric is required.' }),
-  category: z.enum(CATEGORIES),
+  pattern: z.string().min(2, { message: 'Pattern is required.' }),
   image: z.any().refine(file => file, 'Image is required.'),
   formal: z.number().min(0).max(10),
   warmth: z.number().min(0).max(10),
@@ -47,11 +47,11 @@ export function AddItemForm({ onItemAdded }: { onItemAdded: () => void }) {
   const form = useForm<AddItemFormValues>({
     resolver: zodResolver(addItemFormSchema),
     defaultValues: {
-      name: '',
-      type: '',
+      description: '',
+      category: 'Top',
       color: '',
       fabric: '',
-      category: 'Top',
+      pattern: '',
       formal: 5,
       warmth: 5,
       relaxed: 5,
@@ -64,6 +64,7 @@ export function AddItemForm({ onItemAdded }: { onItemAdded: () => void }) {
   const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleImageChange = (file: File | null) => {
     if (file) {
@@ -76,6 +77,10 @@ export function AddItemForm({ onItemAdded }: { onItemAdded: () => void }) {
       setShowCamera(false);
     }
   };
+  
+  const handleFileSelect = () => {
+    fileInputRef.current?.click();
+  };
 
   const handleScanItem = async () => {
     if (!imagePreview) return;
@@ -83,13 +88,14 @@ export function AddItemForm({ onItemAdded }: { onItemAdded: () => void }) {
     try {
       const result = await getItemRecognition(imagePreview);
       if (result) {
-        form.setValue('name', result.description);
-        form.setValue('type', result.category);
-        form.setValue('color', result.color);
-        form.setValue('fabric', result.fabric);
+        form.setValue('description', result.description);
         if (CATEGORIES.includes(result.category as any)) {
             form.setValue('category', result.category as any);
         }
+        form.setValue('color', result.color);
+        form.setValue('fabric', result.fabric);
+        form.setValue('pattern', result.pattern);
+        
         toast({
           title: 'Item Recognized!',
           description: `AI thinks this is a: ${result.description}`,
@@ -170,7 +176,7 @@ export function AddItemForm({ onItemAdded }: { onItemAdded: () => void }) {
     console.log(data);
     toast({
       title: 'Item Added!',
-      description: `${data.name} has been added to your wardrobe.`,
+      description: `${data.description} has been added to your wardrobe.`,
     });
     onItemAdded();
     form.reset();
@@ -180,8 +186,8 @@ export function AddItemForm({ onItemAdded }: { onItemAdded: () => void }) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Column 1: Image & Category */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          
           <div className="space-y-4">
              <FormField
               control={form.control}
@@ -194,7 +200,7 @@ export function AddItemForm({ onItemAdded }: { onItemAdded: () => void }) {
                         <div className="w-full">
                           <video ref={videoRef} className="w-full aspect-square rounded-md bg-muted object-cover" autoPlay muted playsInline />
                           {hasCameraPermission === false && (
-                            <Alert variant="destructive">
+                            <Alert variant="destructive" className="mt-2">
                               <AlertTitle>Camera Access Required</AlertTitle>
                               <AlertDescription>Please allow camera access to use this feature.</AlertDescription>
                             </Alert>
@@ -205,51 +211,62 @@ export function AddItemForm({ onItemAdded }: { onItemAdded: () => void }) {
                           </div>
                         </div>
                       ) : (
-                        imagePreview ? (
-                          <div className="relative w-full aspect-square">
-                            <Image src={imagePreview} alt="Item preview" layout="fill" className="object-cover rounded-md" />
-                          </div>
-                        ) : (
-                          <label htmlFor="image-upload" className="w-full aspect-square border-2 border-dashed rounded-lg flex flex-col items-center justify-center cursor-pointer bg-muted/50 hover:bg-muted">
-                            <Camera className="w-8 h-8 text-muted-foreground mb-2" />
-                            <span className="text-sm text-muted-foreground">Take Photo</span>
-                            <Input id="image-upload" type="file" accept="image/*" className="hidden" onChange={(e) => handleImageChange(e.target.files?.[0] ?? null)} />
-                          </label>
-                        )
+                        <div className="w-full aspect-square border-2 border-dashed rounded-lg flex flex-col items-center justify-center bg-card hover:bg-muted/50 transition-colors">
+                           {imagePreview ? (
+                             <Image src={imagePreview} alt="Item preview" layout="fill" className="object-cover rounded-md p-2" />
+                            ) : (
+                              <div className="text-center text-muted-foreground">
+                                <p>No image selected</p>
+                              </div>
+                            )}
+                        </div>
                       )}
                     </div>
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="pt-2" />
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="category"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Category</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger><SelectValue placeholder="Select a category" /></SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {CATEGORIES.map(cat => <SelectItem key={cat} value={cat}>{cat}</SelectItem>)}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="grid grid-cols-2 gap-2">
+              <Button type="button" variant="outline" onClick={handleShowCamera}><Camera className="w-4 h-4 mr-2"/> Take Photo</Button>
+              <Button type="button" variant="outline" onClick={handleFileSelect}><Upload className="w-4 h-4 mr-2"/> From Device</Button>
+              <input type="file" ref={fileInputRef} accept="image/*" className="hidden" onChange={(e) => handleImageChange(e.target.files?.[0] ?? null)} />
+            </div>
+            <Button 
+                type="button" 
+                className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white" 
+                onClick={handleScanItem}
+                disabled={!imagePreview || isRecognizing}
+            >
+              {isRecognizing ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Sparkles className="w-4 h-4 mr-2" />}
+              Scan with AI
+            </Button>
           </div>
 
-          {/* Column 2 & 3: Details & Ratings */}
-          <div className="md:col-span-2 space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <FormField control={form.control} name="name" render={({ field }) => (<FormItem><FormLabel>Name</FormLabel><FormControl><Input placeholder="e.g. Navy Blazer" {...field} /></FormControl><FormMessage /></FormItem>)} />
-              <FormField control={form.control} name="type" render={({ field }) => (<FormItem><FormLabel>Type</FormLabel><FormControl><Input placeholder="e.g. Jacket" {...field} /></FormControl><FormMessage /></FormItem>)} />
-              <FormField control={form.control} name="color" render={({ field }) => (<FormItem><FormLabel>Color</FormLabel><FormControl><Input placeholder="e.g. Navy Blue" {...field} /></FormControl><FormMessage /></FormItem>)} />
-              <FormField control={form.control} name="fabric" render={({ field }) => (<FormItem><FormLabel>Fabric</FormLabel><FormControl><Input placeholder="e.g. Wool Blend" {...field} /></FormControl><FormMessage /></FormItem>)} />
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <FormField control={form.control} name="description" render={({ field }) => (<FormItem><FormLabel>Description</FormLabel><FormControl><Input placeholder="e.g. Classic White Tee" {...field} /></FormControl><FormMessage /></FormItem>)} />
+              <FormField
+                control={form.control}
+                name="category"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Category</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger><SelectValue placeholder="Select a category" /></SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {CATEGORIES.map(cat => <SelectItem key={cat} value={cat}>{cat}</SelectItem>)}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField control={form.control} name="color" render={({ field }) => (<FormItem><FormLabel>Color</FormLabel><FormControl><Input placeholder="e.g. White" {...field} /></FormControl><FormMessage /></FormItem>)} />
+              <FormField control={form.control} name="fabric" render={({ field }) => (<FormItem><FormLabel>Fabric</FormLabel><FormControl><Input placeholder="e.g. Cotton" {...field} /></FormControl><FormMessage /></FormItem>)} />
+              <FormField control={form.control} name="pattern" render={({ field }) => (<FormItem><FormLabel>Pattern</FormLabel><FormControl><Input placeholder="e.g. Solid" {...field} /></FormControl><FormMessage /></FormItem>)} />
             </div>
 
             <div className="p-4 rounded-lg bg-card border">
@@ -260,7 +277,7 @@ export function AddItemForm({ onItemAdded }: { onItemAdded: () => void }) {
                   name="formal"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Formal ({field.value}/10)</FormLabel>
+                      <div className="flex justify-between items-center"><FormLabel>Formal</FormLabel><span className="text-sm text-muted-foreground">{field.value}/10</span></div>
                       <FormControl>
                         <Slider defaultValue={[field.value]} max={10} step={1} onValueChange={(value) => field.onChange(value[0])} />
                       </FormControl>
@@ -272,7 +289,7 @@ export function AddItemForm({ onItemAdded }: { onItemAdded: () => void }) {
                   name="warmth"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Warmth ({field.value}/10)</FormLabel>
+                       <div className="flex justify-between items-center"><FormLabel>Warmth</FormLabel><span className="text-sm text-muted-foreground">{field.value}/10</span></div>
                       <FormControl>
                         <Slider defaultValue={[field.value]} max={10} step={1} onValueChange={(value) => field.onChange(value[0])} />
                       </FormControl>
@@ -284,7 +301,7 @@ export function AddItemForm({ onItemAdded }: { onItemAdded: () => void }) {
                   name="relaxed"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Relaxed ({field.value}/10)</FormLabel>
+                      <div className="flex justify-between items-center"><FormLabel>Relaxed</FormLabel><span className="text-sm text-muted-foreground">{field.value}/10</span></div>
                       <FormControl>
                         <Slider defaultValue={[field.value]} max={10} step={1} onValueChange={(value) => field.onChange(value[0])} />
                       </FormControl>
@@ -293,10 +310,10 @@ export function AddItemForm({ onItemAdded }: { onItemAdded: () => void }) {
                 />
               </div>
             </div>
+             <div className="flex justify-end">
+                <Button type="submit">Save to Wardrobe</Button>
+            </div>
           </div>
-        </div>
-        <div className="flex justify-end">
-            <Button type="submit">Save to Wardrobe</Button>
         </div>
       </form>
       <canvas ref={canvasRef} className="hidden"></canvas>
