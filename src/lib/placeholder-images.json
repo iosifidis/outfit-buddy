@@ -1,3 +1,70 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "item1",
+      "description": "Blue cotton t-shirt",
+      "imageUrl": "https://images.unsplash.com/photo-1758267928367-35886ad47bc4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxibHVlJTIwdC1zaGlydHxlbnwwfHx8fDE3NjUwMjc3OTB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "blue t-shirt"
+    },
+    {
+      "id": "item2",
+      "description": "Black denim jeans",
+      "imageUrl": "https://images.unsplash.com/photo-1744383390068-abfc7bc7fd07?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxibGFjayUyMGplYW5zfGVufDB8fHx8MTc2NTAyNzc5MXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "black jeans"
+    },
+    {
+      "id": "item3",
+      "description": "White leather sneakers",
+      "imageUrl": "https://images.unsplash.com/photo-1597350584914-55bb62285896?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx3aGl0ZSUyMHNuZWFrZXJzfGVufDB8fHx8MTc2NDkyMTg5MXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "white sneakers"
+    },
+    {
+      "id": "item4",
+      "description": "Red silk blouse",
+      "imageUrl": "https://images.unsplash.com/photo-1762331967924-0229c616a46f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxyZWQlMjBibG91c2V8ZW58MHx8fHwxNzY1MDI3NzkxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "red blouse"
+    },
+    {
+      "id": "item5",
+      "description": "Gray wool trousers",
+      "imageUrl": "https://images.unsplash.com/photo-1592467674817-23092d6d3f3e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxncmF5JTIwdHJvdXNlcnN8ZW58MHx8fHwxNzY1MDI3NzkxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "gray trousers"
+    },
+    {
+      "id": "item6",
+      "description": "Black leather heels",
+      "imageUrl": "https://images.unsplash.com/photo-1519748771451-a94c596fad67?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxibGFjayUyMGhlZWxzfGVufDB8fHx8MTc2NTAxNjkyM3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "black heels"
+    },
+    {
+      "id": "item7",
+      "description": "Beige trench coat",
+      "imageUrl": "https://images.unsplash.com/photo-1676716105765-e19fe6a01851?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx0cmVuY2glMjBjb2F0fGVufDB8fHx8MTc2NDk1NTI1NXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "trench coat"
+    },
+    {
+      "id": "item8",
+      "description": "Green hoodie",
+      "imageUrl": "https://images.unsplash.com/photo-1569534038640-69a6a85e9adf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxncmVlbiUyMGhvb2RpZXxlbnwwfHx8fDE3NjUwMTEwNTB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "green hoodie"
+    },
+    {
+      "id": "item9",
+      "description": "Denim shorts",
+      "imageUrl": "https://images.unsplash.com/photo-1630331010250-7524271ed506?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxkZW5pbSUyMHNob3J0c3xlbnwwfHx8fDE3NjUwMjc3OTF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "denim shorts"
+    },
+    {
+      "id": "item10",
+      "description": "Brown leather boots",
+      "imageUrl": "https://images.unsplash.com/photo-1639270602419-6392f0723174?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxsZWF0aGVyJTIwYm9vdHN8ZW58MHx8fHwxNzY0OTU5NDUyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "leather boots"
+    },
+    {
+      "id": "userAvatar",
+      "description": "User avatar placeholder",
+      "imageUrl": "https://images.unsplash.com/photo-1641288883869-c463bc6c2a58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxwZXJzb24lMjBhdmF0YXJ8ZW58MHx8fHwxNzY0OTMwNTQxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "person avatar"
+    }
+  ]
 }
