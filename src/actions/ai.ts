@@ -11,20 +11,26 @@ import type { ChatWithStylistInput } from '@/ai/flows/chat-with-stylist-flow';
 export async function getOutfitSuggestion(wardrobeItems: ClothingItem[]): Promise<SuggestOutfitOutput> {
   try {
     const result = await suggestOutfitFlow({ userId: 'user1', wardrobeItems });
-    if (result && result.suggestedItems.length > 0) {
+    // Check if the result is valid and has items.
+    if (result && result.suggestedItems && result.suggestedItems.length > 0) {
       return result;
     }
-    throw new Error('AI suggestion failed or returned empty.');
+    // If AI returns an empty list, it's considered a failure to be caught.
+    throw new Error('AI suggestion returned empty.');
   } catch (error) {
-    console.error('Error suggesting outfit:', error);
-    // Return an empty outfit as a fallback
+    console.error('Error suggesting outfit, providing fallback:', error);
+    
+    // Fallback: Return the first 3 items from the wardrobe if available.
+    const fallbackItems = wardrobeItems.slice(0, 3);
+    
     return {
-      suggestedItems: [],
+      suggestedItems: fallbackItems,
       stylistNote:
-        "Hello! I'm your AI Stylist. I had some trouble coming up with an outfit. Please make sure you have items in your wardrobe and try again!",
+        "I had some trouble coming up with a perfect outfit, but here are a few items from your wardrobe to get you started! Try adding more items for better suggestions.",
     };
   }
 }
+
 
 export async function getChatResponse(wardrobeItems: ClothingItem[], query: string, chatHistory?: ChatWithStylistInput['chatHistory']) {
   try {
