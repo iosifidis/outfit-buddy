@@ -8,7 +8,7 @@ import type { Category } from '@/lib/types';
 import type { ClothingItem } from '@/lib/types';
 
 export function WardrobeGrid() {
-  const [items, setItems] = useState<ClothingItem[]>(mockClothingItems);
+  const [items, setItems] = useState<ClothingItem[]>(mockClothingItems.filter(item => item.userId === 'user1'));
   const [filter, setFilter] = useState<Category | 'All'>('All');
 
   const handleDelete = (itemId: string) => {
