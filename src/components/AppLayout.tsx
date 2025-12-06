@@ -4,8 +4,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
   Home,
-  Shirt,
   MessageSquare,
+  Shirt,
   PanelLeft,
   Settings,
   HeartHandshake,
