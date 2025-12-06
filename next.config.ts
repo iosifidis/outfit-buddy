@@ -1,7 +1,8 @@
 import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  output: 'export', // <--- ΣΗΜΑΝΤΙΚΟ: Αυτό φτιάχνει τον φάκελο "out"
+  
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -9,6 +10,7 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
   images: {
+    unoptimized: true, // <--- ΣΗΜΑΝΤΙΚΟ: Χωρίς αυτό οι εικόνες δεν παίζουν στο Azure Free
     remotePatterns: [
       {
         protocol: 'https',
