@@ -1,3 +1,4 @@
+
 import type { ClothingItem } from './types';
 import { PlaceHolderImages } from './placeholder-images';
 import { OutfitHistory } from './types';
@@ -18,6 +19,19 @@ export const mockClothingItems: ClothingItem[] = [
   { id: '11', userId: 'user1', imageUrl: getImage('item13'), color: 'Gold', fabric: 'Metal', pattern: 'Solid', season: 'Spring', length: 'Long', category: 'Accessory', occasion: 'Party', description: 'Gold Statement Necklace', lastWorn: null, formal: 7, warmth: 0, relaxed: 2, isFavorite: false },
   { id: '12', userId: 'user1', imageUrl: getImage('item14'), color: 'Pink', fabric: 'Satin', pattern: 'Solid', season: 'Summer', length: 'Midi', category: 'Bottom', occasion: 'Party', description: 'Pink Satin Midi Skirt', lastWorn: '2023-07-20', formal: 8, warmth: 2, relaxed: 4, isFavorite: true },
 ];
+
+export const mockShopItems: ClothingItem[] = [
+    { id: 'shop1', userId: 'shop', imageUrl: getImage('item1'), color: 'Cream', fabric: 'Silk', pattern: 'Solid', season: 'Spring', length: 'Long', category: 'Top', occasion: 'Evening', description: 'Elegant Silk Blouse', lastWorn: null, formal: 9, warmth: 2, relaxed: 3, isFavorite: false },
+    { id: 'shop2', userId: 'shop', imageUrl: getImage('item4'), color: 'Red', fabric: 'Cotton', pattern: 'Floral', season: 'Summer', length: 'Maxi', category: 'Outerwear', occasion: 'Beach', description: 'Flowy Red Dress', lastWorn: null, formal: 3, warmth: 1, relaxed: 9, isFavorite: false },
+    { id: 'shop3', userId: 'shop', imageUrl: getImage('item5'), color: 'Grey', fabric: 'Wool', pattern: 'Plaid', season: 'Autumn', length: 'Mini', category: 'Bottom', occasion: 'School', description: 'Plaid Mini Skirt', lastWorn: null, formal: 5, warmth: 5, relaxed: 6, isFavorite: false },
+    { id: 'shop4', userId: 'shop', imageUrl: getImage('item7'), color: 'Khaki', fabric: 'Cotton', pattern: 'Solid', season: 'Autumn', length: 'Long', category: 'Outerwear', occasion: 'Everyday', description: 'Classic Trench Coat', lastWorn: null, formal: 7, warmth: 6, relaxed: 4, isFavorite: false },
+    { id: 'shop5', userId: 'shop', imageUrl: getImage('item8'), color: 'Green', fabric: 'Knit', pattern: 'Solid', season: 'Winter', length: 'Long', category: 'Top', occasion: 'Casual', description: 'Chunky Knit Sweater', lastWorn: null, formal: 2, warmth: 8, relaxed: 8, isFavorite: false },
+    { id: 'shop6', userId: 'shop', imageUrl: getImage('item9'), color: 'Light Blue', fabric: 'Denim', pattern: 'Solid', season: 'Summer', length: 'Mini', category: 'Bottom', occasion: 'Casual', description: 'Denim Cutoff Shorts', lastWorn: null, formal: 1, warmth: 1, relaxed: 10, isFavorite: false },
+    { id: 'shop7', userId: 'shop', imageUrl: getImage('item12'), color: 'White', fabric: 'Canvas', pattern: 'Solid', season: 'Spring', length: 'Long', category: 'Shoes', occasion: 'Casual', description: 'White Canvas Sneakers', lastWorn: null, formal: 2, warmth: 3, relaxed: 9, isFavorite: false },
+    { id: 'shop8', userId: 'shop', imageUrl: getImage('item15'), color: 'Black', fabric: 'Cotton', pattern: 'Graphic', season: 'Summer', length: 'Long', category: 'Top', occasion: 'Casual', description: 'Graphic Band Tee', lastWorn: null, formal: 1, warmth: 2, relaxed: 10, isFavorite: false },
+    { id: 'shop9', userId: 'shop', imageUrl: getImage('item16'), color: 'Navy', fabric: 'Wool', pattern: 'Solid', season: 'Winter', length: 'Long', category: 'Outerwear', occasion: 'Business', description: 'Wool Peacoat', lastWorn: null, formal: 8, warmth: 9, relaxed: 3, isFavorite: false },
+];
+
 
 export const mockOutfitHistory: Omit<OutfitHistory, 'userId'>[] = [
   {
