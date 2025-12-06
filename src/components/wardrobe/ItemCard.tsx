@@ -47,15 +47,16 @@ export function ItemCard({ item, onDeleteItem }: ItemCardProps) {
   };
 
   return (
-    <ItemDetailsDialog
-      item={item}
-      open={isDetailsOpen}
-      onOpenChange={setDetailsOpen}
-      onDelete={() => {
-        onDeleteItem(item.id);
-        setDetailsOpen(false);
-      }}
-    >
+    <>
+      <ItemDetailsDialog
+        item={item}
+        open={isDetailsOpen}
+        onOpenChange={setDetailsOpen}
+        onDelete={() => {
+          onDeleteItem(item.id);
+          setDetailsOpen(false);
+        }}
+      />
       <Card
         className="group overflow-hidden transition-all duration-300 shadow-md hover:shadow-xl bg-card border-border cursor-pointer hover:-translate-y-1"
         onClick={() => setDetailsOpen(true)}
@@ -129,6 +130,6 @@ export function ItemCard({ item, onDeleteItem }: ItemCardProps) {
           </div>
         </CardContent>
       </Card>
-    </ItemDetailsDialog>
+    </>
   );
 }
