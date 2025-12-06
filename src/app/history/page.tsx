@@ -22,18 +22,18 @@ export default function HistoryPage() {
     if (!date) return null;
     const selectedDateString = date.toDateString();
     return historyData.find(
-      (h) => h.date.toDateString() === selectedDateString
+      (h) => new Date(h.date).toDateString() === selectedDateString
     );
   }, [date]);
 
-  const wornDates = useMemo(() => historyData.map(h => h.date), []);
+  const wornDates = useMemo(() => historyData.map(h => new Date(h.date)), []);
 
   return (
     <AppLayout>
       <div className="flex-1 p-4 pt-6 space-y-6 md:p-8">
         <h1 className="text-3xl font-bold tracking-tight">Outfit History</h1>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <Card className="lg:col-span-1 p-0">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+          <Card className="lg:col-span-1">
             <Calendar
               mode="single"
               selected={date}
@@ -50,6 +50,13 @@ export default function HistoryPage() {
                   textDecorationThickness: '2px',
                   textUnderlineOffset: '0.2rem',
                 }
+              }}
+              classNames={{
+                head_row: 'hidden', // This hides the weekday names (Mon, Tue, etc.)
+                month: 'space-y-2',
+                caption_label: 'text-base font-medium',
+                day: 'h-8 w-8',
+                head_cell: 'h-8 w-8',
               }}
             />
           </Card>
