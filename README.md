@@ -1,6 +1,7 @@
 # Outfit Buddy 👔
 
 Outfit Buddy is an AI-powered smart wardrobe assistant hosted on **Azure Static Web Apps**. It helps users dress smarter by analyzing their Outlook calendar and local weather.
+Analysis of the system can be found [here](./System_Analysis.md).
 
 ## 🚀 Live Demo
 Access the live application here: **[https://white-grass-0a295f903.3.azurestaticapps.net](https://white-grass-0a295f903.3.azurestaticapps.net)**
