@@ -46,5 +46,5 @@ Access the live application here: **[https://white-grass-0a295f903.3.azurestatic
 1. [Efstathios Iosifidis](https://www.linkedin.com/in/eiosifidis/) ([Github](https://github.com/iosifidis/))
 2. Efrosini Nalbanti
 3. Dimitris Topalidis
-4. Christos Kopsahilis
-5. Evagelia Tsioumani
+4. [Christos Kopsahilis](https://www.linkedin.com/in/ckopsahilis/) ([Github](https://github.com/ckopsahilis))   
+5. [Evagelia Tsioumani](https://www.linkedin.com/in/evaggeliatsioumani/)   
