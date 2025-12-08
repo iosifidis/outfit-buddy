@@ -1,7 +1,14 @@
-# Outfit Buddy 👔
+# 👔 Outfit Buddy: The AI Smart Wardrobe Assistant
 
-Outfit Buddy is an AI-powered smart wardrobe assistant hosted on **Azure Static Web Apps**. It helps users dress smarter by analyzing their Outlook calendar and local weather.
-Analysis of the system can be found [here](./System_Analysis.md).
+🥈 **Award-Winning Project: 2nd Prize at PwC AI Hackathon Unboxed (Dec 2025)**
+
+ **Outfit Buddy** is an intelligent assistant designed to help users dress smarter and faster. It seamlessly integrates with your **Outlook Calendar** and analyzes **local weather conditions** to provide personalized outfit recommendations for every occasion.
+
+🔗 **System Analysis:** You can find the detailed analysis of the system [here](./System_Analysis.md).
+
+[![PwC Hackathon](https://img.shields.io/badge/PwC_Hackathon-2nd_Place_🏆-blue?style=for-the-badge)](https://www.pwc.com/gr/en.html)
+[![Azure](https://img.shields.io/badge/Hosted_on-Azure-0078D4?style=for-the-badge&logo=microsoftazure&logoColor=white)](https://azure.microsoft.com)
+[![Status](https://img.shields.io/badge/Status-Award_Winning-gold?style=for-the-badge)]()
 
 ## 🚀 Live Demo
 Access the live application here: **[https://white-grass-0a295f903.3.azurestaticapps.net](https://white-grass-0a295f903.3.azurestaticapps.net)**
