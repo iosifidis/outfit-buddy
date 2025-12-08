@@ -44,7 +44,7 @@ Access the live application here: **[https://white-grass-0a295f903.3.azurestatic
 ## Developers
 
 1. [Efstathios Iosifidis](https://www.linkedin.com/in/eiosifidis/) ([Github](https://github.com/iosifidis/))
-2. Efrosini Nalbanti
-3. Dimitris Topalidis
+2. [Effrosyni Nalmpanti](https://www.linkedin.com/in/effrosyni-nalmpanti-514a22252/)   
+3. [Dimitris Topalidis](https://www.linkedin.com/in/topalidis-dimitris/)   
 4. [Christos Kopsahilis](https://www.linkedin.com/in/ckopsahilis/) ([Github](https://github.com/ckopsahilis))   
 5. [Evagelia Tsioumani](https://www.linkedin.com/in/evaggeliatsioumani/)   
