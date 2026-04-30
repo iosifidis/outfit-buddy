@@ -11,7 +11,7 @@
 [![Status](https://img.shields.io/badge/Status-Award_Winning-gold?style=for-the-badge)]()
 
 ## 🚀 Live Demo
-Access the live application here: **[https://white-grass-0a295f903.3.azurestaticapps.net](https://white-grass-0a295f903.3.azurestaticapps.net)**
+Access the live application here: **[https://white-grass-0a295f903.3.azurestaticapps.net](https://outfitbuddy.netlify.app/)**
 
 ## 🛠 Tech Stack
 *   **Framework:** Next.js (React)
